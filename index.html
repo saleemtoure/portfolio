@@ -401,14 +401,14 @@
     <div class="page">
       <header>
         <span class="name">Saleem <em>Toure</em> Issifou</span>
-        <span class="status">Portefølje under arbeid</span>
+        <span class="status" data-i18n="status">Portefølje under arbeid</span>
       </header>
 
       <main>
         <div class="text-col">
-          <div class="greeting">Hei — jeg er Saleem</div>
-          <h1>Et nytt sted<br />kommer <em>snart</em>.</h1>
-          <p class="lede">
+          <div class="greeting" data-i18n="greeting">Hei — jeg er Saleem</div>
+          <h1 data-i18n-html="h1">Et nytt sted<br />kommer <em>snart</em>.</h1>
+          <p class="lede" data-i18n-html="lede">
             Jeg holder på å samle
             <strong>arbeid, prosjekter og tanker</strong> på ett sted. Foreløpig
             ligger det lite her — ta kontakt i mellomtiden hvis du vil snakke.
@@ -416,7 +416,11 @@
         </div>
 
         <div class="portrait">
-          <img src="saleem.jpg" alt="Portrett av Saleem Toure Issifou" />
+          <img
+            src="saleem.jpg"
+            alt="Portrett av Saleem Toure Issifou"
+            data-i18n-alt="portraitAlt"
+          />
           <span class="corner tl"></span>
           <span class="corner tr"></span>
           <span class="corner bl"></span>
@@ -440,14 +444,36 @@
       </footer>
     </div>
 
-    <div class="controls" role="toolbar" aria-label="Tema og modus">
-      <div class="controls-title">Velg tema</div>
+    <div
+      class="controls"
+      role="toolbar"
+      aria-label="Tema og modus"
+      data-i18n-aria="controlsAria"
+    >
+      <div class="controls-title" data-i18n="themeTitle">Velg tema</div>
       <div class="swatches" id="swatches"></div>
       <div class="mode-row">
-        <span class="mode-label">Modus</span>
-        <div class="mode-seg" role="radiogroup" aria-label="Lys eller mørk">
-          <button type="button" data-mode="light">Lys</button>
-          <button type="button" data-mode="dark">Mørk</button>
+        <span class="mode-label" data-i18n="modeLabel">Modus</span>
+        <div
+          class="mode-seg"
+          role="radiogroup"
+          aria-label="Lys eller mørk"
+          data-i18n-aria="modeAria"
+        >
+          <button type="button" data-mode="light" data-i18n="light">Lys</button>
+          <button type="button" data-mode="dark" data-i18n="dark">Mørk</button>
+        </div>
+      </div>
+      <div class="mode-row">
+        <span class="mode-label" data-i18n="langLabel">Språk</span>
+        <div
+          class="mode-seg"
+          role="radiogroup"
+          aria-label="Norsk eller engelsk"
+          data-i18n-aria="langAria"
+        >
+          <button type="button" data-lang="no">NO</button>
+          <button type="button" data-lang="en">EN</button>
         </div>
       </div>
     </div>
@@ -546,9 +572,45 @@
         },
       };
 
+      const i18n = {
+        no: {
+          title: "Saleem Toure Issifou — kommer snart",
+          status: "Under utvikling...",
+          greeting: "Hei — jeg er Saleem",
+          h1: "Et nytt sted<br />kommer <em>snart</em>.",
+          lede: "Jeg holder på å samle <strong>arbeid, prosjekter og tanker</strong> på ett sted. Foreløpig ligger det lite her — ta kontakt i mellomtiden hvis du vil snakke.",
+          portraitAlt: "Portrett av Saleem Toure Issifou",
+          controlsAria: "Tema og modus",
+          themeTitle: "Velg tema",
+          modeLabel: "Modus",
+          modeAria: "Lys eller mørk",
+          light: "Lys",
+          dark: "Mørk",
+          langLabel: "Språk",
+          langAria: "Norsk eller engelsk",
+        },
+        en: {
+          title: "Saleem Toure Issifou — coming soon",
+          status: "Work in progress...",
+          greeting: "Hi — I'm Saleem",
+          h1: "A new place<br />coming <em>soon</em>.",
+          lede: "I'm gathering <strong>work, projects and thoughts</strong> in one place. There's not much here yet — get in touch in the meantime if you'd like to chat.",
+          portraitAlt: "Portrait of Saleem Toure Issifou",
+          controlsAria: "Theme and mode",
+          themeTitle: "Choose theme",
+          modeLabel: "Mode",
+          modeAria: "Light or dark",
+          light: "Light",
+          dark: "Dark",
+          langLabel: "Language",
+          langAria: "Norwegian or English",
+        },
+      };
+
       let state = {
         theme: localStorage.getItem("portfolio-theme") || "mss",
         mode: localStorage.getItem("portfolio-mode") || "light",
+        lang: localStorage.getItem("portfolio-lang") || "no",
       };
 
       function applyTheme() {
@@ -593,15 +655,53 @@
         });
       }
 
-      document.querySelectorAll(".mode-seg button").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          state.mode = btn.dataset.mode;
-          applyTheme();
+      function applyLang() {
+        const dict = i18n[state.lang];
+        document.documentElement.lang = state.lang;
+        document.title = dict.title;
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
+          const key = el.dataset.i18n;
+          if (dict[key] != null) el.textContent = dict[key];
         });
-      });
+        document.querySelectorAll("[data-i18n-html]").forEach((el) => {
+          const key = el.dataset.i18nHtml;
+          if (dict[key] != null) el.innerHTML = dict[key];
+        });
+        document.querySelectorAll("[data-i18n-alt]").forEach((el) => {
+          const key = el.dataset.i18nAlt;
+          if (dict[key] != null) el.setAttribute("alt", dict[key]);
+        });
+        document.querySelectorAll("[data-i18n-aria]").forEach((el) => {
+          const key = el.dataset.i18nAria;
+          if (dict[key] != null) el.setAttribute("aria-label", dict[key]);
+        });
+        document.querySelectorAll("[data-lang]").forEach((b) => {
+          b.classList.toggle("active", b.dataset.lang === state.lang);
+        });
+        localStorage.setItem("portfolio-lang", state.lang);
+      }
+
+      document
+        .querySelectorAll(".mode-seg button[data-mode]")
+        .forEach((btn) => {
+          btn.addEventListener("click", () => {
+            state.mode = btn.dataset.mode;
+            applyTheme();
+          });
+        });
+
+      document
+        .querySelectorAll(".mode-seg button[data-lang]")
+        .forEach((btn) => {
+          btn.addEventListener("click", () => {
+            state.lang = btn.dataset.lang;
+            applyLang();
+          });
+        });
 
       buildSwatches();
       applyTheme();
+      applyLang();
     </script>
   </body>
 </html>
