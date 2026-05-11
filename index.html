@@ -243,13 +243,44 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
-        padding: 14px 16px 12px;
+        padding: 10px 16px 12px;
         background: var(--bg);
         border: 1px solid var(--line);
         border-radius: 14px;
         box-shadow: 0 10px 30px -16px rgba(0, 0, 0, 0.25);
         z-index: 10;
         min-width: 240px;
+        user-select: none;
+      }
+      .controls.dragging {
+        transition: none;
+        cursor: grabbing;
+      }
+      .controls.hidden {
+        display: none;
+      }
+      .controls-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 -4px 2px;
+        padding: 2px 4px;
+        cursor: grab;
+      }
+      .controls-header:active {
+        cursor: grabbing;
+      }
+      .drag-dots {
+        display: inline-grid;
+        grid-template-columns: repeat(2, 3px);
+        gap: 2px;
+        opacity: 0.55;
+      }
+      .drag-dots span {
+        width: 3px;
+        height: 3px;
+        background: var(--muted);
+        border-radius: 50%;
       }
       .controls-title {
         font-size: 10px;
@@ -259,12 +290,68 @@
         display: flex;
         align-items: center;
         gap: 8px;
+        flex: 1;
       }
       .controls-title::after {
         content: "";
         flex: 1;
         height: 1px;
         background: var(--line);
+      }
+      .controls-close {
+        appearance: none;
+        background: transparent;
+        border: 1px solid var(--line);
+        color: var(--muted);
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 14px;
+        line-height: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        font-family: inherit;
+        transition:
+          color 0.2s ease,
+          border-color 0.2s ease;
+      }
+      .controls-close:hover {
+        color: var(--fg);
+        border-color: var(--fg);
+      }
+
+      .controls-toggle {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 10;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1px solid var(--line);
+        background: var(--bg);
+        color: var(--fg);
+        cursor: pointer;
+        box-shadow: 0 10px 30px -16px rgba(0, 0, 0, 0.25);
+        font-family: inherit;
+        font-size: 16px;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        transition:
+          border-color 0.2s ease,
+          color 0.2s ease;
+      }
+      .controls-toggle.visible {
+        display: inline-flex;
+      }
+      .controls-toggle:hover {
+        border-color: var(--fg);
+        color: var(--accent);
       }
 
       .swatches {
@@ -444,13 +531,39 @@
       </footer>
     </div>
 
+    <button
+      type="button"
+      class="controls-toggle"
+      id="controlsToggle"
+      aria-label="Åpne tema-panel"
+      data-i18n-aria="openControls"
+    >
+      ⚙
+    </button>
+
     <div
       class="controls"
+      id="controls"
       role="toolbar"
       aria-label="Tema og modus"
       data-i18n-aria="controlsAria"
     >
-      <div class="controls-title" data-i18n="themeTitle">Velg tema</div>
+      <div class="controls-header" id="controlsHeader">
+        <span class="drag-dots" aria-hidden="true"
+          ><span></span><span></span><span></span><span></span><span></span
+          ><span></span></span
+        >
+        <div class="controls-title" data-i18n="themeTitle">Velg tema</div>
+        <button
+          type="button"
+          class="controls-close"
+          id="controlsClose"
+          aria-label="Lukk panel"
+          data-i18n-aria="closeControls"
+        >
+          ×
+        </button>
+      </div>
       <div class="swatches" id="swatches"></div>
       <div class="mode-row">
         <span class="mode-label" data-i18n="modeLabel">Modus</span>
@@ -588,6 +701,8 @@
           dark: "Mørk",
           langLabel: "Språk",
           langAria: "Norsk eller engelsk",
+          closeControls: "Lukk panel",
+          openControls: "Åpne tema-panel",
         },
         en: {
           title: "Saleem Toure Issifou — coming soon",
@@ -604,6 +719,8 @@
           dark: "Dark",
           langLabel: "Language",
           langAria: "Norwegian or English",
+          closeControls: "Close panel",
+          openControls: "Open theme panel",
         },
       };
 
@@ -698,6 +815,95 @@
             applyLang();
           });
         });
+
+      const controls = document.getElementById("controls");
+      const controlsToggle = document.getElementById("controlsToggle");
+      const controlsClose = document.getElementById("controlsClose");
+      const controlsHeader = document.getElementById("controlsHeader");
+
+      function setOpen(open) {
+        controls.classList.toggle("hidden", !open);
+        controlsToggle.classList.toggle("visible", !open);
+        localStorage.setItem("portfolio-controls-open", open ? "1" : "0");
+      }
+
+      controlsClose.addEventListener("click", () => setOpen(false));
+      controlsToggle.addEventListener("click", () => setOpen(true));
+
+      const savedOpen = localStorage.getItem("portfolio-controls-open");
+      setOpen(savedOpen === null ? true : savedOpen === "1");
+
+      function clampPosition(left, top) {
+        const rect = controls.getBoundingClientRect();
+        const maxLeft = window.innerWidth - rect.width - 4;
+        const maxTop = window.innerHeight - rect.height - 4;
+        return {
+          left: Math.max(4, Math.min(left, maxLeft)),
+          top: Math.max(4, Math.min(top, maxTop)),
+        };
+      }
+
+      function applyPosition(left, top) {
+        controls.style.left = left + "px";
+        controls.style.top = top + "px";
+        controls.style.right = "auto";
+        controls.style.bottom = "auto";
+      }
+
+      const savedPos = localStorage.getItem("portfolio-controls-pos");
+      if (savedPos) {
+        try {
+          const { left, top } = JSON.parse(savedPos);
+          requestAnimationFrame(() => {
+            const c = clampPosition(left, top);
+            applyPosition(c.left, c.top);
+          });
+        } catch {}
+      }
+
+      let drag = null;
+      controlsHeader.addEventListener("pointerdown", (e) => {
+        if (e.target.closest(".controls-close")) return;
+        const rect = controls.getBoundingClientRect();
+        drag = {
+          dx: e.clientX - rect.left,
+          dy: e.clientY - rect.top,
+          pointerId: e.pointerId,
+        };
+        controls.classList.add("dragging");
+        controlsHeader.setPointerCapture(e.pointerId);
+        e.preventDefault();
+      });
+
+      controlsHeader.addEventListener("pointermove", (e) => {
+        if (!drag || e.pointerId !== drag.pointerId) return;
+        const c = clampPosition(e.clientX - drag.dx, e.clientY - drag.dy);
+        applyPosition(c.left, c.top);
+      });
+
+      function endDrag(e) {
+        if (!drag || e.pointerId !== drag.pointerId) return;
+        controls.classList.remove("dragging");
+        try {
+          controlsHeader.releasePointerCapture(drag.pointerId);
+        } catch {}
+        drag = null;
+        const rect = controls.getBoundingClientRect();
+        localStorage.setItem(
+          "portfolio-controls-pos",
+          JSON.stringify({ left: rect.left, top: rect.top })
+        );
+      }
+      controlsHeader.addEventListener("pointerup", endDrag);
+      controlsHeader.addEventListener("pointercancel", endDrag);
+
+      window.addEventListener("resize", () => {
+        if (controls.style.left) {
+          const rect = controls.getBoundingClientRect();
+          const c = clampPosition(rect.left, rect.top);
+          applyPosition(c.left, c.top);
+        }
+      });
 
       buildSwatches();
       applyTheme();
