@@ -94,7 +94,7 @@ const i18n = {
     status: "Under utvikling...",
     greeting: "Hei — jeg er Saleem",
     h1: "Hei, jeg er <em>Saleem</em>.",
-    lede: "<strong>Utvikler</strong>, bistandsarbeider, prosjektleder, digital innholdsskaper — og alt imellom.",
+    lede: "<strong>Problemløser</strong>, utvikler, bistandsarbeider, prosjektleder, digital innholdsskaper — og alt midt imellom.",
     verseEn:
       "Han sa: «Nei, sannelig er min Herre med meg — Han skal lede meg.»",
     verseRef: "Surah Ash-Shu'arā · 26:62",
@@ -227,7 +227,7 @@ const i18n = {
     status: "Work in progress...",
     greeting: "Hi — I'm Saleem",
     h1: "Hi, I'm <em>Saleem</em>.",
-    lede: "<strong>Developer</strong>, humanitarian, project manager, digital content creator — and everything in between.",
+    lede: "<strong>Problem solver</strong>, developer, humanitarian, project leader, digital content creator — and everything in between.",
     verseEn: "He said, “Nay! Indeed, with me is my Lord; He will guide me.”",
     verseRef: "Surah Ash-Shu'arā · 26:62",
     navMedina: "Madinah",
