@@ -3,11 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f6f4ef" />
+    <meta
+      name="description"
+      content="Saleem Toure Issifou — problemløser, utvikler, bistandsarbeider og prosjektleder. Portefølje, prosjekter og bakgrunn."
+    />
+    <link rel="canonical" href="https://saleemtoure.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://saleemtoure.com/" />
+    <meta property="og:title" content="Saleem Toure Issifou" />
+    <meta
+      property="og:description"
+      content="Problemløser, utvikler, bistandsarbeider, prosjektleder."
+    />
+    <meta property="og:image" content="https://saleemtoure.com/assets/images/saleem.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
     <title>Saleem Toure Issifou</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400&display=swap"
+      rel="preload"
+      as="image"
+      href="assets/images/saleem.jpg"
+      fetchpriority="high"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="assets/styles.css" />
@@ -59,6 +80,10 @@
             src="assets/images/saleem.jpg"
             alt="Portrett av Saleem Toure Issifou"
             data-i18n-alt="portraitAlt"
+            width="600"
+            height="600"
+            decoding="async"
+            fetchpriority="high"
           />
         </div>
         <div class="links">
@@ -448,6 +473,6 @@
       </div>
     </div>
 
-    <script src="assets/script.js"></script>
+    <script src="assets/script.js" defer></script>
   </body>
 </html>
