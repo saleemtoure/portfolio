@@ -211,13 +211,13 @@ const i18n = {
     mss2023Body:
       "Begynte studier ved UiO og ble frivillig i MSS. Hjalp til med å sette opp jumu'ah og bidro på arrangementer: servering, rydding, det som trengtes.",
     mss2024Title: "Styremedlem — Media- og infoansvarlig",
-    mss2024Where: "MSS — Styreåret 2024",
+    mss2024Where: "MSS — Styreåret 2024–2025",
     mss2024Body:
       "Alhamdulillah, en mulighet til å løfte fram og vise arbeidet vårt — vokste online tilstedeværelsen med over 1 000 følgere på ett år. Del av teamet som lanserte den første skandinaviske koran-konkurransen og «Allah Says»-konseptet.",
     mss2025Title: "Leder",
-    mss2025Where: "MSS — Styreåret 2025",
+    mss2025Where: "MSS — Styreåret 2025–2026",
     mss2025Body:
-      "Alhamdulillah, fellesskapet ga meg tilliten til å lede videre. Et år med læring og skaping sammen med et fantastisk team. Vi arrangerte Allah Says 2026 — nå også med en kvinnekonkurranse — lanserte «al-Maktabah», det første islamske biblioteket for studenter, av studenter, og MSS Waqf for varig påvirkning. Skulle gjerne fortsatt, men trer av etter ett år på grunn av studier i utlandet.",
+      "Alhamdulillah, fellesskapet ga meg tilliten til å lede videre. Et år fylt med rekord mange arrangementer, engasjement og deltakelse på konferanser og i panelsamtaler. Vi arrangerte Allah Says 2026 — nå også med en kvinnekonkurranse — lanserte «al-Maktabah», det første islamske biblioteket for studenter, av studenter, og MSS Waqf for varig påvirkning. Alt mulig — med Allahs hjelp. Skulle gjerne fortsatt, men trer av etter ett år på grunn av studier i utlandet.",
   },
   en: {
     title: "Saleem Toure Issifou",
@@ -344,13 +344,13 @@ const i18n = {
     mss2023Body:
       "Started my studies at UiO and joined MSS as a volunteer. Helped set up jumu'ah and pitched in at events: serving food, clearing tables, whatever was needed.",
     mss2024Title: "Board member — Head of Media & Marketing",
-    mss2024Where: "MSS — Board year 2024",
+    mss2024Where: "MSS — Board year 2024–2025",
     mss2024Body:
       "Alhamdulillah, an opportunity to elevate and showcase the work — grew our online presence by more than 1,000 followers in a year. Part of the team that launched the first Scandinavian Qurʾān competition and the “Allah Says” concept.",
     mss2025Title: "President",
-    mss2025Where: "MSS — Board year 2025",
+    mss2025Where: "MSS — Board year 2025–2026",
     mss2025Body:
-      "Alhamdulillah, the community trusted me to lead this family forward. A year of learning and building with an amazing team. We staged Allah Says 2026 — now with a women's competition too — launched “al-Maktabah,” the first ever Islamic library for students by students, and MSS Waqf for lasting impact. Would have loved to continue, but stepping down after a year due to studies abroad.",
+      "Alhamdulillah, the community trusted me to lead this family forward. A year filled with a record number of events, engagement, and participation at conferences and in panel discussions. We staged Allah Says 2026 — now with a women's competition too — launched “al-Maktabah,” the first ever Islamic library for students by students, and MSS Waqf for lasting impact. All of it possible — with Allah's help. Would have loved to continue, but stepping down after a year due to studies abroad.",
   },
 };
 
