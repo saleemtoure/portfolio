@@ -217,7 +217,7 @@ const i18n = {
     mss2025Title: "Leder",
     mss2025Where: "MSS — Styreåret 2025–2026",
     mss2025Body:
-      "Alhamdulillah, fellesskapet ga meg tilliten til å lede videre. Et år fylt med rekord mange arrangementer, engasjement og deltakelse på konferanser og i panelsamtaler. Vi arrangerte Allah Says 2026 — nå også med en kvinnekonkurranse — lanserte «al-Maktabah», det første islamske biblioteket for studenter, av studenter, og MSS Waqf for varig påvirkning. Alt mulig — med Allahs hjelp. Skulle gjerne fortsatt, men trer av etter ett år på grunn av studier i utlandet.",
+      "Alhamdulillah, fellesskapet ga meg tilliten til å lede denne familien videre, og Allah velsignet meg med et fantastisk team. Et år fylt med rekord mange arrangementer, engasjement og deltakelse på konferanser og i panelsamtaler. Vi arrangerte Allah Says 2026 — nå også med en kvinnekonkurranse — lanserte «al-Maktabah», det første islamske biblioteket for studenter, av studenter, og MSS Waqf for varig påvirkning. Alt mulig — med Allahs hjelp. Skulle gjerne fortsatt, men trer av etter ett år på grunn av studier i utlandet.",
   },
   en: {
     title: "Saleem Toure Issifou",
@@ -350,7 +350,7 @@ const i18n = {
     mss2025Title: "President",
     mss2025Where: "MSS — Board year 2025–2026",
     mss2025Body:
-      "Alhamdulillah, the community trusted me to lead this family forward. A year filled with a record number of events, engagement, and participation at conferences and in panel discussions. We staged Allah Says 2026 — now with a women's competition too — launched “al-Maktabah,” the first ever Islamic library for students by students, and MSS Waqf for lasting impact. All of it possible — with Allah's help. Would have loved to continue, but stepping down after a year due to studies abroad.",
+      "Alhamdulillah, the community trusted me to lead this family forward and Allah blessed me with an amazing team. A year filled with a record number of events, engagement, and participation at conferences and in panel discussions. We staged Allah Says 2026 — now with a women's competition too — launched “al-Maktabah,” the first ever Islamic library for students by students, and MSS Waqf for lasting impact. All of it possible — with Allah's help. Would have loved to continue, but stepping down after a year due to studies abroad.",
   },
 };
 
