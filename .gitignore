@@ -1,1 +1,34 @@
+# Claude / agent state
 .claude/
+
+# OS clutter
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Build / dependency output (in case anything gets added later)
+node_modules/
+dist/
+build/
+.cache/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Local env / secrets
+.env
+.env.local
+.env.*.local
+
+# Personal documents that shouldn't be committed
+saleem-toure-cv*.pdf

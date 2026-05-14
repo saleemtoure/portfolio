@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="no">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medina — Saleem Toure Issifou</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body data-locked-theme="medina" data-title-key="titleMedina">
+    <div class="page">
+      <header class="topbar">
+        <a class="brand" href="index.html">Saleem <em>Toure</em> Issifou</a>
+        <button
+          type="button"
+          class="nav-toggle"
+          id="navToggle"
+          aria-label="Meny"
+          data-i18n="navToggle"
+        >
+          Meny
+        </button>
+        <nav class="nav" id="nav" aria-label="Hovedmeny">
+          <a href="index.html#top" data-i18n="navHome">Hjem</a>
+          <a href="index.html#projects" data-i18n="navProjects">Prosjekter</a>
+          <a href="index.html#about" data-i18n="navAbout">Om meg</a>
+          <a href="index.html#education" data-i18n="navEducation">Utdanning</a>
+          <span class="nav-divider" aria-hidden="true"></span>
+          <a href="showtime.html" data-i18n="navShowtime">ShowTime</a>
+          <a href="mss.html" data-i18n="navMss">MSS</a>
+          <a href="medina.html" class="active" data-i18n="navMedina">Medina</a>
+        </nav>
+      </header>
+
+      <section id="top" class="hero">
+        <div class="text-col">
+          <div class="status" data-i18n="medinaStatus">Medina</div>
+          <h1 data-i18n-html="medinaH1">المدينة<br /><em>Medina</em>.</h1>
+          <p class="lede" data-i18n-html="medinaLede">Annonseres senere.</p>
+        </div>
+
+        <div class="portrait">
+          <img
+            src="assets/images/madinah.jpg"
+            alt="Madinah"
+            data-i18n-alt="medinaImgAlt"
+          />
+        </div>
+        <figure class="hadith-card">
+          <p class="hadith-ar" lang="ar" dir="rtl">
+            إِنَّ الإِيمَانَ لَيَأْرِزُ إِلَى الْمَدِينَةِ كَمَا تَأْرِزُ
+            الْحَيَّةُ إِلَى جُحْرِهَا
+          </p>
+          <p class="hadith-en" data-i18n="hadithEn">
+            «Sannelig vender troen tilbake til Medina slik en slange vender
+            tilbake til sin hule (i fare).»
+          </p>
+          <figcaption class="hadith-ref" data-i18n="hadithRef">
+            Sahīh al-Bukhārī · 1876
+          </figcaption>
+        </figure>
+      </section>
+
+      <footer>
+        <p class="footer-note" data-i18n="footerNote">
+          Temaene på siden er dedikert til ulike viktige kapitler i livet
+          mitt. IR-temaet er en hilsen til tiden min som frivillig og ansatt
+          hos Islamic Relief ❤
+        </p>
+        <div class="domain">saleemtoure.com / medina</div>
+      </footer>
+    </div>
+
+    <button
+      type="button"
+      class="back-to-top"
+      id="backToTop"
+      aria-label="Til toppen"
+      data-i18n-aria="backToTop"
+    >
+      ↑
+    </button>
+
+    <button
+      type="button"
+      class="controls-toggle"
+      id="controlsToggle"
+      aria-label="Åpne tema-panel"
+      data-i18n-aria="openControls"
+    >
+      ⚙
+    </button>
+
+    <div
+      class="controls"
+      id="controls"
+      role="toolbar"
+      aria-label="Tema og modus"
+      data-i18n-aria="controlsAria"
+    >
+      <div class="controls-header" id="controlsHeader">
+        <span class="drag-dots" aria-hidden="true"
+          ><span></span><span></span><span></span><span></span><span></span
+          ><span></span></span
+        >
+        <div class="controls-title" data-i18n="themeTitle">Velg tema</div>
+        <button
+          type="button"
+          class="controls-close"
+          id="controlsClose"
+          aria-label="Lukk panel"
+          data-i18n-aria="closeControls"
+        >
+          ×
+        </button>
+      </div>
+      <div class="swatches" id="swatches"></div>
+      <div class="locked-note" data-i18n="medinaLocked">
+        Tema låst til Medina
+      </div>
+      <div class="mode-row">
+        <span class="mode-label" data-i18n="modeLabel">Modus</span>
+        <div
+          class="mode-seg"
+          role="radiogroup"
+          aria-label="Lys eller mørk"
+          data-i18n-aria="modeAria"
+        >
+          <button type="button" data-mode="light" data-i18n="light">Lys</button>
+          <button type="button" data-mode="dark" data-i18n="dark">Mørk</button>
+        </div>
+      </div>
+      <div class="mode-row">
+        <span class="mode-label" data-i18n="langLabel">Språk</span>
+        <div
+          class="mode-seg"
+          role="radiogroup"
+          aria-label="Norsk eller engelsk"
+          data-i18n-aria="langAria"
+        >
+          <button type="button" data-lang="no">NO</button>
+          <button type="button" data-lang="en">EN</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="assets/script.js"></script>
+  </body>
+</html>
