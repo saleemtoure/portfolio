@@ -139,7 +139,7 @@ const i18n = {
     projStarred: "Utvalgt prosjekt",
     projSweetsTag: "Nettbutikk",
     projSweetsBody:
-      "En komplett ende-til-ende nettbutikk i React, med betaling og frakt via Vipps, Posten og Mollie. Ikke-tekniske brukere styrer hele driften fra et fullverdig admin-dashbord, med automatisk lagersporing og et innebygd bookingsystem.",
+      "En komplett ende-til-ende nettbutikk i React, med betaling og frakt via Vipps, Posten og Mollie APIer. Ikke-tekniske brukere styrer hele driften fra et fullverdig admin-dashbord, med automatisk lagersporing og et innebygd bookingsystem.",
     projSweetsPost: "LinkedIn-innlegg — kommer snart",
     projTalabTag: "Plattform",
     projTalabBody:
@@ -624,15 +624,41 @@ if (sections.length && navLinks.length) {
 
 // Projects "view more" — reveal the rows hidden behind the gradient
 const projectsWrap = document.getElementById("projectsWrap");
+const projectsGrid = document.getElementById("projectsGrid");
 const projectsMoreBtn = document.getElementById("projectsMoreBtn");
-if (projectsWrap && projectsMoreBtn) {
+if (projectsWrap && projectsGrid && projectsMoreBtn) {
   const moreLabel = projectsMoreBtn.querySelector("[data-i18n]");
+  // Collapsed resting height comes from CSS (max-height: 27rem). JS only sets
+  // an inline max-height during the animation so it runs between the real
+  // content height and the collapsed height — no snap from a fake large value.
   projectsMoreBtn.addEventListener("click", () => {
     const expanded = projectsWrap.classList.toggle("is-expanded");
     projectsMoreBtn.setAttribute("aria-expanded", expanded ? "true" : "false");
     if (moreLabel) {
       moreLabel.dataset.i18n = expanded ? "projectsLess" : "projectsMore";
       moreLabel.textContent = i18n[state.lang][moreLabel.dataset.i18n];
+    }
+
+    if (expanded) {
+      // Animate from the collapsed height up to the full content height,
+      // then release the cap so the grid can reflow/grow freely.
+      projectsGrid.style.maxHeight = projectsGrid.scrollHeight + "px";
+      projectsGrid.addEventListener(
+        "transitionend",
+        function done(e) {
+          if (e.propertyName !== "max-height") return;
+          if (projectsWrap.classList.contains("is-expanded"))
+            projectsGrid.style.maxHeight = "none";
+          projectsGrid.removeEventListener("transitionend", done);
+        },
+        { once: false },
+      );
+    } else {
+      // Pin the current full height, force a reflow, then drop back to the
+      // CSS collapsed height so the transition animates down smoothly.
+      projectsGrid.style.maxHeight = projectsGrid.scrollHeight + "px";
+      void projectsGrid.offsetHeight; // reflow
+      projectsGrid.style.maxHeight = "";
     }
   });
 }

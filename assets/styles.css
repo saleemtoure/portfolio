@@ -558,10 +558,9 @@ h1 .h1-sub {
   transition: margin-top 0.4s ease;
 }
 /* Expanded: reveal the rows hidden behind the gradient.
+   The grid's max-height is animated by JS (between the real content height
+   and the collapsed height) so the motion is smooth in both directions.
    Mirror the :has() prefix so these win the specificity battle. */
-.projects-wrap.is-expanded:has(.project-card:nth-child(n + 5)) .projects-grid {
-  max-height: 4000px;
-}
 .projects-wrap.is-expanded:has(.project-card:nth-child(n + 5))
   .projects-grid::after {
   opacity: 0;
