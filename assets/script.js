@@ -302,7 +302,8 @@ const i18n = {
       "I'm Saleem — some people know me as “ShowTime”. I'm a “solver” and a builder. I love solving problems and issues. I love building people, relationships and projects. Simply put: I get stuff done.",
     sectionEducation: "Education",
     eduBscTitle: "BSc Informatics",
-    eduBscWhere: "University of Oslo · Digital Economy & Leadership",
+    eduBscWhere:
+      "University of Oslo · Informatics: Digital Economy & Leadership",
     eduDialogTitle: "One-year CPD “DialogPilot”",
     eduDialogWhere: "University of Oslo",
     eduArabicTitle: "Arabic — Level 1 (remote)",
