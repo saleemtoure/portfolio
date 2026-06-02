@@ -229,11 +229,11 @@ const i18n = {
     mss2024Title: "Styremedlem — Media- og infoansvarlig",
     mss2024Where: "MSS — Styreåret 2024–2025",
     mss2024Body:
-      "Alhamdulillah, en mulighet til å løfte fram og vise arbeidet vårt — vokste online tilstedeværelsen med over 1 000 følgere på ett år. Del av teamet som lanserte den første skandinaviske koran-konkurransen og «Allah Says»-konseptet.",
+      'Alhamdulillah, en mulighet til å løfte fram og vise arbeidet vårt — vokste online tilstedeværelsen med over 1 000 følgere på ett år. Del av teamet som lanserte <a href="https://www.instagram.com/p/DB_LE-ZtYrS/?img_index=1" target="_blank" rel="noopener">den første skandinaviske koran-konkurransen</a> og <a href="https://www.instagram.com/reel/DG8l2MmttQq/" target="_blank" rel="noopener">«Allah Says»-konseptet</a>.',
     mss2025Title: "Leder",
     mss2025Where: "MSS — Styreåret 2025–2026",
     mss2025Body:
-      "Alhamdulillah, fellesskapet ga meg tilliten til å lede denne familien videre, og Allah velsignet meg med et fantastisk team. Et år fylt med rekord mange arrangementer, engasjement og deltakelse på konferanser og i panelsamtaler. Vi arrangerte Allah Says 2026 — nå også med en kvinnekonkurranse — lanserte «al-Maktabah», det første islamske biblioteket for studenter, av studenter, og MSS Waqf for varig påvirkning. Alt mulig — med Allahs hjelp. Skulle gjerne fortsatt, men trer av etter ett år på grunn av studier i utlandet.",
+      'Alhamdulillah, fellesskapet ga meg tilliten til å lede denne familien videre, og Allah velsignet meg med et fantastisk team. Et år fylt med rekord mange arrangementer, engasjement og deltakelse på konferanser og i panelsamtaler. Vi arrangerte <a href="https://www.instagram.com/p/DW3rUe-jakc/?hl=nb" target="_blank" rel="noopener">Allah Says 2026</a> — nå også med en kvinnekonkurranse — lanserte «<a href="https://muslimskstudent.no/maktabah/" target="_blank" rel="noopener">al-Maktabah</a>», det første islamske biblioteket for studenter, av studenter, og <a href="https://muslimskstudent.no/mss-waqf" target="_blank" rel="noopener">MSS Waqf</a> for varig påvirkning. Alt mulig — med Allahs hjelp. Skulle gjerne fortsatt, men trer av etter ett år på grunn av studier i utlandet.',
   },
   en: {
     title: "Saleem Toure Issifou",
@@ -379,11 +379,11 @@ const i18n = {
     mss2024Title: "Board member — Head of Media & Marketing",
     mss2024Where: "MSS — Board year 2024–2025",
     mss2024Body:
-      "Alhamdulillah, an opportunity to elevate and showcase the work — grew our online presence by more than 1,000 followers in a year. Part of the team that launched the first Scandinavian Qurʾān competition and the “Allah Says” concept.",
+      'Alhamdulillah, an opportunity to elevate and showcase the work — grew our online presence by more than 1,000 followers in a year. Part of the team that launched <a href="https://www.instagram.com/p/DB_LE-ZtYrS/?img_index=1" target="_blank" rel="noopener">the first Scandinavian Qurʾān competition</a> and the <a href="https://www.instagram.com/reel/DG8l2MmttQq/" target="_blank" rel="noopener">“Allah Says” concept</a>.',
     mss2025Title: "President",
     mss2025Where: "MSS — Board year 2025–2026",
     mss2025Body:
-      "Alhamdulillah, the community trusted me to lead this family forward and Allah blessed me with an amazing team. A year filled with a record number of events, engagement, and participation at conferences and in panel discussions. We staged Allah Says 2026 — now with a women's competition too — launched “al-Maktabah,” the first ever Islamic library for students by students, and MSS Waqf for lasting impact. All of it possible — with Allah's help. Would have loved to continue, but stepping down after a year due to studies abroad.",
+      "Alhamdulillah, the community trusted me to lead this family forward and Allah blessed me with an amazing team. A year filled with a record number of events, engagement, and participation at conferences and in panel discussions. We staged <a href=\"https://www.instagram.com/p/DW3rUe-jakc/?hl=nb\" target=\"_blank\" rel=\"noopener\">Allah Says 2026</a> — now with a women's competition too — launched “<a href=\"https://muslimskstudent.no/maktabah/\" target=\"_blank\" rel=\"noopener\">al-Maktabah</a>,” the first ever Islamic library for students by students, and <a href=\"https://muslimskstudent.no/mss-waqf\" target=\"_blank\" rel=\"noopener\">MSS Waqf</a> for lasting impact. All of it possible — with Allah's help. Would have loved to continue, but stepping down after a year due to studies abroad.",
   },
 };
 

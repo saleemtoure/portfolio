@@ -838,6 +838,17 @@ h1 .h1-sub {
   font-size: 14px;
   color: var(--muted);
 }
+.timeline-what p a {
+  color: var(--fg);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+  transition: color 0.2s ease;
+}
+.timeline-what p a:hover {
+  color: var(--accent);
+}
 
 /* ── Footer ─────────────────────────────────────── */
 footer {
