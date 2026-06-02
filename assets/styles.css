@@ -480,6 +480,19 @@ h1 .h1-sub {
   background: var(--accent);
   animation: pulse 2.4s infinite;
 }
+.project-flags {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+.project-star {
+  color: var(--accent);
+  font-size: 14px;
+  line-height: 1;
+}
+.project-card.starred {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+}
 .project-link {
   margin-top: 4px;
   padding-top: 12px;

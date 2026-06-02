@@ -135,6 +135,11 @@ const i18n = {
     projectsMore: "Klikk for å se flere",
     projectsSeeAll: "Se prosjekter på LinkedIn",
     projWip: "Under arbeid",
+    projStarred: "Utvalgt prosjekt",
+    projSweetsTag: "Nettbutikk",
+    projSweetsBody:
+      "En komplett ende-til-ende nettbutikk i React, med betaling og frakt via Vipps, Posten og Mollie. Ikke-tekniske brukere styrer hele driften fra et fullverdig admin-dashbord, med automatisk lagersporing og et innebygd bookingsystem.",
+    projSweetsPost: "LinkedIn-innlegg — kommer snart",
     projTalabTag: "Plattform",
     projTalabBody:
       "En enkel oversikt over imamer, khatiber, lærere og foredragsholdere som din moské, organisasjon eller event kan nytte seg av.",
@@ -267,6 +272,11 @@ const i18n = {
     projectsMore: "Click to view more",
     projectsSeeAll: "See projects on LinkedIn",
     projWip: "Work in progress",
+    projStarred: "Featured project",
+    projSweetsTag: "E-commerce",
+    projSweetsBody:
+      "A full end-to-end e-commerce webshop in React, handling payments and shipping through the Vipps, Posten and Mollie APIs. Non-technical users run the whole operation from a complete admin dashboard, with automatic stock tracking and a built-in booking system.",
+    projSweetsPost: "LinkedIn post — coming soon",
     projTalabTag: "Platform",
     projTalabBody:
       "A simple directory of imams, khatibs, teachers and speakers your mosque, organization or event can book.",
