@@ -133,6 +133,7 @@ const i18n = {
     projectRead: "Les artikkelen",
     projectSoon: "Kommer snart",
     projectsMore: "Klikk for å se flere",
+    projectsLess: "Vis færre",
     projectsSeeAll: "Se prosjekter på LinkedIn",
     projWip: "Under arbeid",
     projStarred: "Utvalgt prosjekt",
@@ -270,6 +271,7 @@ const i18n = {
     projectRead: "Read the paper",
     projectSoon: "Coming soon",
     projectsMore: "Click to view more",
+    projectsLess: "Show fewer",
     projectsSeeAll: "See projects on LinkedIn",
     projWip: "Work in progress",
     projStarred: "Featured project",
@@ -618,6 +620,21 @@ if (sections.length && navLinks.length) {
     { rootMargin: "-40% 0px -55% 0px" },
   );
   sections.forEach((s) => observer.observe(s));
+}
+
+// Projects "view more" — reveal the rows hidden behind the gradient
+const projectsWrap = document.getElementById("projectsWrap");
+const projectsMoreBtn = document.getElementById("projectsMoreBtn");
+if (projectsWrap && projectsMoreBtn) {
+  const moreLabel = projectsMoreBtn.querySelector("[data-i18n]");
+  projectsMoreBtn.addEventListener("click", () => {
+    const expanded = projectsWrap.classList.toggle("is-expanded");
+    projectsMoreBtn.setAttribute("aria-expanded", expanded ? "true" : "false");
+    if (moreLabel) {
+      moreLabel.dataset.i18n = expanded ? "projectsLess" : "projectsMore";
+      moreLabel.textContent = i18n[state.lang][moreLabel.dataset.i18n];
+    }
+  });
 }
 
 buildSwatches();

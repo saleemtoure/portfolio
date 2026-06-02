@@ -16,7 +16,10 @@
       property="og:description"
       content="Problemløser, utvikler, bistandsarbeider, prosjektleder."
     />
-    <meta property="og:image" content="https://saleemtoure.com/assets/images/saleem.jpg" />
+    <meta
+      property="og:image"
+      content="https://saleemtoure.com/assets/images/saleem.jpg"
+    />
     <meta name="twitter:card" content="summary_large_image" />
     <title>Saleem Toure Issifou</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -177,8 +180,8 @@
         <p class="section-body" data-i18n="sectionProjectsLede">
           Et utvalg av ting jeg har bygd, eller jobber med akkurat nå.
         </p>
-        <div class="projects-wrap">
-          <div class="projects-grid">
+        <div class="projects-wrap" id="projectsWrap">
+          <div class="projects-grid" id="projectsGrid">
             <div class="project-card starred">
               <div class="project-meta">
                 <span class="tag" data-i18n="projSweetsTag">Nettbutikk</span>
@@ -212,7 +215,9 @@
                 href="#"
                 aria-disabled="true"
               >
-                <span data-i18n="projSweetsPost">LinkedIn-innlegg — kommer snart</span>
+                <span data-i18n="projSweetsPost"
+                  >LinkedIn-innlegg — kommer snart</span
+                >
                 <span class="arrow" aria-hidden="true">…</span>
               </a>
             </div>
@@ -324,14 +329,15 @@
             </div>
           </div>
           <div class="projects-more">
-            <a
-              href="https://www.linkedin.com/in/saleem-toure-issifou/details/projects/"
-              target="_blank"
-              rel="noopener"
+            <button
+              type="button"
+              id="projectsMoreBtn"
+              aria-expanded="false"
+              aria-controls="projectsGrid"
             >
               <span data-i18n="projectsMore">Klikk for å se flere</span>
-              <span aria-hidden="true">→</span>
-            </a>
+              <span class="pm-arrow" aria-hidden="true">↓</span>
+            </button>
           </div>
         </div>
       </section>
@@ -405,9 +411,9 @@
 
       <footer>
         <p class="footer-note" data-i18n="footerNote">
-          Temaene på siden er dedikert til ulike viktige kapitler i livet
-          mitt. IR-temaet er en hilsen til tiden min som frivillig og ansatt
-          hos Islamic Relief ❤
+          Temaene på siden er dedikert til ulike viktige kapitler i livet mitt.
+          IR-temaet er en hilsen til tiden min som frivillig og ansatt hos
+          Islamic Relief ❤
         </p>
         <div class="domain">saleemtoure.com</div>
       </footer>
