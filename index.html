@@ -54,7 +54,9 @@
           <a href="#projects" data-target="projects" data-i18n="navProjects"
             >Prosjekter</a
           >
-          <a href="#about" data-target="about" data-i18n="navAbout">Om meg</a>
+          <a href="#founder" data-target="founder" data-i18n="navFounder"
+            >Gründer</a
+          >
           <a href="#education" data-target="education" data-i18n="navEducation"
             >Utdanning</a
           >
@@ -69,8 +71,18 @@
         <div class="text-col">
           <h1 data-i18n-html="h1">Hei, jeg er <em>Saleem</em>.</h1>
           <p class="lede" data-i18n-html="lede">
-            <strong>Problemløser</strong>, utvikler, bistandsarbeider,
-            prosjektleder, digital innholdsskaper — og alt midt imellom.
+            <span class="kw" tabindex="0" data-tip="Jeg elsker å løse problemer"
+              >Solver</span
+            >
+            og
+            <span
+              class="kw"
+              tabindex="0"
+              data-tip="Jeg elsker å bygge mennesker, relasjoner og prosjekter"
+              >bygger</span
+            >
+            — utvikler, bistandsarbeider, prosjektleder, digital innholdsskaper,
+            og alt midt imellom.
           </p>
           <a href="#projects" class="cta">
             <span data-i18n="ctaProjects">Mine prosjekter</span>
@@ -342,18 +354,91 @@
         </div>
       </section>
 
-      <section id="about" class="section">
+      <section id="founder" class="section">
         <div class="section-head">
           <span class="section-num">02</span>
-          <h2 data-i18n="sectionAbout">Om meg</h2>
+          <h2 data-i18n="sectionFounder">Gründer</h2>
         </div>
-        <div class="section-body">
-          <p data-i18n="sectionAboutBody">
-            Jeg er Saleem — noen kjenner meg som «ShowTime». Jeg er en "løser"
-            og en bygger. Jeg elsker å løse problemer og utfordringer. Jeg
-            elsker å bygge mennesker, relasjoner og prosjekter. Enkelt sagt: jeg
-            får ting gjort.
-          </p>
+        <p class="section-body" data-i18n="sectionFounderLede">
+          Ting jeg har vært med på å starte opp fra bunnen.
+        </p>
+        <div class="projects-grid founder-grid">
+          <div class="project-card founder-card">
+            <button type="button" class="founder-card-head" aria-expanded="false">
+              <h3 data-i18n="founderSecretTitle">Hemmelig</h3>
+              <span class="project-wip" data-i18n="projWip">Under arbeid</span>
+              <span class="founder-card-chevron" aria-hidden="true">↓</span>
+            </button>
+            <div class="founder-card-panel">
+              <div class="founder-card-inner">
+                <div class="project-meta">
+                  <span class="tag" data-i18n="founderSecretTag">Hemmelig</span>
+                </div>
+                <p data-i18n="founderSecretBody">
+                  Denne er fortsatt hemmelig — knyttet til det hemmelige
+                  prosjektet 😉
+                </p>
+                <div class="founder-card-links">
+                  <a
+                    class="project-link link-disabled"
+                    href="#"
+                    aria-disabled="true"
+                  >
+                    <span data-i18n="projectSoon">Kommer snart</span>
+                    <span class="arrow" aria-hidden="true">…</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card founder-card">
+            <button type="button" class="founder-card-head" aria-expanded="false">
+              <h3 data-i18n="founderMitekTitle">MiTek — Muslimer i Tek</h3>
+              <span class="project-wip" data-i18n="projWip">Under arbeid</span>
+              <span class="founder-card-chevron" aria-hidden="true">↓</span>
+            </button>
+            <div class="founder-card-panel">
+              <div class="founder-card-inner">
+                <div class="project-meta">
+                  <span class="tag" data-i18n="founderMitekTag">Medgründer</span>
+                </div>
+                <p data-i18n="founderMitekBody">
+                  MiTek samler norske muslimer innen teknologi for
+                  nettverksbygging, faglig utvikling, mentorordninger og
+                  samarbeid på tvers av erfaring og bakgrunn.
+                </p>
+                <div class="founder-card-links">
+                  <a
+                    class="project-link"
+                    href="https://www.linkedin.com/company/muslimeritek"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    <span data-i18n="founderMitekLinkedin">LinkedIn</span>
+                    <span class="arrow" aria-hidden="true">↗</span>
+                  </a>
+                  <a
+                    class="project-link"
+                    href="https://www.instagram.com/muslimeritek"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    <span data-i18n="founderMitekLink">Instagram</span>
+                    <span class="arrow" aria-hidden="true">↗</span>
+                  </a>
+                  <a
+                    class="project-link link-disabled"
+                    href="#"
+                    aria-disabled="true"
+                  >
+                    <span data-i18n="founderMitekWeb">Nettside</span>
+                    <span class="arrow" aria-hidden="true">…</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

@@ -94,7 +94,7 @@ const i18n = {
     status: "Under utvikling...",
     greeting: "Hei — jeg er Saleem",
     h1: "Hei, jeg er <em>Saleem</em>.",
-    lede: "<strong>Problemløser</strong>, utvikler, bistandsarbeider, prosjektleder, digital innholdsskaper — og alt midt imellom.",
+    lede: '<span class="kw" tabindex="0" data-tip="Jeg elsker å løse problemer">Solver</span> og <span class="kw" tabindex="0" data-tip="Jeg elsker å bygge mennesker, relasjoner og prosjekter">bygger</span> — utvikler, bistandsarbeider, prosjektleder, digital innholdsskaper, og alt midt imellom.',
     verseEn:
       "Han sa: «Nei, sannelig er min Herre med meg — Han skal lede meg.»",
     verseRef: "Surah Ash-Shu'arā · 26:62",
@@ -116,7 +116,7 @@ const i18n = {
     ctaProjects: "Mine prosjekter",
     navHome: "Hjem",
     navProjects: "Prosjekter",
-    navAbout: "Om meg",
+    navFounder: "Gründer",
     navEducation: "Utdanning",
     navShowtime: "ShowTime",
     navToggle: "Meny",
@@ -161,9 +161,19 @@ const i18n = {
     cvDevSub: "Kode, prosjekter, tech-stack",
     cvGenTitle: "Generell CV",
     cvGenSub: "Erfaring, utdanning, alt sammen",
-    sectionAbout: "Om meg",
-    sectionAboutBody:
-      "Jeg er Saleem — noen kjenner meg som «ShowTime». Jeg er en «solver» og en bygger. Jeg elsker å løse problemer og utfordringer. Jeg elsker å bygge mennesker, relasjoner og prosjekter. Enkelt sagt: jeg får ting gjort.",
+    sectionFounder: "Gründer",
+    sectionFounderLede: "Ting jeg har vært med på å starte opp fra bunnen.",
+    founderSecretTag: "Medgründer",
+    founderSecretTitle: "Hemmelig",
+    founderSecretBody:
+      "Denne er fortsatt hemmelig — knyttet til det hemmelige prosjektet 😉",
+    founderMitekTag: "Medgründer",
+    founderMitekTitle: "MiTek — Muslimer i Tek",
+    founderMitekBody:
+      "MiTek samler norske muslimer innen teknologi for nettverksbygging, faglig utvikling, mentorordninger og samarbeid på tvers av erfaring og bakgrunn.",
+    founderMitekLinkedin: "LinkedIn",
+    founderMitekLink: "Instagram",
+    founderMitekWeb: "Nettside",
     sectionEducation: "Utdanning",
     eduBscTitle: "BSc Informatikk",
     eduBscWhere: "Universitetet i Oslo · Digital økonomi og ledelse",
@@ -233,7 +243,7 @@ const i18n = {
     status: "Work in progress...",
     greeting: "Hi — I'm Saleem",
     h1: "Hi, I'm <em>Saleem</em>.",
-    lede: "<strong>Problem solver</strong>, developer, humanitarian, project leader, digital content creator — and everything in between.",
+    lede: '<span class="kw" tabindex="0" data-tip="I love solving problems">Solver</span> and <span class="kw" tabindex="0" data-tip="I love building people, relationships and projects">builder</span> — developer, humanitarian, project leader, digital content creator, and everything in between.',
     verseEn: "He said, “Nay! Indeed, with me is my Lord; He will guide me.”",
     verseRef: "Surah Ash-Shu'arā · 26:62",
     navMedina: "Madinah",
@@ -254,7 +264,7 @@ const i18n = {
     ctaProjects: "My projects",
     navHome: "Home",
     navProjects: "Projects",
-    navAbout: "About me",
+    navFounder: "Founder",
     navEducation: "Education",
     navShowtime: "ShowTime",
     navToggle: "Menu",
@@ -299,9 +309,19 @@ const i18n = {
     cvDevSub: "Code, projects, tech stack",
     cvGenTitle: "General CV",
     cvGenSub: "Experience, education, everything",
-    sectionAbout: "About me",
-    sectionAboutBody:
-      "I'm Saleem — some people know me as “ShowTime”. I'm a “solver” and a builder. I love solving problems and issues. I love building people, relationships and projects. Simply put: I get stuff done.",
+    sectionFounder: "Founder",
+    sectionFounderLede: "Things I've helped start from the ground up.",
+    founderSecretTag: "Co-founder",
+    founderSecretTitle: "Secret",
+    founderSecretBody:
+      "This one's still a secret — tied to the secret project 😉",
+    founderMitekTag: "Co-founder",
+    founderMitekTitle: "MiTek — Muslimer i Tek",
+    founderMitekBody:
+      "MiTek brings together Norwegian Muslims in tech for networking, professional development, mentorship and collaboration across experience levels and backgrounds.",
+    founderMitekLinkedin: "LinkedIn",
+    founderMitekLink: "Instagram",
+    founderMitekWeb: "Website",
     sectionEducation: "Education",
     eduBscTitle: "BSc Informatics",
     eduBscWhere:
@@ -662,6 +682,15 @@ if (projectsWrap && projectsGrid && projectsMoreBtn) {
     }
   });
 }
+
+// Founder cards — show the name only, expand the rest on click
+document.querySelectorAll(".founder-card-head").forEach((head) => {
+  const card = head.closest(".founder-card");
+  head.addEventListener("click", () => {
+    const open = card.classList.toggle("is-open");
+    head.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+});
 
 buildSwatches();
 applyTheme();
