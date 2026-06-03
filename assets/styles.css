@@ -813,6 +813,18 @@ h1 .h1-sub {
 .timeline-item:last-child {
   border-bottom: none;
 }
+/* Greyed-out (upcoming / tentative) education entries */
+.edu-upcoming {
+  opacity: 0.45;
+}
+.edu-insha {
+  display: block;
+  margin-top: 3px;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: none;
+  font-style: italic;
+}
 .timeline-when {
   font-size: 11px;
   letter-spacing: 0.16em;
