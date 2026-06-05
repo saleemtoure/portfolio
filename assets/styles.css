@@ -97,6 +97,45 @@ body {
   display: inline-block;
 }
 
+/* Non-clickable "coming soon" nav item with hover tooltip */
+.nav-soon {
+  position: relative;
+  color: var(--muted);
+  opacity: 0.6;
+  cursor: default;
+  padding: 4px 0;
+  outline: none;
+}
+.nav-soon::after {
+  content: attr(data-tip);
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 11px);
+  transform: translateX(-50%) translateY(-4px);
+  width: max-content;
+  max-width: min(220px, 72vw);
+  background: var(--fg);
+  color: var(--bg);
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  text-align: center;
+  padding: 8px 12px;
+  border-radius: 8px;
+  box-shadow: 0 12px 30px -16px rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+  z-index: 6;
+}
+.nav-soon:hover::after,
+.nav-soon:focus-visible::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
 .nav-toggle {
   display: none;
   appearance: none;

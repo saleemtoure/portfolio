@@ -99,6 +99,7 @@ const i18n = {
       "Han sa: «Nei, sannelig er min Herre med meg — Han skal lede meg.»",
     verseRef: "Surah Ash-Shu'arā · 26:62",
     navMedina: "Medina",
+    navMedinaTip: "Ny æra — kommer snart …",
     navMss: "MSS",
     medinaLocked: "Tema låst til Medina",
     mssLocked: "Tema låst til MSS",
@@ -249,6 +250,7 @@ const i18n = {
     verseEn: "He said, “Nay! Indeed, with me is my Lord; He will guide me.”",
     verseRef: "Surah Ash-Shu'arā · 26:62",
     navMedina: "Madinah",
+    navMedinaTip: "New era — Coming soon …",
     navMss: "MSS",
     medinaLocked: "Theme locked to Madinah",
     mssLocked: "Theme locked to MSS",
@@ -469,6 +471,10 @@ function applyLang() {
   document.querySelectorAll("[data-i18n-aria]").forEach((el) => {
     const key = el.dataset.i18nAria;
     if (dict[key] != null) el.setAttribute("aria-label", dict[key]);
+  });
+  document.querySelectorAll("[data-i18n-tip]").forEach((el) => {
+    const key = el.dataset.i18nTip;
+    if (dict[key] != null) el.setAttribute("data-tip", dict[key]);
   });
   document.querySelectorAll("[data-lang]").forEach((b) => {
     b.classList.toggle("active", b.dataset.lang === state.lang);
