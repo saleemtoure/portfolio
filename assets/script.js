@@ -141,7 +141,11 @@ const i18n = {
     projSweetsTag: "Nettbutikk",
     projSweetsBody:
       "En komplett ende-til-ende nettbutikk i React, med betaling og frakt via Vipps, Posten og Mollie APIer. Ikke-tekniske brukere styrer hele driften fra et fullverdig admin-dashbord, med automatisk lagersporing og et innebygd bookingsystem.",
-    projSweetsPost: "LinkedIn-innlegg — kommer snart",
+    projSweetsPost: "LinkedIn-innlegg",
+    projMajmioTag: "Plattform",
+    projMajmioBody:
+      "Majmio samler medlemshåndtering og styrevalg for organisasjon på ett sted — til lav pris, uten å plage deg med funksjoner du ikke trenger.",
+    projMajmioLinkedin: "LinkedIn",
     projTalabTag: "Plattform",
     projTalabBody:
       "En enkel oversikt over imamer, khatiber, lærere og foredragsholdere som din moské, organisasjon eller event kan nytte seg av.",
@@ -164,6 +168,12 @@ const i18n = {
     cvGenSub: "Erfaring, utdanning, alt sammen",
     sectionFounder: "Gründer",
     sectionFounderLede: "Ting jeg har vært med på å starte opp fra bunnen.",
+    founderMajmioTag: "Gründer",
+    founderMajmioTitle: "Majmio",
+    founderMajmioBody:
+      "Majmio samler medlemshåndtering og styrevalg for organisasjon på ett sted — til lav pris, uten å plage deg med funksjoner du ikke trenger.",
+    founderMajmioWeb: "Nettside",
+    founderMajmioLinkedin: "LinkedIn",
     founderSecretTag: "Medgründer",
     founderSecretTitle: "Hemmelig",
     founderSecretBody:
@@ -292,7 +302,11 @@ const i18n = {
     projSweetsTag: "E-commerce",
     projSweetsBody:
       "A full end-to-end e-commerce webshop in React, handling payments and shipping through the Vipps, Posten and Mollie APIs. Non-technical users run the whole operation from a complete admin dashboard, with automatic stock tracking and a built-in booking system.",
-    projSweetsPost: "LinkedIn post — coming soon",
+    projSweetsPost: "LinkedIn post",
+    projMajmioTag: "Platform",
+    projMajmioBody:
+      "Majmio brings membership management and board elections for an organization together in one place — at a low price, without bothering you with features you don't need.",
+    projMajmioLinkedin: "LinkedIn",
     projTalabTag: "Platform",
     projTalabBody:
       "A simple directory of imams, khatibs, teachers and speakers your mosque, organization or event can book.",
@@ -315,6 +329,12 @@ const i18n = {
     cvGenSub: "Experience, education, everything",
     sectionFounder: "Founder",
     sectionFounderLede: "Things I've helped start from the ground up.",
+    founderMajmioTag: "Founder",
+    founderMajmioTitle: "Majmio",
+    founderMajmioBody:
+      "Majmio brings membership management and board elections for an organization together in one place — at a low price, without bothering you with features you don't need.",
+    founderMajmioWeb: "Website",
+    founderMajmioLinkedin: "LinkedIn",
     founderSecretTag: "Co-founder",
     founderSecretTitle: "Secret",
     founderSecretBody:
