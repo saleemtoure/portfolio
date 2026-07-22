@@ -151,7 +151,7 @@ const i18n = {
       "En enkel oversikt over imamer, khatiber, lærere og foredragsholdere som din moské, organisasjon eller event kan nytte seg av.",
     projTaarufTag: "Plattform",
     projTaarufBody:
-      "En spørsmålsplattform for de som leter etter sin andre halvdel — halal, med en mahram som støtter.",
+      "Taaruf er en plattform laget for å hjelpe muslimer å ha mer meningsfulle og strukturerte samtaler før ekteskapet. I stedet for å lene seg på spredte råd på nettet, guider Taaruf to personer gjennom kuraterte spørsmål om tro, familie, økonomi, kommunikasjon, livsstil og mål. Begge svarer hver for seg, med en betrodd tredjeperson (mahram) inkludert — slik at de forstår hverandre bedre og finner de viktige temaene de bør snakke om før ekteskapet.",
     projTaarufSite: "Landingsside",
     projTaarufApp: "Produktet",
     projHicssTag: "Forskning",
@@ -314,7 +314,7 @@ const i18n = {
       "A simple directory of imams, khatibs, teachers and speakers your mosque, organization or event can book.",
     projTaarufTag: "Platform",
     projTaarufBody:
-      "A question platform for those finding their other halves — halal, with a mahram supporting.",
+      "Taaruf is a platform designed to help Muslims have more meaningful and structured conversations before marriage. Instead of relying on scattered advice online, Taaruf guides two people through curated questions covering faith, family, finances, communication, lifestyle, and goals. Both participants answer independently with a trusted third person (mahram) included, helping them understand each other better and identify important topics to discuss before marriage.",
     projTaarufSite: "Landing page",
     projTaarufApp: "The product",
     projHicssTag: "Research",
