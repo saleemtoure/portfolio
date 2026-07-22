@@ -96,7 +96,7 @@ const i18n = {
     h1: "Hei, jeg er <em>Saleem</em>.",
     lede: '<span class="kw" tabindex="0" data-tip="Jeg elsker å løse problemer">Solver</span> og <span class="kw" tabindex="0" data-tip="Jeg elsker å bygge mennesker, relasjoner og prosjekter">bygger</span> — utvikler, bistandsarbeider, prosjektleder, digital innholdsskaper, og alt midt imellom.',
     verseEn:
-      "Han sa: «Nei, sannelig er min Herre med meg — Han skal lede meg.»",
+      "Han sa: «Nei, sannelig min Herre er med meg — Han skal veilede meg.»",
     verseRef: "Surah Ash-Shu'arā · 26:62",
     navMedina: "Medina",
     navMedinaTip: "Ny æra — kommer snart …",
@@ -152,6 +152,8 @@ const i18n = {
     projTaarufTag: "Plattform",
     projTaarufBody:
       "En spørsmålsplattform for de som leter etter sin andre halvdel — halal, med en mahram som støtter.",
+    projTaarufSite: "Landingsside",
+    projTaarufApp: "Produktet",
     projHicssTag: "Forskning",
     projHicssTitle: "HICSS — Forskningsartikkel",
     projHicssBody:
@@ -313,6 +315,8 @@ const i18n = {
     projTaarufTag: "Platform",
     projTaarufBody:
       "A question platform for those finding their other halves — halal, with a mahram supporting.",
+    projTaarufSite: "Landing page",
+    projTaarufApp: "The product",
     projHicssTag: "Research",
     projHicssTitle: "HICSS — Research paper",
     projHicssBody:
