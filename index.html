@@ -315,7 +315,7 @@
                 >
               </div>
               <h3>Taaruf</h3>
-              <p data-i18n="projTaarufBody">
+              <p id="taarufBody" data-clamp data-i18n="projTaarufBody">
                 Taaruf er en plattform laget for å hjelpe muslimer å ha mer
                 meningsfulle og strukturerte samtaler før ekteskapet. I stedet
                 for å lene seg på spredte råd på nettet, guider Taaruf to
@@ -325,6 +325,16 @@
                 hverandre bedre og finner de viktige temaene de bør snakke om
                 før ekteskapet.
               </p>
+              <button
+                type="button"
+                class="read-more"
+                aria-expanded="false"
+                aria-controls="taarufBody"
+                hidden
+              >
+                <span data-i18n="readMore">Les mer</span>
+                <span class="rm-arrow" aria-hidden="true">↓</span>
+              </button>
               <a
                 class="project-link"
                 href="https://taaruf.dev/"
