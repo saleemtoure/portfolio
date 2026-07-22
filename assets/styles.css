@@ -402,10 +402,21 @@ h1 .h1-sub {
   font-size: 14px;
 }
 .links a.link-disabled,
-.links a[aria-disabled="true"] {
+.links a[aria-disabled="true"],
+.links button.link-disabled,
+.links button[disabled] {
   opacity: 0.55;
   cursor: default;
   pointer-events: none;
+}
+/* "Coming soon" marker on a disabled link — sits between the label and the
+   trailing glyph, so the label still says what is coming. */
+.links .soon {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
 }
 
 /* Hadith block (used in place of .links on Madinah page) */

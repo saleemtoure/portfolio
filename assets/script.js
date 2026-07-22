@@ -130,7 +130,7 @@ const i18n = {
     projectComingSoon: "Kommer snart",
     projectComingSoonBody:
       "Jeg legger ut prosjekter etter hvert som de er klare. Sjekk innom igjen, eller ta kontakt for å høre hva jeg jobber med.",
-    projectView: "Se prosjekt",
+    projectView: "Se det live her",
     projectRead: "Les artikkelen",
     projectSoon: "Kommer snart",
     projectsMore: "Klikk for å se flere",
@@ -153,7 +153,7 @@ const i18n = {
     projTaarufBody:
       "Taaruf er en plattform laget for å hjelpe muslimer å ha mer meningsfulle og strukturerte samtaler før ekteskapet. I stedet for å lene seg på spredte råd på nettet, guider Taaruf to personer gjennom kuraterte spørsmål om tro, familie, økonomi, kommunikasjon, livsstil og mål. Begge svarer hver for seg, med en betrodd tredjeperson (mahram) inkludert — slik at de forstår hverandre bedre og finner de viktige temaene de bør snakke om før ekteskapet.",
     projTaarufSite: "Landingsside",
-    projTaarufApp: "Produktet",
+    projTaarufApp: "Se det live her",
     readMore: "Les mer",
     readLess: "Les mindre",
     projHicssTag: "Forskning",
@@ -295,7 +295,7 @@ const i18n = {
     projectComingSoon: "Coming soon",
     projectComingSoonBody:
       "I'm publishing projects as they're ready. Check back, or reach out to hear what I'm working on.",
-    projectView: "View project",
+    projectView: "See it live here",
     projectRead: "Read the paper",
     projectSoon: "Coming soon",
     projectsMore: "Click to view more",
@@ -318,7 +318,7 @@ const i18n = {
     projTaarufBody:
       "Taaruf is a platform designed to help Muslims have more meaningful and structured conversations before marriage. Instead of relying on scattered advice online, Taaruf guides two people through curated questions covering faith, family, finances, communication, lifestyle, and goals. Both participants answer independently with a trusted third person (mahram) included, helping them understand each other better and identify important topics to discuss before marriage.",
     projTaarufSite: "Landing page",
-    projTaarufApp: "The product",
+    projTaarufApp: "See it live here",
     readMore: "Read more",
     readLess: "Read less",
     projHicssTag: "Research",
@@ -625,7 +625,13 @@ const cvButton = document.getElementById("cvButton");
 const cvModal = document.getElementById("cvModal");
 const cvModalClose = document.getElementById("cvModalClose");
 if (cvButton && cvModal) {
-  const openCv = () => cvModal.classList.add("open");
+  // While the CV is "coming soon" the button carries `disabled`; keep the
+  // modal shut regardless of how the click arrived.
+  const openCv = () => {
+    if (cvButton.disabled || cvButton.getAttribute("aria-disabled") === "true")
+      return;
+    cvModal.classList.add("open");
+  };
   const closeCv = () => cvModal.classList.remove("open");
   cvButton.addEventListener("click", openCv);
   if (cvModalClose) cvModalClose.addEventListener("click", closeCv);
