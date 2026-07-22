@@ -154,6 +154,8 @@ const i18n = {
       "Taaruf er en plattform laget for å hjelpe muslimer å ha mer meningsfulle og strukturerte samtaler før ekteskapet. I stedet for å lene seg på spredte råd på nettet, guider Taaruf to personer gjennom kuraterte spørsmål om tro, familie, økonomi, kommunikasjon, livsstil og mål. Begge svarer hver for seg, med en betrodd tredjeperson (mahram) inkludert — slik at de forstår hverandre bedre og finner de viktige temaene de bør snakke om før ekteskapet.",
     projTaarufSite: "Landingsside",
     projTaarufApp: "Produktet",
+    readMore: "Les mer",
+    readLess: "Les mindre",
     projHicssTag: "Forskning",
     projHicssTitle: "HICSS — Forskningsartikkel",
     projHicssBody:
@@ -317,6 +319,8 @@ const i18n = {
       "Taaruf is a platform designed to help Muslims have more meaningful and structured conversations before marriage. Instead of relying on scattered advice online, Taaruf guides two people through curated questions covering faith, family, finances, communication, lifestyle, and goals. Both participants answer independently with a trusted third person (mahram) included, helping them understand each other better and identify important topics to discuss before marriage.",
     projTaarufSite: "Landing page",
     projTaarufApp: "The product",
+    readMore: "Read more",
+    readLess: "Read less",
     projHicssTag: "Research",
     projHicssTitle: "HICSS — Research paper",
     projHicssBody:
@@ -504,6 +508,8 @@ function applyLang() {
     b.classList.toggle("active", b.dataset.lang === state.lang);
   });
   localStorage.setItem("portfolio-lang", state.lang);
+  // Translated copy has a different length, so re-check what needs clamping.
+  updateClamps();
 }
 
 document.querySelectorAll(".mode-seg button[data-mode]").forEach((btn) => {
@@ -715,6 +721,47 @@ if (projectsWrap && projectsGrid && projectsMoreBtn) {
       projectsGrid.style.maxHeight = "";
     }
   });
+}
+
+// "Read more" for long project descriptions. A paragraph marked [data-clamp]
+// is only clamped when its text really is longer than CLAMP_LINES lines, so a
+// short translation keeps the plain, toggle-free card.
+const CLAMP_LINES = 4;
+function updateClamps() {
+  document.querySelectorAll("[data-clamp]").forEach((p) => {
+    const btn = p.parentElement.querySelector(".read-more");
+    if (!btn || p.classList.contains("is-open")) return;
+    p.classList.remove("clamped");
+    const cs = getComputedStyle(p);
+    const lh = parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * 1.6;
+    const fits = p.scrollHeight <= lh * CLAMP_LINES + 1;
+    p.classList.toggle("clamped", !fits);
+    btn.hidden = fits;
+  });
+}
+
+document.querySelectorAll(".read-more").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const p = btn.parentElement.querySelector("[data-clamp]");
+    if (!p) return;
+    const open = p.classList.toggle("is-open");
+    p.classList.toggle("clamped", !open);
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+    const label = btn.querySelector("[data-i18n]");
+    if (label) {
+      label.dataset.i18n = open ? "readLess" : "readMore";
+      label.textContent = i18n[state.lang][label.dataset.i18n];
+    }
+  });
+});
+
+let clampTimer;
+window.addEventListener("resize", () => {
+  clearTimeout(clampTimer);
+  clampTimer = setTimeout(updateClamps, 150);
+});
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(updateClamps);
 }
 
 // Founder cards — show the name only, expand the rest on click
