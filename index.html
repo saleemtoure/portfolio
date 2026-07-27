@@ -46,15 +46,6 @@
     <!-- Decorative CRT scanline wash. Disabled under prefers-reduced-motion. -->
     <div class="scanlines" aria-hidden="true"></div>
 
-    <!-- Marquee only appears on narrow screens, where the desktop status bar
-         is hidden. -->
-    <div class="marquee" aria-hidden="true">
-      <div class="marquee-track">
-        <span data-i18n="marquee"></span>
-        <span data-i18n="marquee"></span>
-      </div>
-    </div>
-
     <header class="topbar">
       <a class="brand" href="index.html#panel-hero"
         >Saleem <em>Toure</em> Issifou</a
@@ -829,15 +820,30 @@
       <span id="statusTheme"></span>
     </div>
 
-    <button
-      type="button"
-      class="back-to-top"
-      id="backToTop"
-      aria-label="Til toppen"
-      data-i18n-aria="backToTop"
+    <nav
+      class="panel-nav"
+      id="panelNav"
+      aria-label="Bla mellom seksjoner"
+      data-i18n-aria="panelNavAria"
     >
-      <span aria-hidden="true">↑</span>
-    </button>
+      <span class="panel-nav-hint" aria-hidden="true" data-i18n="navHint"
+        >Bruk tastaturpilene</span
+      >
+      <button
+        type="button"
+        class="panel-nav-btn prev"
+        id="panelPrev"
+        aria-label="Forrige seksjon"
+        data-i18n-aria="prevSection"
+      ></button>
+      <button
+        type="button"
+        class="panel-nav-btn next"
+        id="panelNext"
+        aria-label="Neste seksjon"
+        data-i18n-aria="nextSection"
+      ></button>
+    </nav>
 
     <button
       type="button"
