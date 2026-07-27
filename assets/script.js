@@ -467,7 +467,7 @@ const i18n = {
     eduBscTitle: "BSc Informatics",
     eduBscWhere:
       "University of Oslo · Informatics: Digital Economy & Leadership",
-    eduDialogTitle: "One-year CPD “DialogPilot”",
+    eduDialogTitle: "One-year Degree/CPD “DialogPilot”",
     eduDialogWhere: "University of Oslo",
     eduArabicTitle: "Arabic — Level 1 (remote)",
     eduArabicWhere: "Islamic University of Madinah",
@@ -546,7 +546,7 @@ const i18n = {
     projMajmioKicker: "Platform — live",
     projMajmioStatus: "Co-founder · shipped",
     projHicssKicker: "Research — published",
-    projHicssStatus: "First authorder",
+    projHicssStatus: "First author",
     projTaarufKicker: "Platform — in progress",
     projTaarufStatus: "Work in progress",
     projSecretKicker: "Secret — in progress",

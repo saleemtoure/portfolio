@@ -2051,9 +2051,13 @@ footer {
   color: var(--accent-text);
 }
 
+/* The three blurbs are different lengths, so the card is a flex column and the
+   CTA is pushed to the bottom — otherwise the links land at three different
+   heights across the row. */
 .broadcast .chapter {
   background: var(--bg);
-  display: block;
+  display: flex;
+  flex-direction: column;
   color: var(--fg);
   text-decoration: none;
   transition: background 0.2s ease;
@@ -2087,7 +2091,9 @@ footer {
   object-position: center 30%;
 }
 .broadcast .chapter-body {
-  display: block;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   padding: clamp(14px, 2.4vh, 26px) clamp(16px, 2vw, 28px)
     clamp(16px, 2.8vh, 30px);
 }
@@ -2116,6 +2122,7 @@ footer {
 }
 .broadcast .chapter-cta {
   display: block;
+  margin-top: auto;
   font-size: 10px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
