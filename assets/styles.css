@@ -1907,7 +1907,10 @@ footer {
   color: var(--muted);
   margin-top: 4px;
 }
+/* Both are spans, so without display:block the margin below the role does
+   nothing and the org runs on after it as one line. */
 .broadcast .ch-role {
+  display: block;
   font-family: "Archivo Black", "Arial Black", sans-serif;
   font-size: clamp(15px, 2.2vh, 22px);
   line-height: 1.15;
@@ -1916,6 +1919,7 @@ footer {
   margin: 0 0 8px;
 }
 .broadcast .ch-org {
+  display: block;
   font-size: 12px;
   letter-spacing: 0.08em;
   color: var(--muted);
@@ -2033,8 +2037,13 @@ footer {
     overflow-wrap: break-word;
     hyphens: none;
   }
+  /* Tracks the heading rather than sitting at a flat 40px: the heading clamp
+     is sized for the longest one ("Muslimsk Studentsamfunn"), so on a short
+     title like "Madinah." a fixed 40px Arabic ended up larger than the h1 it
+     introduces. The design has the two at the same size on mobile. */
   .broadcast .ch-hero-ar {
-    font-size: 40px;
+    font-size: clamp(24px, 8vw, 40px);
+    line-height: 1.9;
   }
   .broadcast .ch-standfirst {
     font-size: 14px;
