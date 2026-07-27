@@ -1,3 +1,20 @@
+// Every theme carries a full palette in both modes. The Broadcast look needs
+// four tokens beyond the original six:
+//
+//   ghost      the giant watermark numerals — barely above the background,
+//              decorative only, never used for text
+//   dim        the small uppercase chrome (nav, status bar, kickers)
+//   warm       body copy on the project panels, a touch softer than fg
+//   onAccent   text sitting *on* an accent-filled panel. Deliberately not
+//              var(--bg): ShowTime dark would put near-black on deep red.
+//   accentText the accent used as text. Identical to accent wherever that
+//              already clears 4.5:1, lightened/darkened where it does not
+//              (MSS light, Medina light, ShowTime dark).
+//
+// Every text/surface pair here is verified against WCAG AA — see the contrast
+// sweep in the verification notes. Four `muted` values were also nudged
+// because the originals failed (Medina light 4.0:1, MSS dark 3.5:1,
+// IR light 3.5:1, ShowTime light 4.3:1).
 const themes = {
   mss: {
     label: "MSS",
@@ -6,16 +23,26 @@ const themes = {
     light: {
       bg: "#f5f5f5",
       fg: "#343434",
-      muted: "#7a7a7a",
+      muted: "#6b6b6b",
       accent: "#05a69b",
+      accentText: "#0a7068",
+      onAccent: "#062724",
+      ghost: "#eaeaea",
+      dim: "#5f5f5f",
+      warm: "#454545",
       line: "rgba(52,52,52,0.2)",
       stripe: "rgba(52,52,52,0.05)",
     },
     dark: {
       bg: "#1f1f1f",
       fg: "#f0f0f0",
-      muted: "#7a7a7a",
+      muted: "#9a9a9a",
       accent: "#05a69b",
+      accentText: "#0cc4b6",
+      onAccent: "#062724",
+      ghost: "#2a2a2a",
+      dim: "#9a9a9a",
+      warm: "#d8d8d8",
       line: "rgba(240,240,240,0.18)",
       stripe: "rgba(240,240,240,0.05)",
     },
@@ -27,8 +54,13 @@ const themes = {
     light: {
       bg: "#ffffff",
       fg: "#0055c6",
-      muted: "#6f86ad",
+      muted: "#5b7099",
       accent: "#0055c6",
+      accentText: "#0055c6",
+      onAccent: "#ffffff",
+      ghost: "#eef3fb",
+      dim: "#5b7099",
+      warm: "#0d3f8f",
       line: "rgba(0,85,198,0.22)",
       stripe: "rgba(0,85,198,0.05)",
     },
@@ -37,19 +69,30 @@ const themes = {
       fg: "#ffffff",
       muted: "#c6d6f0",
       accent: "#ffffff",
+      accentText: "#ffffff",
+      onAccent: "#00337a",
+      ghost: "#0b60d0",
+      dim: "#c6d6f0",
+      warm: "#e8f0fc",
       line: "rgba(255,255,255,0.3)",
       stripe: "rgba(255,255,255,0.08)",
     },
   },
   medina: {
     label: "Medina",
+    labelEn: "Madinah",
     a: "#2d5745",
     b: "#b07d3b",
     light: {
       bg: "#f4ede2",
       fg: "#2d5745",
-      muted: "#7a7565",
+      muted: "#6b6656",
       accent: "#b07d3b",
+      accentText: "#8a5f24",
+      onAccent: "#2b1e0a",
+      ghost: "#eae1d2",
+      dim: "#6b6656",
+      warm: "#3d4a3f",
       line: "rgba(45,87,69,0.22)",
       stripe: "rgba(45,87,69,0.06)",
     },
@@ -58,6 +101,11 @@ const themes = {
       fg: "#ede4d2",
       muted: "#a8b1a3",
       accent: "#cf9a55",
+      accentText: "#cf9a55",
+      onAccent: "#1b2a22",
+      ghost: "#254539",
+      dim: "#9aa89c",
+      warm: "#dcd2be",
       line: "rgba(237,228,210,0.18)",
       stripe: "rgba(237,228,210,0.06)",
     },
@@ -69,8 +117,13 @@ const themes = {
     light: {
       bg: "#f7f1ee",
       fg: "#1a1a1a",
-      muted: "#7a6360",
+      muted: "#6d5754",
       accent: "#8e0100",
+      accentText: "#8e0100",
+      onAccent: "#fdf3f0",
+      ghost: "#efe6e2",
+      dim: "#6d5754",
+      warm: "#2e2422",
       line: "rgba(142,1,0,0.22)",
       stripe: "rgba(142,1,0,0.06)",
     },
@@ -79,6 +132,11 @@ const themes = {
       fg: "#f0e6e3",
       muted: "#b59791",
       accent: "#8e0100",
+      accentText: "#f4695e",
+      onAccent: "#fdf3f0",
+      ghost: "#2a0d0d",
+      dim: "#b59791",
+      warm: "#e2d2ce",
       line: "rgba(240,230,227,0.18)",
       stripe: "rgba(240,230,227,0.06)",
     },
@@ -158,7 +216,7 @@ const i18n = {
     projHicssTag: "Forskning",
     projHicssTitle: "HICSS — Forskningsartikkel",
     projHicssBody:
-      "Førsteforfatter på en artikkel sammen med to professorer og en masterstudent om spillbasert læring i høyere utdanning.  Fun fact: Jeg er verifisert på ResearchGate.",
+      "Førsteforfatter på en artikkel sammen med to professorer og en masterstudent om spillbasert læring i høyere utdanning. Fun fact: Jeg er verifisert på ResearchGate.",
     projSecretTag: "Hemmelig",
     projSecretTitle: "Hemmelig prosjekt",
     projSecretBody:
@@ -250,6 +308,61 @@ const i18n = {
     mss2025Where: "MSS — Styreåret 2025–2026",
     mss2025Body:
       'Alhamdulillah, fellesskapet ga meg tilliten til å lede denne familien videre, og Allah velsignet meg med et fantastisk team. Et år fylt med rekord mange arrangementer, engasjement og deltakelse på konferanser og i panelsamtaler. Vi arrangerte <a href="https://www.instagram.com/p/DW3rUe-jakc/?hl=nb" target="_blank" rel="noopener">Allah Says 2026</a> — nå også med en kvinnekonkurranse — lanserte «<a href="https://muslimskstudent.no/maktabah/" target="_blank" rel="noopener">al-Maktabah</a>», det første islamske biblioteket for studenter, av studenter, og <a href="https://muslimskstudent.no/mss-waqf" target="_blank" rel="noopener">MSS Waqf</a> for varig påvirkning. Alt mulig — med Allahs hjelp. Skulle gjerne fortsatt, men trer av etter ett år på grunn av studier i utlandet.',
+
+    // ── Broadcast chrome ──
+    skipLink: "Hopp til innhold",
+    themeAria: "Tema: ",
+    nowBroadcasting: "Sender nå",
+    endTransmission: "Slutt på sending",
+    heroPlace: "Oslo · Nr. 01",
+    panelWord: "Panel",
+    marquee:
+      "Saleem Toure Issifou ✦ utvikler · bistandsarbeider · prosjektleder ✦ solver og bygger ✦ Oslo ✦",
+    navChapters: "Kapitler",
+    navCv: "CV",
+
+    // ── Project kickers + statuses ──
+    projSweetsKicker: "Nettbutikk — live",
+    projSweetsStatus: "Levert · i drift",
+    projMajmioKicker: "Plattform — live",
+    projMajmioStatus: "Medgründer · levert",
+    projHicssKicker: "Forskning — publisert",
+    projHicssStatus: "Førsteforfatter · verifisert på ResearchGate",
+    projTaarufKicker: "Plattform — under arbeid",
+    projTaarufStatus: "Under arbeid",
+    projSecretKicker: "Hemmelig — under arbeid",
+    projSecretStatus: "Kommer snart",
+    projTalabKicker: "Plattform — under arbeid",
+    projTalabStatus: "Under arbeid",
+
+    // ── Founder ──
+    founderIntro:
+      "Selskaper og fellesskap jeg har vært med å starte — og de som fortsatt er hemmelige.",
+
+    // ── Chapters ──
+    chaptersLabel: "Kapitler",
+    chaptersTitle: "Sidene bak personen.",
+    chaptersIntro:
+      "Tre egne sider for tre kapitler i livet mitt. Temaene på siden er oppkalt etter dem.",
+    chShowtimeYears: "2021 — 2025",
+    chShowtimeBlurb:
+      "Som 17-åring startet jeg ShowTimeNorge — Skandinavias første basketball-mediehus i sitt slag, og det største på sin tid.",
+    chShowtimeCta: "Les historien",
+    chMssYears: "2023 — 2026",
+    chMssBlurb:
+      "Frivillig, så styremedlem, så leder i den største og eldste studentforeningen for norske muslimer.",
+    chMssCta: "Se tidslinjen",
+    chMedinaYears: "2026 — ?",
+    chMedinaBlurb:
+      "En ny og annerledes vei. Å forlate tryggheten i søte Norge for å jage noe dypere og utvikle meg mer — in shaa Allah.",
+    chMedinaCta: "Se siden",
+
+    // ── Education / contact ──
+    eduTitle: "Der jeg har studert.",
+
+    // ── Sub-page chapter navigation ──
+    prevChapter: "Forrige kapittel",
+    nextChapter: "Neste kapittel",
   },
   en: {
     title: "Saleem Toure Issifou",
@@ -415,18 +528,103 @@ const i18n = {
     mss2025Title: "President",
     mss2025Where: "MSS — Board year 2025–2026",
     mss2025Body:
-      "Alhamdulillah, the community trusted me to lead this family forward and Allah blessed me with an amazing team. A year filled with a record number of events, engagement, and participation at conferences and in panel discussions. We staged <a href=\"https://www.instagram.com/p/DW3rUe-jakc/?hl=nb\" target=\"_blank\" rel=\"noopener\">Allah Says 2026</a> — now with a women's competition too — launched “<a href=\"https://muslimskstudent.no/maktabah/\" target=\"_blank\" rel=\"noopener\">al-Maktabah</a>,” the first ever Islamic library for students by students, and <a href=\"https://muslimskstudent.no/mss-waqf\" target=\"_blank\" rel=\"noopener\">MSS Waqf</a> for lasting impact. All of it possible — with Allah's help. Would have loved to continue, but stepping down after a year due to studies abroad.",
+      'Alhamdulillah, the community trusted me to lead this family forward and Allah blessed me with an amazing team. A year filled with a record number of events, engagement, and participation at conferences and in panel discussions. We staged <a href="https://www.instagram.com/p/DW3rUe-jakc/?hl=nb" target="_blank" rel="noopener">Allah Says 2026</a> — now with a women\'s competition too — launched “<a href="https://muslimskstudent.no/maktabah/" target="_blank" rel="noopener">al-Maktabah</a>,” the first ever Islamic library for students by students, and <a href="https://muslimskstudent.no/mss-waqf" target="_blank" rel="noopener">MSS Waqf</a> for lasting impact. All of it possible — with Allah\'s help. Would have loved to continue, but stepping down after a year due to studies abroad.',
+
+    // ── Broadcast chrome ──
+    skipLink: "Skip to content",
+    themeAria: "Theme: ",
+    nowBroadcasting: "Now broadcasting",
+    endTransmission: "End of transmission",
+    heroPlace: "Oslo · No. 01",
+    panelWord: "Panel",
+    marquee:
+      "Saleem Toure Issifou ✦ developer · humanitarian · project leader ✦ solver and builder ✦ Oslo ✦",
+    navChapters: "Chapters",
+    navCv: "CV",
+
+    // ── Project kickers + statuses ──
+    projSweetsKicker: "E-commerce — live",
+    projSweetsStatus: "Shipped · in production",
+    projMajmioKicker: "Platform — live",
+    projMajmioStatus: "Co-founder · shipped",
+    projHicssKicker: "Research — published",
+    projHicssStatus: "First author · verified on ResearchGate",
+    projTaarufKicker: "Platform — in progress",
+    projTaarufStatus: "Work in progress",
+    projSecretKicker: "Secret — in progress",
+    projSecretStatus: "Coming soon",
+    projTalabKicker: "Platform — in progress",
+    projTalabStatus: "Work in progress",
+
+    // ── Founder ──
+    founderIntro:
+      "Companies and communities I helped start — and the ones still under wraps.",
+
+    // ── Chapters ──
+    chaptersLabel: "Chapters",
+    chaptersTitle: "The pages behind the person.",
+    chaptersIntro:
+      "Three separate pages for three chapters of my life. The site themes are named after them.",
+    chShowtimeYears: "2021 — 2025",
+    chShowtimeBlurb:
+      "At 17 I started ShowTimeNorge — Scandinavia's first basketball media house of its kind, and the biggest of its time.",
+    chShowtimeCta: "Read the story",
+    chMssYears: "2023 — 2026",
+    chMssBlurb:
+      "Volunteer, then board member, then president of the largest and oldest student society for Norwegian Muslims.",
+    chMssCta: "Read the timeline",
+    chMedinaYears: "2026 — ?",
+    chMedinaBlurb:
+      "A new and different path. Leaving the safety of sweet Norway to chase something deeper and grow further — in shaa Allah.",
+    chMedinaCta: "Read the page",
+
+    // ── Education / contact ──
+    eduTitle: "Where I've been studying.",
+
+    // ── Sub-page chapter navigation ──
+    prevChapter: "Previous chapter",
+    nextChapter: "Next chapter",
   },
 };
 
 const lockedTheme = document.body.dataset.lockedTheme || null;
 
+const DEFAULTS = { theme: "medina", mode: "light", lang: "no" };
+
+// Anything restored from localStorage is checked against the keys that actually
+// exist before it is used. A stale value — a renamed theme, a hand-edited
+// entry — would otherwise reach themes[undefined][mode] or i18n[undefined] and
+// throw, taking the whole page down with it.
+function restore(key, valid, fallback) {
+  const stored = readStore(key);
+  return valid.includes(stored) ? stored : fallback;
+}
+
+// Storage can be unavailable entirely (Safari private mode, blocked cookies),
+// in which case reads and writes both throw. Preferences simply stop
+// persisting; nothing else should break.
+function readStore(key) {
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+function persist(key, value) {
+  try {
+    localStorage.setItem(key, value);
+  } catch {
+    /* preferences just won't survive the session */
+  }
+}
+
 let state = {
-  theme: lockedTheme || localStorage.getItem("portfolio-theme") || "mss",
-  mode: localStorage.getItem("portfolio-mode") || "light",
-  lang: localStorage.getItem("portfolio-lang") || "no",
+  theme: restore("portfolio-theme", Object.keys(themes), DEFAULTS.theme),
+  mode: restore("portfolio-mode", ["light", "dark"], DEFAULTS.mode),
+  lang: restore("portfolio-lang", Object.keys(i18n), DEFAULTS.lang),
 };
-if (lockedTheme) state.theme = lockedTheme;
+if (lockedTheme && themes[lockedTheme]) state.theme = lockedTheme;
 
 function applyTheme() {
   const t = themes[state.theme][state.mode];
@@ -435,16 +633,50 @@ function applyTheme() {
   r.setProperty("--fg", t.fg);
   r.setProperty("--muted", t.muted);
   r.setProperty("--accent", t.accent);
+  r.setProperty("--accent-text", t.accentText);
+  r.setProperty("--on-accent", t.onAccent);
+  r.setProperty("--ghost", t.ghost);
+  r.setProperty("--dim", t.dim);
+  r.setProperty("--warm", t.warm);
   r.setProperty("--line", t.line);
   r.setProperty("--stripe", t.stripe);
+  document.documentElement.dataset.mode = state.mode;
+  document.documentElement.dataset.theme = state.theme;
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute("content", t.bg);
   document.querySelectorAll(".swatch").forEach((s) => {
     s.classList.toggle("active", s.dataset.theme === state.theme);
   });
   document.querySelectorAll(".mode-seg button[data-mode]").forEach((b) => {
-    b.classList.toggle("active", b.dataset.mode === state.mode);
+    const on = b.dataset.mode === state.mode;
+    b.classList.toggle("active", on);
+    b.setAttribute("aria-pressed", on ? "true" : "false");
   });
-  if (!lockedTheme) localStorage.setItem("portfolio-theme", state.theme);
-  localStorage.setItem("portfolio-mode", state.mode);
+  if (!lockedTheme) persist("portfolio-theme", state.theme);
+  persist("portfolio-mode", state.mode);
+}
+
+// The Medina theme is "Medina" in Norwegian and "Madinah" in English, so the
+// swatch label and its aria-label are both re-rendered on every language change
+// rather than baked in at build time.
+function themeLabel(key, lang) {
+  const t = themes[key];
+  return lang === "en" && t.labelEn ? t.labelEn : t.label;
+}
+
+function updateSwatchLabels() {
+  const dict = i18n[state.lang];
+  document.querySelectorAll(".swatch").forEach((btn) => {
+    const key = btn.dataset.theme;
+    const label = themeLabel(key, state.lang);
+    const text = btn.querySelector(".swatch-label");
+    if (text) text.textContent = label;
+    btn.setAttribute("aria-label", dict.themeAria + label);
+    btn.setAttribute(
+      "aria-pressed",
+      btn.dataset.theme === state.theme ? "true" : "false",
+    );
+  });
 }
 
 function buildSwatches() {
@@ -455,22 +687,20 @@ function buildSwatches() {
     btn.className = "swatch";
     btn.dataset.theme = key;
     btn.type = "button";
-    btn.setAttribute("aria-label", "Tema: " + t.label);
     btn.innerHTML = `
-      <span class="swatch-colors">
+      <span class="swatch-colors" aria-hidden="true">
         <span class="a" style="background:${t.a}"></span>
         <span class="b" style="background:${t.b}"></span>
       </span>
-      <span class="swatch-label">${t.label}</span>
+      <span class="swatch-label"></span>
     `;
     if (lockedTheme && key !== lockedTheme) {
       btn.disabled = true;
-      btn.style.opacity = "0.35";
-      btn.style.cursor = "not-allowed";
     } else {
       btn.addEventListener("click", () => {
         state.theme = key;
         applyTheme();
+        updateSwatchLabels();
       });
     }
     wrap.appendChild(btn);
@@ -499,9 +729,12 @@ function applyLang() {
     if (dict[key] != null) el.setAttribute("aria-label", dict[key]);
   });
   document.querySelectorAll("[data-lang]").forEach((b) => {
-    b.classList.toggle("active", b.dataset.lang === state.lang);
+    const on = b.dataset.lang === state.lang;
+    b.classList.toggle("active", on);
+    b.setAttribute("aria-pressed", on ? "true" : "false");
   });
-  localStorage.setItem("portfolio-lang", state.lang);
+  updateSwatchLabels();
+  persist("portfolio-lang", state.lang);
   // Translated copy has a different length, so re-check what needs clamping.
   updateClamps();
 }
@@ -525,19 +758,40 @@ const controlsToggle = document.getElementById("controlsToggle");
 const controlsClose = document.getElementById("controlsClose");
 const controlsHeader = document.getElementById("controlsHeader");
 
-function setOpen(open) {
+// `hidden` is display:none in CSS, not opacity — a panel that is invisible but
+// still focusable would leave a dozen buttons stranded in the tab order.
+function setOpen(open, moveFocus) {
   if (!controls || !controlsToggle) return;
   controls.classList.toggle("hidden", !open);
+  controls.setAttribute("aria-hidden", open ? "false" : "true");
   controlsToggle.classList.toggle("visible", !open);
-  localStorage.setItem("portfolio-controls-open", open ? "1" : "0");
+  controlsToggle.setAttribute("aria-expanded", open ? "true" : "false");
+  if (moveFocus) {
+    if (open) {
+      const first = controls.querySelector("button:not([disabled])");
+      if (first) first.focus();
+    } else {
+      controlsToggle.focus();
+    }
+  }
+  persist("portfolio-controls-open", open ? "1" : "0");
 }
 
 if (controlsClose)
-  controlsClose.addEventListener("click", () => setOpen(false));
+  controlsClose.addEventListener("click", () => setOpen(false, true));
 if (controlsToggle)
-  controlsToggle.addEventListener("click", () => setOpen(true));
+  controlsToggle.addEventListener("click", () => setOpen(true, true));
 
-const savedOpen = localStorage.getItem("portfolio-controls-open");
+// Esc closes the theme panel, matching the behaviour every other dismissible
+// surface on the site already has.
+document.addEventListener("keydown", (e) => {
+  if (e.key !== "Escape" || !controls) return;
+  if (controls.classList.contains("hidden")) return;
+  if (!controls.contains(document.activeElement)) return;
+  setOpen(false, true);
+});
+
+const savedOpen = readStore("portfolio-controls-open");
 if (controls) setOpen(savedOpen === null ? true : savedOpen === "1");
 
 function clampPosition(left, top) {
@@ -558,7 +812,7 @@ function applyPosition(left, top) {
 }
 
 if (controls) {
-  const savedPos = localStorage.getItem("portfolio-controls-pos");
+  const savedPos = readStore("portfolio-controls-pos");
   if (savedPos) {
     try {
       const { left, top } = JSON.parse(savedPos);
@@ -597,7 +851,7 @@ if (controls) {
     } catch {}
     drag = null;
     const rect = controls.getBoundingClientRect();
-    localStorage.setItem(
+    persist(
       "portfolio-controls-pos",
       JSON.stringify({ left: rect.left, top: rect.top }),
     );
