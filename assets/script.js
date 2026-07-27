@@ -798,8 +798,10 @@ document.addEventListener("keydown", (e) => {
   setOpen(false, true);
 });
 
+// Starts collapsed. The markup ships in the collapsed state too, so there is
+// no flash of an open panel before this runs.
 const savedOpen = readStore("portfolio-controls-open");
-if (controls) setOpen(savedOpen === null ? true : savedOpen === "1");
+if (controls) setOpen(savedOpen === "1");
 
 function clampPosition(left, top) {
   const rect = controls.getBoundingClientRect();
