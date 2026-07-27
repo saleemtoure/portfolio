@@ -152,7 +152,7 @@ const i18n = {
     status: "Under utvikling...",
     greeting: "Hei — jeg er Saleem",
     h1: "Hei, jeg er <em>Saleem</em>.",
-    lede: '<span class="kw" tabindex="0" data-tip="Jeg elsker å løse problemer">Solver</span> og <span class="kw" tabindex="0" data-tip="Jeg elsker å bygge mennesker, relasjoner og prosjekter">bygger</span> — utvikler, bistandsarbeider, prosjektleder, digital innholdsskaper, og alt midt imellom.',
+    lede: '<span class="kw" tabindex="0" data-tip="Jeg elsker å løse problemer">«solver»</span> og <span class="kw" tabindex="0" data-tip="Jeg elsker å bygge mennesker, relasjoner og prosjekter">bygger</span> — utvikler, bistandsarbeider, prosjektleder, digital innholdsskaper, og alt midt imellom.',
     verseEn:
       "Han sa: «Nei, sannelig min Herre er med meg — Han skal veilede meg.»",
     verseRef: "Surah Ash-Shu'arā · 26:62",
@@ -321,8 +321,6 @@ const i18n = {
     endTransmission: "Slutt på sending",
     heroPlace: "Oslo · Nr. 01",
     panelWord: "Panel",
-    marquee:
-      "Saleem Toure Issifou ✦ utvikler · bistandsarbeider · prosjektleder ✦ solver og bygger ✦ Oslo ✦",
     navChapters: "Kapitler",
     navCv: "CV",
 
@@ -373,7 +371,7 @@ const i18n = {
     status: "Work in progress...",
     greeting: "Hi — I'm Saleem",
     h1: "Hi, I'm <em>Saleem</em>.",
-    lede: '<span class="kw" tabindex="0" data-tip="I love solving problems">Solver</span> and <span class="kw" tabindex="0" data-tip="I love building people, relationships and projects">builder</span> — developer, humanitarian, project leader, digital content creator, and everything in between.',
+    lede: '<span class="kw" tabindex="0" data-tip="I love solving problems">“solver”</span> and <span class="kw" tabindex="0" data-tip="I love building people, relationships and projects">builder</span> — developer, humanitarian, project leader, digital content creator, and everything in between.',
     verseEn: "He said, “Nay! Indeed, with me is my Lord; He will guide me.”",
     verseRef: "Surah Ash-Shu'arā · 26:62",
     navMedina: "Madinah",
@@ -559,10 +557,6 @@ const i18n = {
     projSecretStatus: "Coming soon",
     projTalabKicker: "Platform — in progress",
     projTalabStatus: "Work in progress",
-
-    // ── Founder ──
-    founderIntro:
-      "Companies and communities I helped start — and the ones still under wraps.",
 
     // ── Chapters ──
     chaptersLabel: "Chapters",
