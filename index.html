@@ -72,7 +72,7 @@
           <h1 data-i18n-html="h1">Hei, jeg er <em>Saleem</em>.</h1>
           <p class="lede" data-i18n-html="lede">
             <span class="kw" tabindex="0" data-tip="Jeg elsker å løse problemer"
-              >Solver</span
+              >"Solver"</span
             >
             og
             <span
@@ -734,12 +734,18 @@
           ×
         </button>
       </div>
-      <div class="swatches" id="swatches"></div>
+      <div
+        class="swatches"
+        id="swatches"
+        role="group"
+        aria-label="Velg tema"
+        data-i18n-aria="themeTitle"
+      ></div>
       <div class="mode-row">
         <span class="mode-label" data-i18n="modeLabel">Modus</span>
         <div
           class="mode-seg"
-          role="radiogroup"
+          role="group"
           aria-label="Lys eller mørk"
           data-i18n-aria="modeAria"
         >
@@ -751,7 +757,7 @@
         <span class="mode-label" data-i18n="langLabel">Språk</span>
         <div
           class="mode-seg"
-          role="radiogroup"
+          role="group"
           aria-label="Norsk eller engelsk"
           data-i18n-aria="langAria"
         >
