@@ -1271,6 +1271,23 @@ if (pagerPrev && pagerNext) {
 
   pagerPrev.addEventListener("click", () => pagerGo(-1));
   pagerNext.addEventListener("click", () => pagerGo(1));
+
+  // On a phone the fixed controls overlay the content, so fade them out while
+  // the page is moving and bring them back once it settles. The class is only
+  // acted on below 1024px; on desktop they stay put.
+  let idleTimer = null;
+  window.addEventListener(
+    "scroll",
+    () => {
+      document.body.classList.add("is-scrolling");
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(
+        () => document.body.classList.remove("is-scrolling"),
+        550,
+      );
+    },
+    { passive: true },
+  );
   window.addEventListener("scroll", sync, { passive: true });
   window.addEventListener("resize", sync);
   // The rail reports its index asynchronously on first layout, so settle once.
