@@ -1660,6 +1660,75 @@ footer {
   transform: translateY(1px);
 }
 
+/* ── Panel entrance ─────────────────────────────────
+   Each panel is a broadcast segment, and until now every one of them arrived
+   fully composed — the only thing marking a new panel was the ghost numeral
+   lagging behind the rail. This gives each one a downbeat: the content cascades
+   in as the panel becomes live.
+
+   `--beat` is the element's position in that cascade, assigned by JS, which is
+   also what picks the elements (see the reveal block in script.js). It is capped
+   there so a long panel cannot stretch the sequence indefinitely.
+
+   45ms per step against a 200ms fade puts the last element of the longest panel
+   at ~425ms — short enough to keep up with the rail, which itself takes ~300ms
+   to settle. A slower fade read as sluggish once stacked on top of that.
+
+   Everything is gated behind .reveal-on, which JS adds only after the observer
+   is wired. Without JS the class never lands, so nothing is ever hidden and the
+   page renders exactly as it did before. */
+.reveal-on [data-beat] {
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity var(--dur-base) var(--ease),
+    transform var(--dur-base) var(--ease);
+  transition-delay: calc(var(--beat, 0) * 45ms);
+}
+.reveal-on .is-live [data-beat] {
+  opacity: 1;
+  transform: none;
+}
+/* Belt and braces for a mid-session preference change: if reduced motion turns
+   on after .reveal-on has already been added, the content must not stay hidden
+   waiting for a transition that no longer runs. */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-on [data-beat] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    transition-delay: 0s;
+  }
+}
+
+/* ── Chapter card depth ─────────────────────────────
+   The three chapter cards are the largest interactive targets on the page and
+   their hover was a single background swap. The image inside is held at
+   grayscale(1), so easing it toward colour gives the card a second layer, and
+   the CTA sliding gives a third — the same arrow-follows-the-link language the
+   project rail links already use.
+
+   Slower than the site's other hovers on purpose: this is a photograph coming
+   to life rather than a control responding, and --dur-base made it look like a
+   flicker. The scale is small enough to stay inside .chapter-media's clip. */
+.broadcast .chapter-media img {
+  transition:
+    filter var(--dur-slow) var(--ease),
+    transform var(--dur-slow) var(--ease);
+}
+.broadcast .chapter:hover .chapter-media img,
+.broadcast .chapter:focus-visible .chapter-media img {
+  filter: grayscale(0.15) contrast(1.1);
+  transform: scale(1.04);
+}
+.broadcast .chapter-cta {
+  transition: transform var(--dur-base) var(--ease);
+}
+.broadcast .chapter:hover .chapter-cta,
+.broadcast .chapter:focus-visible .chapter-cta {
+  transform: translateX(4px);
+}
+
 /* ── Status bar ─────────────────────────────────── */
 .statusbar {
   position: fixed;
