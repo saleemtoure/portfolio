@@ -27,7 +27,8 @@
     <link
       rel="preload"
       as="image"
-      href="assets/images/saleem.jpg"
+      href="assets/images/saleem-cutout.webp"
+      type="image/webp"
       fetchpriority="high"
     />
     <link
@@ -135,19 +136,21 @@
                   </span>
                 </div>
               </div>
-              <figure class="hero-figure">
-                <img
-                  src="assets/images/saleem.jpg"
-                  alt="Portrett av Saleem Toure Issifou"
-                  data-i18n-alt="portraitAlt"
-                  width="600"
-                  height="600"
-                  decoding="async"
-                  fetchpriority="high"
-                />
-                <span class="duotone" aria-hidden="true"></span>
-              </figure>
             </div>
+            <!-- Outside .panel-inner so the cutout can reach the panel's own
+                 edges: the inner has the gutter and the status-bar padding, and
+                 both would hold him off the floor he is meant to walk on. -->
+            <figure class="hero-figure">
+              <img
+                src="assets/images/saleem-cutout.webp"
+                alt="Saleem Toure Issifou i dress og kentesjal, midt i et skritt"
+                data-i18n-alt="portraitAlt"
+                width="860"
+                height="1585"
+                decoding="async"
+                fetchpriority="high"
+              />
+            </figure>
           </section>
 
           <!-- 02 — Ayah -->

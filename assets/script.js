@@ -160,7 +160,7 @@ const i18n = {
     navMss: "MSS",
     medinaLocked: "Tema låst til Medina",
     mssLocked: "Tema låst til MSS",
-    portraitAlt: "Portrett av Saleem Toure Issifou",
+    portraitAlt: "Saleem Toure Issifou i dress og kentesjal, midt i et skritt",
     controlsAria: "Tema og modus",
     themeTitle: "Velg tema",
     modeLabel: "Modus",
@@ -380,7 +380,7 @@ const i18n = {
     navMss: "MSS",
     medinaLocked: "Theme locked to Madinah",
     mssLocked: "Theme locked to MSS",
-    portraitAlt: "Portrait of Saleem Toure Issifou",
+    portraitAlt: "Saleem Toure Issifou mid-stride in a suit and kente stole",
     controlsAria: "Theme and mode",
     themeTitle: "Choose theme",
     modeLabel: "Mode",
@@ -1033,6 +1033,10 @@ if (rail && track) {
     rail.querySelectorAll(".ghost-num").forEach((g) => {
       g.style.transform = "translateX(" + lag * 0.22 + "px)";
     });
+    // The hero cutout sits behind the headline, so it lags less than the type
+    // it stands behind — enough separation to read as depth, not as drift.
+    const cutout = rail.querySelector(".hero-figure");
+    if (cutout) cutout.style.transform = "translateX(" + lag * 0.14 + "px)";
     const kinetic = rail.querySelector(".kinetic");
     if (kinetic)
       kinetic.style.transform =
@@ -1057,6 +1061,8 @@ if (rail && track) {
       rail.querySelectorAll(".ghost-num").forEach((g) => {
         g.style.transform = "";
       });
+      const cutout = rail.querySelector(".hero-figure");
+      if (cutout) cutout.style.transform = "";
       const kinetic = rail.querySelector(".kinetic");
       if (kinetic) kinetic.style.transform = "";
       return;
@@ -1078,6 +1084,8 @@ if (rail && track) {
       rail.querySelectorAll(".ghost-num").forEach((g) => {
         g.style.transform = "";
       });
+      const cutout = rail.querySelector(".hero-figure");
+      if (cutout) cutout.style.transform = "";
       const kinetic = rail.querySelector(".kinetic");
       if (kinetic) kinetic.style.transform = "";
     }
