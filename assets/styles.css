@@ -1489,7 +1489,6 @@ footer {
 .broadcast {
   --top-h: 46px;
   --status-h: 40px;
-  --marquee-h: 0px;
   --gutter: clamp(20px, 5vw, 80px);
   font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 14px;
@@ -1571,46 +1570,10 @@ footer {
   }
 }
 
-/* ── Marquee (narrow screens only) ──────────────── */
-.marquee {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 79;
-  height: 28px;
-  overflow: hidden;
-  background: var(--accent);
-  color: var(--on-accent);
-  border-bottom: 1px solid var(--line);
-}
-.marquee-track {
-  display: flex;
-  white-space: nowrap;
-  height: 100%;
-  align-items: center;
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  animation: bc-marquee 26s linear infinite;
-}
-.marquee-track span {
-  padding-right: 26px;
-}
-@keyframes bc-marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
 /* ── Topbar ─────────────────────────────────────── */
 .broadcast .topbar {
   position: fixed;
-  top: var(--marquee-h);
+  top: 0;
   left: 0;
   right: 0;
   z-index: 78;
@@ -1709,8 +1672,8 @@ footer {
   width: 100%;
   max-width: 1440px;
   margin: 0 auto;
-  padding: calc(var(--marquee-h) + var(--top-h) + clamp(28px, 5vh, 56px))
-    var(--gutter) calc(var(--status-h) + clamp(24px, 4vh, 44px));
+  padding: calc(var(--top-h) + clamp(28px, 5vh, 56px)) var(--gutter)
+    calc(var(--status-h) + clamp(24px, 4vh, 44px));
 }
 
 .broadcast .panel-accent {
@@ -2324,6 +2287,90 @@ footer {
   z-index: 95;
 }
 
+/* ── Section pager ──────────────────────────────────
+   Replaces the old back-to-top button. Two arrows that step one section at a
+   time are more use than a single jump to the top, and they double as the
+   visual cue for which way the content moves — sideways on the rail, down on
+   the chapter pages. */
+.panel-nav {
+  position: fixed;
+  left: var(--gutter);
+  bottom: calc(var(--status-h) + 18px);
+  z-index: 81;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  max-width: 190px;
+}
+/* Sits above the two arrows and tells you the same move is on the keyboard. */
+.panel-nav-hint {
+  flex-basis: 100%;
+  margin-bottom: 2px;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--dim);
+  line-height: 1.3;
+}
+.panel-nav-btn {
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  color: var(--fg);
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease;
+}
+.panel-nav-btn:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent-text);
+  background: var(--stripe);
+}
+.panel-nav-btn:disabled {
+  color: var(--muted);
+  cursor: default;
+}
+/* Glyphs follow the direction the sections actually travel. */
+.broadcast.is-rail .panel-nav-btn.prev::before {
+  content: "←";
+}
+.broadcast.is-rail .panel-nav-btn.next::before {
+  content: "→";
+}
+.broadcast.is-chapter .panel-nav-btn.prev::before,
+.broadcast .panel-nav-btn.prev::before {
+  content: "↑";
+}
+.broadcast.is-chapter .panel-nav-btn.next::before,
+.broadcast .panel-nav-btn.next::before {
+  content: "↓";
+}
+.broadcast.is-rail .panel-nav-btn.prev::before {
+  content: "←";
+}
+.broadcast.is-rail .panel-nav-btn.next::before {
+  content: "→";
+}
+/* The rail collapses to a column below 1024px, so the arrows follow. */
+@media (max-width: 1023px) {
+  .broadcast.is-rail .panel-nav-btn.prev::before {
+    content: "↑";
+  }
+  .broadcast.is-rail .panel-nav-btn.next::before {
+    content: "↓";
+  }
+}
+
 /* ── Status bar ─────────────────────────────────── */
 .statusbar {
   position: fixed;
@@ -2390,11 +2437,7 @@ footer {
 
 @media (max-width: 1023px) {
   .broadcast {
-    --marquee-h: 28px;
     --status-h: 0px;
-  }
-  .marquee {
-    display: block;
   }
   .statusbar {
     display: none;
@@ -2455,7 +2498,7 @@ footer {
     min-height: auto;
   }
   .broadcast .panel-inner {
-    padding-top: calc(var(--marquee-h) + var(--top-h) + 32px);
+    padding-top: calc(var(--top-h) + 32px);
     padding-bottom: 40px;
   }
   .broadcast .panel:not(:first-child) .panel-inner {
@@ -2480,10 +2523,6 @@ footer {
 @media (prefers-reduced-motion: reduce) {
   .scanlines {
     animation: none;
-  }
-  .marquee-track {
-    animation: none;
-    transform: none;
   }
   .broadcast .tag-wip::before {
     animation: none;
@@ -2514,6 +2553,7 @@ footer {
 
 .broadcast .ch-section {
   position: relative;
+  scroll-margin-top: var(--top-h);
   padding: clamp(48px, 9vh, 96px) var(--gutter);
   border-top: 1px solid var(--line);
 }
@@ -2527,14 +2567,15 @@ footer {
 /* ── Hero ───────────────────────────────────────── */
 .broadcast .ch-hero {
   position: relative;
+  scroll-margin-top: 0;
   min-height: 100vh;
   min-height: 100svh;
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
   gap: clamp(28px, 5vw, 64px);
   align-items: center;
-  padding: calc(var(--marquee-h) + var(--top-h) + clamp(32px, 6vh, 72px))
-    var(--gutter) clamp(40px, 7vh, 80px);
+  padding: calc(var(--top-h) + clamp(32px, 6vh, 72px)) var(--gutter)
+    clamp(40px, 7vh, 80px);
   overflow: hidden;
   border-top: 0;
 }

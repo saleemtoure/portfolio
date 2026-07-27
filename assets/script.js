@@ -261,6 +261,10 @@ const i18n = {
     eduVglTitle: "Valle Hovin VGS",
     eduVglWhere: "Studiespesialisering realfag · Toppidrett basketball",
     backToTop: "Til toppen",
+    panelNavAria: "Bla mellom seksjoner",
+    navHint: "Bruk tastaturpilene",
+    prevSection: "Forrige seksjon",
+    nextSection: "Neste seksjon",
     footerNote:
       "Temaene på siden er dedikert til ulike viktige kapitler i livet mitt. IR-temaet er en hilsen til tiden min som frivillig og ansatt hos Islamic Relief ❤",
     showtimeLocked: "Tema låst til ShowTime",
@@ -478,6 +482,10 @@ const i18n = {
     eduVglTitle: "Valle Hovin Upper Secondary",
     eduVglWhere: "Sciences track · Elite sports basketball",
     backToTop: "Back to top",
+    panelNavAria: "Move between sections",
+    navHint: "Use the arrow keys",
+    prevSection: "Previous section",
+    nextSection: "Next section",
     footerNote:
       "The themes of my personal site are dedicated to different significant arcs in my life. The IR theme is a nod to my time as a volunteer and employee at Islamic Relief ❤",
     showtimeLocked: "Theme locked to ShowTime",
@@ -535,8 +543,6 @@ const i18n = {
     endTransmission: "End of transmission",
     heroPlace: "Oslo · No. 01",
     panelWord: "Panel",
-    marquee:
-      "Saleem Toure Issifou ✦ developer · humanitarian · project leader ✦ solver and builder ✦ Oslo ✦",
     navChapters: "Chapters",
     navCv: "CV",
 
@@ -892,19 +898,6 @@ if (cvButton && cvModal) {
   });
 }
 
-// Back to top
-const backToTop = document.getElementById("backToTop");
-if (backToTop) {
-  const onScroll = () => {
-    backToTop.classList.toggle("visible", window.scrollY > 320);
-  };
-  window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
-  backToTop.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
-}
-
 // Mobile nav toggle
 const navToggle = document.getElementById("navToggle");
 const nav = document.getElementById("nav");
@@ -933,6 +926,10 @@ const track = document.getElementById("track");
 // Assigned by the rail block below; called after a language switch so the
 // "Panel 03 / 12" readout picks up the new wording.
 let refreshRail = () => {};
+// Also assigned by the rail block, and read by the section pager so the same
+// two arrow buttons drive the rail on the index and plain scrolling elsewhere.
+let railGo = null;
+let railState = null;
 
 function updateStatusTheme() {
   const el = document.getElementById("statusTheme");
@@ -960,6 +957,11 @@ if (rail && track) {
   // Cached in layout(). Reading it inside measure() would force a synchronous
   // reflow on every scroll event, while the rAF loop is writing transforms.
   let step = 0;
+  // Set for one move when the rail must arrive immediately rather than ease.
+  let snap = false;
+  // Destination of an in-flight move, so rapid arrow presses accumulate rather
+  // than all resolving against the panel we have not finished leaving.
+  let pending = null;
 
   const isRail = () => railMode.matches;
 
@@ -1003,6 +1005,7 @@ if (rail && track) {
     }
 
     if (statusBar) statusBar.style.right = (1 - progress) * 100 + "%";
+    if (idx === pending) pending = null;
     if (idx !== index) {
       index = idx;
       if (statusPanel)
@@ -1036,9 +1039,23 @@ if (rail && track) {
 
   function render() {
     if (!isRail()) return;
-    if (reduceMotion.matches) {
+    // `snap` short-circuits the easing for one move. Without it, the scroll
+    // event that follows an instant jump re-enters the lerp and the rail
+    // spends ~300ms catching up — long enough that a keyboard user tabbing
+    // at speed is always looking at the previous panel.
+    if (reduceMotion.matches || snap) {
+      snap = false;
+      if (raf !== null) {
+        cancelAnimationFrame(raf);
+        raf = null;
+      }
       current = target;
       rail.style.transform = "translateX(" + -current + "px)";
+      rail.querySelectorAll(".ghost-num").forEach((g) => {
+        g.style.transform = "";
+      });
+      const kinetic = rail.querySelector(".kinetic");
+      if (kinetic) kinetic.style.transform = "";
       return;
     }
     if (raf === null) raf = requestAnimationFrame(frame);
@@ -1066,16 +1083,28 @@ if (rail && track) {
     render();
   }
 
-  function scrollToPanel(i) {
+  // `instant` is used when following focus: a smooth scroll plus the rail's
+  // easing means the view arrives long after focus does, so a keyboard user
+  // tabbing quickly ends up looking at a panel that no longer holds the focused
+  // element. Jumping straight there keeps focus and view in step.
+  function scrollToPanel(i, instant) {
+    const smooth = !instant && !reduceMotion.matches;
     if (isRail()) {
       const max = track.offsetHeight - window.innerHeight;
+      // Set before scrolling: the scroll event this triggers runs render(),
+      // which must snap rather than start easing from the old position.
+      if (instant) snap = true;
       window.scrollTo({
         top: (i / (panels.length - 1)) * max,
-        behavior: reduceMotion.matches ? "auto" : "smooth",
+        behavior: smooth ? "smooth" : "instant",
       });
+      if (instant) {
+        measure();
+        render();
+      }
     } else {
       panels[i].scrollIntoView({
-        behavior: reduceMotion.matches ? "auto" : "smooth",
+        behavior: smooth ? "smooth" : "instant",
         block: "start",
       });
     }
@@ -1091,15 +1120,79 @@ if (rail && track) {
     scrollToPanel(Number(a.dataset.nav));
   });
 
-  // Tabbing into a link on an off-screen panel must bring that panel in,
-  // otherwise focus lands somewhere the user cannot see.
+  // Keyboard traversal.
+  //
+  // When focus lands on something it considers off-screen, the browser scrolls
+  // the nearest scrollable ancestor to reveal it — and it will happily do that
+  // to an overflow:hidden box. So it shifts .viewport sideways, which slides
+  // the whole rail out from under the transform and never puts it back:
+  // the panels end up permanently out of register and a keyboard user is
+  // stranded. We have to let that happen first, then undo it and move the rail
+  // properly — hence the rAF, which runs after the browser's own pass.
+  const viewport = track.querySelector(".viewport");
+  const resetViewport = () => {
+    if (!viewport) return;
+    if (viewport.scrollLeft !== 0) viewport.scrollLeft = 0;
+    if (viewport.scrollTop !== 0) viewport.scrollTop = 0;
+  };
+  if (viewport)
+    viewport.addEventListener("scroll", resetViewport, { passive: true });
+
   document.addEventListener("focusin", (e) => {
     if (!isRail()) return;
     const panel = e.target.closest && e.target.closest(".panel");
     if (!panel) return;
     const i = panels.indexOf(panel);
-    if (i < 0 || i === index) return;
-    scrollToPanel(i);
+    if (i < 0) return;
+    // setTimeout rather than requestAnimationFrame: rAF is paused in a
+    // backgrounded tab, and this must still run when focus is restored.
+    setTimeout(() => {
+      resetViewport();
+      scrollToPanel(i, true);
+    }, 0);
+  });
+
+  // Same problem via in-page anchors: on the rail a fragment jump scrolls to a
+  // document offset that means nothing, so route them through scrollToPanel.
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (!a || !isRail()) return;
+    const id = a.getAttribute("href").slice(1);
+    if (!id) return;
+    const panel = document.getElementById(id);
+    const i = panel ? panels.indexOf(panel.closest(".panel")) : -1;
+    if (i < 0) return;
+    e.preventDefault();
+    scrollToPanel(i, true);
+    // Keep the keyboard contract of a skip link: move focus, not just the view.
+    panel.setAttribute("tabindex", "-1");
+    panel.focus({ preventScroll: true });
+  });
+
+  // Explicit keyboard paging. Vertical scroll keys already work because the
+  // track is a tall document, but on a horizontal rail the left/right arrows
+  // are what people actually reach for.
+  document.addEventListener("keydown", (e) => {
+    if (!isRail() || e.metaKey || e.ctrlKey || e.altKey) return;
+    const t = e.target;
+    if (
+      t &&
+      (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))
+    )
+      return;
+    // Step from the panel we are heading to, not the one we are leaving:
+    // during a smooth scroll `index` still reports the old panel, so three
+    // quick presses would otherwise all resolve to the same destination.
+    const base = pending === null ? index : pending;
+    let next = null;
+    if (e.key === "ArrowRight") next = Math.min(panels.length - 1, base + 1);
+    else if (e.key === "ArrowLeft") next = Math.max(0, base - 1);
+    else if (e.key === "Home") next = 0;
+    else if (e.key === "End") next = panels.length - 1;
+    if (next === null || next === base) return;
+    e.preventDefault();
+    pending = next;
+    scrollToPanel(next);
   });
 
   window.addEventListener(
@@ -1120,7 +1213,87 @@ if (rail && track) {
     measure();
   };
 
+  railGo = (delta) => {
+    const next = Math.max(0, Math.min(panels.length - 1, index + delta));
+    if (next !== index) scrollToPanel(next);
+  };
+  railState = () => ({ i: index, n: panels.length });
+
   layout();
+}
+
+// ── Section pager ─────────────────────────────────────────────────────────
+//
+// Two arrows that step one section at a time, replacing the old back-to-top
+// button: stepping is what people actually want, and the arrows double as the
+// cue for which way the content moves. On the index they drive the rail; on a
+// chapter page they walk the top-level sections of <main>.
+const pagerPrev = document.getElementById("panelPrev");
+const pagerNext = document.getElementById("panelNext");
+if (pagerPrev && pagerNext) {
+  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const steps = () => Array.from(document.querySelectorAll(".ch-main > *"));
+
+  function pagerState() {
+    if (railState) return railState();
+    const list = steps();
+    let i = 0;
+    let best = Infinity;
+    list.forEach((s, n) => {
+      const d = Math.abs(s.getBoundingClientRect().top - 80);
+      if (d < best) {
+        best = d;
+        i = n;
+      }
+    });
+    return { i, n: list.length };
+  }
+
+  function pagerGo(delta) {
+    if (railGo) return railGo(delta);
+    const list = steps();
+    const { i, n } = pagerState();
+    const t = Math.max(0, Math.min(n - 1, i + delta));
+    if (list[t])
+      list[t].scrollIntoView({
+        behavior: prefersReduced.matches ? "instant" : "smooth",
+        block: "start",
+      });
+  }
+
+  const sync = () => {
+    const { i, n } = pagerState();
+    pagerPrev.disabled = i <= 0;
+    pagerNext.disabled = i >= n - 1;
+  };
+
+  pagerPrev.addEventListener("click", () => pagerGo(-1));
+  pagerNext.addEventListener("click", () => pagerGo(1));
+  window.addEventListener("scroll", sync, { passive: true });
+  window.addEventListener("resize", sync);
+  // The rail reports its index asynchronously on first layout, so settle once.
+  setTimeout(sync, 60);
+  sync();
+
+  // Arrow keys page through the chapter sections too, matching the rail.
+  if (!railGo) {
+    document.addEventListener("keydown", (e) => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      const t = e.target;
+      if (
+        t &&
+        (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))
+      )
+        return;
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        pagerGo(1);
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        pagerGo(-1);
+      }
+    });
+  }
 }
 
 // Highlight active nav item on scroll
