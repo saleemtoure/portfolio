@@ -1471,3 +1471,1015 @@ footer {
     left: 12px;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   BROADCAST
+   The overhaul design language. Scoped under .broadcast so pages still on
+   the previous markup are untouched; `is-rail` selects the horizontal
+   panel layout (index), `is-chapter` the vertical one (sub-pages).
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.broadcast {
+  --top-h: 46px;
+  --status-h: 40px;
+  --marquee-h: 0px;
+  --gutter: clamp(20px, 5vw, 80px);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.broadcast h1,
+.broadcast h2,
+.broadcast h3 {
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+.broadcast ::selection {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+/* Visible focus that survives both the page background and accent panels. */
+.broadcast :focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 200;
+  transform: translateY(-200%);
+  background: var(--fg);
+  color: var(--bg);
+  padding: 10px 16px;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* CRT wash. Purely decorative; removed entirely for reduced motion. */
+.scanlines {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.028) 0 1px,
+    transparent 1px 3px
+  );
+  animation: bc-flicker 7s infinite;
+}
+:root[data-mode="light"] .scanlines {
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.03) 0 1px,
+    transparent 1px 3px
+  );
+}
+@keyframes bc-flicker {
+  0%,
+  96%,
+  100% {
+    opacity: 1;
+  }
+  97% {
+    opacity: 0.78;
+  }
+  98.5% {
+    opacity: 0.92;
+  }
+}
+
+/* ── Marquee (narrow screens only) ──────────────── */
+.marquee {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 79;
+  height: 28px;
+  overflow: hidden;
+  background: var(--accent);
+  color: var(--on-accent);
+  border-bottom: 1px solid var(--line);
+}
+.marquee-track {
+  display: flex;
+  white-space: nowrap;
+  height: 100%;
+  align-items: center;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  animation: bc-marquee 26s linear infinite;
+}
+.marquee-track span {
+  padding-right: 26px;
+}
+@keyframes bc-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ── Topbar ─────────────────────────────────────── */
+.broadcast .topbar {
+  position: fixed;
+  top: var(--marquee-h);
+  left: 0;
+  right: 0;
+  z-index: 78;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  height: var(--top-h);
+  padding: 0 var(--gutter);
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+  border-top: 0;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.broadcast .brand {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.broadcast .brand em {
+  font-style: normal;
+  color: var(--accent-text);
+}
+.broadcast .nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.broadcast .nav a {
+  color: var(--dim);
+  text-decoration: none;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+}
+.broadcast .nav a:hover,
+.broadcast .nav a.active,
+.broadcast .nav a[aria-current="true"] {
+  color: var(--fg);
+}
+.broadcast .nav-divider {
+  width: 1px;
+  height: 14px;
+  background: var(--line);
+}
+.broadcast .topbar-domain {
+  margin-left: auto;
+  color: var(--dim);
+  white-space: nowrap;
+}
+.broadcast .nav-toggle {
+  display: none;
+  margin-left: auto;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  color: var(--fg);
+  font-family: inherit;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 7px 12px;
+  cursor: pointer;
+}
+
+/* ── Panels ─────────────────────────────────────── */
+.broadcast .track {
+  position: relative;
+}
+.broadcast .rail {
+  display: flex;
+  flex-direction: column;
+}
+.broadcast .panel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow: hidden;
+  border-top: 1px solid var(--line);
+}
+.broadcast .panel:first-child {
+  border-top: 0;
+}
+.broadcast .panel-inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: calc(var(--marquee-h) + var(--top-h) + clamp(28px, 5vh, 56px))
+    var(--gutter) calc(var(--status-h) + clamp(24px, 4vh, 44px));
+}
+
+.broadcast .panel-accent {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+/* Never fade text on an accent panel — the token pair is calibrated at full
+   opacity and any alpha would drop it under AA. Hierarchy comes from size. */
+.broadcast .panel-accent .kicker,
+.broadcast .panel-accent .ayah-ref,
+.broadcast .panel-accent .dedication,
+.broadcast .panel-accent .cv-sub,
+.broadcast .panel-accent a {
+  color: var(--on-accent);
+}
+
+/* The watermark sits fully inside the panel. The panel clips overflow for the
+   rail transform, so a negative offset would just slice the digits in half. */
+.broadcast .ghost-num {
+  position: absolute;
+  left: 2vw;
+  bottom: calc(var(--status-h) + clamp(6px, 1.5vh, 20px));
+  z-index: 0;
+  display: block;
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-size: clamp(110px, 24vh, 240px);
+  line-height: 0.78;
+  letter-spacing: -0.06em;
+  color: var(--ghost);
+  pointer-events: none;
+  user-select: none;
+}
+.broadcast .ghost-right {
+  left: auto;
+  right: 2vw;
+}
+
+/* Visually hidden but announced — used for the "featured project" label that
+   the ★ carries visually. */
+.broadcast .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.broadcast .kicker .star {
+  margin-right: 6px;
+}
+
+/* ── Shared type ────────────────────────────────── */
+.broadcast .kicker {
+  font-size: 11px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+  margin-bottom: clamp(10px, 2vh, 22px);
+}
+.broadcast .section-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: clamp(20px, 3.5vh, 36px);
+}
+.broadcast .section-head h2 {
+  font-size: clamp(30px, 6vh, 68px);
+  margin: 0;
+}
+.broadcast .section-intro {
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--muted);
+  max-width: 34ch;
+}
+
+/* ── Hero ───────────────────────────────────────── */
+.broadcast .hero-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: clamp(28px, 5vw, 64px);
+  align-items: center;
+}
+.broadcast .hero-text h1 {
+  font-size: clamp(44px, 11vh, 118px);
+  margin: 0 0 clamp(16px, 3vh, 30px);
+}
+.broadcast .hero-text h1 em {
+  font-style: normal;
+  color: var(--accent-text);
+}
+.broadcast .hero-text .lede {
+  font-size: clamp(15px, 2vh, 19px);
+  line-height: 1.7;
+  color: var(--muted);
+  max-width: 46ch;
+  margin: 0 0 clamp(20px, 3.5vh, 34px);
+}
+.broadcast .chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.broadcast .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  padding: 12px 18px;
+  color: var(--fg);
+  text-decoration: none;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+.broadcast a.chip:hover {
+  background: var(--accent);
+  color: var(--on-accent);
+  border-color: var(--accent);
+}
+.broadcast .chip.is-disabled,
+.broadcast .rail-link.is-disabled,
+.broadcast .cell-links .is-disabled,
+.broadcast .cv-tile.is-disabled {
+  color: var(--muted);
+  cursor: not-allowed;
+}
+/* --muted is calibrated against --bg, so it is the wrong token on an accent
+   panel. Disabled tiles there keep full --on-accent and signal their state
+   through the "coming soon" chip instead of through colour. */
+.broadcast .panel-accent .cv-tile.is-disabled {
+  color: var(--on-accent);
+}
+.broadcast .soon,
+.broadcast .cv-soon {
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  border: 1px solid var(--line);
+  padding: 3px 6px;
+  color: var(--muted);
+}
+
+.broadcast .hero-figure {
+  position: relative;
+  margin: 0;
+  height: min(58vh, 520px);
+  border-left: 1px solid var(--line);
+  overflow: hidden;
+}
+.broadcast .hero-figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 34%;
+  filter: grayscale(1) contrast(1.15);
+  display: block;
+}
+.broadcast .duotone {
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  mix-blend-mode: multiply;
+  opacity: 0.34;
+  pointer-events: none;
+}
+:root[data-mode="light"] .broadcast .duotone {
+  mix-blend-mode: screen;
+  opacity: 0.26;
+}
+/* A solid chip rather than a text-shadow, so the credit's contrast is
+   measurable instead of depending on whatever pixel is behind it. */
+.broadcast .figure-credit {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  background: var(--bg);
+  color: var(--fg);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 5px 9px;
+}
+
+/* ── Ayah ───────────────────────────────────────── */
+.broadcast .panel-ayah .panel-inner {
+  text-align: center;
+}
+.broadcast .ayah-ar {
+  font-family: "Amiri", serif;
+  font-size: clamp(30px, 7vh, 62px);
+  line-height: 1.7;
+  margin: 0 auto clamp(18px, 3vh, 34px);
+  max-width: 22ch;
+}
+.broadcast .ayah-en {
+  font-size: clamp(16px, 2.6vh, 22px);
+  line-height: 1.6;
+  margin: 0 auto clamp(14px, 2vh, 22px);
+  max-width: 46ch;
+}
+.broadcast .ayah-ref {
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* ── Project panels ─────────────────────────────── */
+.broadcast .project-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: clamp(28px, 6vw, 90px);
+  align-items: center;
+}
+.broadcast .tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: clamp(8px, 1.6vh, 18px);
+}
+.broadcast .tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  padding: 5px 9px;
+}
+.broadcast .tag-star {
+  color: var(--accent-text);
+  border-color: var(--accent);
+}
+.broadcast .tag-wip::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 2.4s infinite;
+}
+.broadcast .project-text h2 {
+  font-size: clamp(34px, 8vh, 96px);
+  margin: 0 0 clamp(12px, 2.2vh, 24px);
+}
+.broadcast .project-body {
+  font-size: clamp(13px, 1.85vh, 18px);
+  line-height: 1.65;
+  color: var(--warm);
+  max-width: 48ch;
+  margin: 0;
+}
+.broadcast .project-rail {
+  border-left: 2px solid var(--accent);
+  padding-left: clamp(18px, 2.5vw, 34px);
+}
+.broadcast .rail-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: clamp(9px, 1.5vh, 17px) 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--fg);
+  text-decoration: none;
+  font-size: clamp(13px, 1.7vh, 17px);
+  transition: color 0.2s ease;
+}
+.broadcast a.rail-link:hover {
+  color: var(--accent-text);
+}
+.broadcast a.rail-link:hover .arrow {
+  transform: translate(2px, -2px);
+}
+.broadcast .rail-link .arrow {
+  transition: transform 0.2s ease;
+}
+.broadcast .rail-status {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 20px 0 0;
+}
+
+/* ── Founder + chapters grids ───────────────────── */
+.broadcast .cell-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+.broadcast .cell {
+  background: var(--bg);
+  padding: clamp(18px, 3vh, 34px) clamp(18px, 2vw, 30px);
+}
+.broadcast .cell-role {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.broadcast .cell h3 {
+  font-size: clamp(20px, 3.4vh, 32px);
+  margin: clamp(8px, 1.6vh, 18px) 0 clamp(6px, 1.2vh, 12px);
+}
+.broadcast .cell-body {
+  font-size: clamp(12px, 1.55vh, 14px);
+  line-height: 1.65;
+  color: var(--muted);
+  margin: 0 0 clamp(10px, 1.8vh, 20px);
+}
+.broadcast .cell-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin: 0;
+}
+.broadcast .cell-links a {
+  color: var(--fg);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent);
+  padding-bottom: 2px;
+}
+.broadcast .cell-links a:hover {
+  color: var(--accent-text);
+}
+
+.broadcast .chapter {
+  background: var(--bg);
+  display: block;
+  color: var(--fg);
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+.broadcast .chapter:hover {
+  background: var(--stripe);
+}
+.broadcast .chapter-media {
+  position: relative;
+  display: block;
+  height: clamp(96px, 20vh, 190px);
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+}
+.broadcast .chapter-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.1);
+  display: block;
+}
+/* Crop positions come from the design. Each portrait needs a different focal
+   point; centring them all cuts heads off. */
+.broadcast .chapter--showtime .chapter-media img {
+  object-position: center 32%;
+}
+.broadcast .chapter--mss .chapter-media img {
+  object-position: center 10%;
+}
+.broadcast .chapter--medina .chapter-media img {
+  object-position: center 30%;
+}
+.broadcast .chapter-body {
+  display: block;
+  padding: clamp(14px, 2.4vh, 26px) clamp(16px, 2vw, 28px)
+    clamp(16px, 2.8vh, 30px);
+}
+.broadcast .chapter-years {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.broadcast .chapter-name {
+  display: block;
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-size: clamp(20px, 3.4vh, 32px);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  margin: 12px 0 10px;
+}
+.broadcast .chapter-blurb {
+  display: block;
+  font-size: clamp(12px, 1.6vh, 14px);
+  line-height: 1.65;
+  color: var(--muted);
+  margin-bottom: clamp(10px, 1.8vh, 20px);
+}
+.broadcast .chapter-cta {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+
+/* ── Education ──────────────────────────────────── */
+.broadcast .panel-education h2 {
+  font-size: clamp(30px, 6vh, 68px);
+  margin: 0 0 clamp(16px, 3vh, 34px);
+}
+.broadcast .edu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid var(--line);
+}
+.broadcast .edu-row {
+  display: grid;
+  grid-template-columns: minmax(140px, 200px) minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(14px, 2.5vw, 40px);
+  align-items: baseline;
+  padding: clamp(7px, 1.35vh, 16px) 0;
+  border-top: 1px solid var(--line);
+}
+.broadcast .edu-when {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+.broadcast .edu-insha {
+  display: block;
+  font-style: italic;
+  text-transform: none;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.broadcast .edu-what {
+  font-size: clamp(14px, 2.1vh, 21px);
+}
+.broadcast .edu-where {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+/* Upcoming entries read as pending without dropping below AA — the row is
+   marked by a rule and the italic aside, not by opacity. */
+.broadcast .edu-upcoming .edu-what,
+.broadcast .edu-upcoming .edu-where {
+  color: var(--muted);
+}
+.broadcast .edu-upcoming {
+  /* The previous layout dimmed these rows with opacity: 0.45, which drags the
+     text under AA. The pending state is carried by the accent rule and the
+     "(in shaa Allah)" aside instead. */
+  opacity: 1;
+  border-left: 2px solid var(--accent);
+  padding-left: 14px;
+}
+
+/* ── CV panel ───────────────────────────────────── */
+.broadcast .panel-cv h2 {
+  font-size: clamp(32px, 7vh, 84px);
+  margin: 0 0 clamp(20px, 3.5vh, 40px);
+}
+.broadcast .cv-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2px;
+  background: var(--on-accent);
+  border: 2px solid var(--on-accent);
+  max-width: 900px;
+}
+.broadcast .cv-tile {
+  display: block;
+  background: var(--accent);
+  color: var(--on-accent);
+  padding: clamp(16px, 2.6vh, 30px) clamp(16px, 2vw, 28px);
+  text-decoration: none;
+}
+.broadcast .cv-title {
+  display: block;
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-size: clamp(18px, 3vh, 30px);
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+.broadcast .cv-sub {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  margin-top: 10px;
+}
+.broadcast .cv-tile .cv-soon {
+  display: inline-block;
+  margin-top: 12px;
+  border-color: var(--on-accent);
+  color: var(--on-accent);
+}
+.broadcast .cv-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 26px;
+  margin: clamp(22px, 3.5vh, 40px) 0 0;
+  padding-top: 18px;
+  border-top: 2px solid var(--on-accent);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.broadcast .cv-links a {
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 2px;
+}
+.broadcast .dedication {
+  font-size: 13px;
+  line-height: 1.7;
+  margin: clamp(16px, 2.5vh, 26px) 0 0;
+  max-width: 70ch;
+}
+
+/* ── Read more (kept from the card layout) ──────── */
+.broadcast .read-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.broadcast .read-more:hover {
+  color: var(--accent-text);
+}
+.broadcast .read-more[hidden] {
+  display: none;
+}
+.broadcast .project-body.clamped {
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* The floating theme panel, its reopen button and back-to-top all predate the
+   status bar; lift them clear of it so nothing overlaps at rest. */
+.broadcast .controls,
+.broadcast .controls-toggle,
+.broadcast .back-to-top {
+  bottom: calc(var(--status-h) + 18px);
+}
+
+/* Broadcast has no rounded corners anywhere — square off the controls chrome
+   that the previous design had built as pills and circles. */
+.broadcast .controls,
+.broadcast .controls-toggle,
+.broadcast .controls-close,
+.broadcast .back-to-top,
+.broadcast .swatch,
+.broadcast .swatch-colors,
+.broadcast .mode-seg,
+.broadcast .mode-seg button {
+  border-radius: 0;
+}
+.broadcast .swatch {
+  padding: 10px 4px 8px;
+}
+.broadcast .mode-seg button {
+  padding: 6px 14px;
+}
+.broadcast .controls-title,
+.broadcast .mode-label,
+.broadcast .swatch-label,
+.broadcast .locked-note {
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.broadcast .back-to-top {
+  z-index: 81;
+}
+.broadcast .controls,
+.broadcast .controls-toggle {
+  z-index: 95;
+}
+
+/* ── Status bar ─────────────────────────────────── */
+.statusbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 80;
+  height: var(--status-h, 40px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 0 var(--gutter, 24px);
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.statusbar-track {
+  position: relative;
+  flex: 1;
+  height: 2px;
+  background: var(--line);
+}
+.statusbar-track > span {
+  position: absolute;
+  inset: 0 100% 0 0;
+  background: var(--accent);
+}
+
+/* ── Responsive: below 1024px the rail becomes a column ── */
+@media (min-width: 1024px) {
+  .broadcast.is-rail .track {
+    height: calc(var(--panel-count, 12) * 100vh);
+  }
+  .broadcast.is-rail .viewport {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+  }
+  .broadcast.is-rail .rail {
+    flex-direction: row;
+    height: 100vh;
+    will-change: transform;
+  }
+  /* 100% of the viewport element, not 100vw: vw includes the vertical
+     scrollbar, so a vw-sized panel is ~15px wider than the visible area and
+     the rail drifts a little further out of register on every panel. */
+  .broadcast.is-rail .panel {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100vh;
+    min-height: 0;
+    border-top: 0;
+    border-left: 1px solid var(--line);
+  }
+  .broadcast.is-rail .panel:first-child {
+    border-left: 0;
+  }
+}
+
+@media (max-width: 1023px) {
+  .broadcast {
+    --marquee-h: 28px;
+    --status-h: 0px;
+  }
+  .marquee {
+    display: block;
+  }
+  .statusbar {
+    display: none;
+  }
+  .broadcast .topbar-domain {
+    display: none;
+  }
+  .broadcast .nav-toggle {
+    display: inline-block;
+  }
+  .broadcast .nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: var(--gutter);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    min-width: 190px;
+    padding: 16px 18px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+  }
+  .broadcast .nav.open {
+    display: flex;
+  }
+  .broadcast .nav-divider {
+    width: 100%;
+    height: 1px;
+  }
+  .broadcast .hero-inner,
+  .broadcast .project-inner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .broadcast .hero-figure {
+    height: min(42vh, 340px);
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+  .broadcast .cell-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .broadcast .edu-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+  .broadcast .edu-insha {
+    display: inline;
+    margin-left: 6px;
+  }
+  .broadcast .cv-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .broadcast .ghost-num {
+    font-size: clamp(120px, 26vh, 200px);
+  }
+  .broadcast .panel {
+    min-height: auto;
+  }
+  .broadcast .panel-inner {
+    padding-top: calc(var(--marquee-h) + var(--top-h) + 32px);
+    padding-bottom: 40px;
+  }
+  .broadcast .panel:not(:first-child) .panel-inner {
+    padding-top: 40px;
+  }
+}
+
+@media (max-width: 560px) {
+  .broadcast .project-rail {
+    border-left: 0;
+    border-top: 2px solid var(--accent);
+    padding-left: 0;
+    padding-top: 16px;
+    margin-top: 20px;
+  }
+  .broadcast .cv-links {
+    gap: 14px;
+  }
+}
+
+/* ── Reduced motion ─────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .scanlines {
+    animation: none;
+  }
+  .marquee-track {
+    animation: none;
+    transform: none;
+  }
+  .broadcast .tag-wip::before {
+    animation: none;
+  }
+  .broadcast *,
+  .broadcast *::before,
+  .broadcast *::after {
+    transition-duration: 0.01ms !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f6f4ef" />
+    <meta name="theme-color" content="#f4ede2" />
     <meta
       name="description"
       content="Saleem Toure Issifou — problemløser, utvikler, bistandsarbeider og prosjektleder. Portefølje, prosjekter og bakgrunn."
@@ -31,664 +31,802 @@
       fetchpriority="high"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Amiri&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Amiri&family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="assets/styles.css" />
   </head>
-  <body data-title-key="title">
-    <div class="page">
-      <header class="topbar">
-        <a class="brand" href="#top">Saleem <em>Toure</em> Issifou</a>
-        <button
-          type="button"
-          class="nav-toggle"
-          id="navToggle"
-          aria-label="Meny"
-          data-i18n="navToggle"
+  <!-- `broadcast` scopes the new design language; `is-rail` selects the
+       horizontal-panel layout. The sub-pages get `broadcast is-chapter`. -->
+  <body class="broadcast is-rail" data-title-key="title">
+    <a class="skip-link" href="#panel-hero" data-i18n="skipLink"
+      >Hopp til innhold</a
+    >
+
+    <!-- Decorative CRT scanline wash. Disabled under prefers-reduced-motion. -->
+    <div class="scanlines" aria-hidden="true"></div>
+
+    <!-- Marquee only appears on narrow screens, where the desktop status bar
+         is hidden. -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span data-i18n="marquee"></span>
+        <span data-i18n="marquee"></span>
+      </div>
+    </div>
+
+    <header class="topbar">
+      <a class="brand" href="index.html#panel-hero"
+        >Saleem <em>Toure</em> Issifou</a
+      >
+      <button
+        type="button"
+        class="nav-toggle"
+        id="navToggle"
+        aria-label="Meny"
+        aria-expanded="false"
+        aria-controls="nav"
+        data-i18n-aria="navToggle"
+        data-i18n="navToggle"
+      >
+        Meny
+      </button>
+      <nav class="nav" id="nav" aria-label="Hovedmeny" data-i18n-aria="navAria">
+        <a href="#panel-hero" data-nav="0" data-i18n="navHome">Hjem</a>
+        <a href="#panel-projects" data-nav="2" data-i18n="navProjects"
+          >Prosjekter</a
         >
-          Meny
-        </button>
-        <nav class="nav" id="nav" aria-label="Hovedmeny">
-          <a href="#top" data-target="top" data-i18n="navHome">Hjem</a>
-          <a href="#projects" data-target="projects" data-i18n="navProjects"
-            >Prosjekter</a
-          >
-          <a href="#founder" data-target="founder" data-i18n="navFounder"
-            >Gründer</a
-          >
-          <a href="#education" data-target="education" data-i18n="navEducation"
-            >Utdanning</a
-          >
-          <span class="nav-divider" aria-hidden="true"></span>
-          <a href="showtime.html" data-i18n="navShowtime">ShowTime</a>
-          <a href="mss.html" data-i18n="navMss">MSS</a>
-          <a href="medina.html" data-i18n="navMedina">Medina</a>
-        </nav>
-      </header>
+        <a href="#panel-founder" data-nav="7" data-i18n="navFounder">Gründer</a>
+        <a href="#panel-chapters" data-nav="8" data-i18n="navChapters"
+          >Kapitler</a
+        >
+        <a href="#panel-education" data-nav="9" data-i18n="navEducation"
+          >Utdanning</a
+        >
+        <a href="#panel-cv" data-nav="10" data-i18n="navCv">CV</a>
+        <span class="nav-divider" aria-hidden="true"></span>
+        <a href="showtime.html" data-i18n="navShowtime">ShowTime</a>
+        <a href="mss.html" data-i18n="navMss">MSS</a>
+        <a href="medina.html" data-i18n="navMedina">Medina</a>
+      </nav>
+      <span class="topbar-domain" aria-hidden="true">saleemtoure.com</span>
+    </header>
 
-      <section id="top" class="hero">
-        <div class="text-col">
-          <h1 data-i18n-html="h1">Hei, jeg er <em>Saleem</em>.</h1>
-          <p class="lede" data-i18n-html="lede">
-            <span class="kw" tabindex="0" data-tip="Jeg elsker å løse problemer"
-              >"Solver"</span
-            >
-            og
-            <span
-              class="kw"
-              tabindex="0"
-              data-tip="Jeg elsker å bygge mennesker, relasjoner og prosjekter"
-              >bygger</span
-            >
-            — utvikler, bistandsarbeider, prosjektleder, digital innholdsskaper,
-            og alt midt imellom.
-          </p>
-          <a href="#projects" class="cta">
-            <span data-i18n="ctaProjects">Mine prosjekter</span>
-            <span class="arrow" aria-hidden="true">↓</span>
-          </a>
-        </div>
-
-        <div class="portrait">
-          <img
-            src="assets/images/saleem.jpg"
-            alt="Portrett av Saleem Toure Issifou"
-            data-i18n-alt="portraitAlt"
-            width="600"
-            height="600"
-            decoding="async"
-            fetchpriority="high"
-          />
-        </div>
-        <div class="links">
-          <a
-            href="https://www.linkedin.com/in/saleem-toure-issifou"
-            target="_blank"
-            rel="noopener"
-          >
-            <svg
-              class="icon"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.95v5.66H9.37V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.26 2.37 4.26 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"
-              />
-            </svg>
-            <span class="label" data-i18n="linkLinkedin">LinkedIn</span>
-            <span class="ext" aria-hidden="true">↗</span>
-          </a>
-          <a
-            href="https://github.com/saleemtoure"
-            target="_blank"
-            rel="noopener"
-          >
-            <svg
-              class="icon"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.28-1.68-1.28-1.68-1.04-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.21-1.49 3.18-1.18 3.18-1.18.63 1.59.23 2.77.11 3.06.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.4-5.27 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"
-              />
-            </svg>
-            <span class="label" data-i18n="linkGithub">GitHub</span>
-            <span class="ext" aria-hidden="true">↗</span>
-          </a>
-          <button
-            type="button"
-            class="cv-link link-disabled"
-            id="cvButton"
-            aria-haspopup="dialog"
-            aria-controls="cvModal"
-            aria-disabled="true"
-            disabled
-          >
-            <svg
-              class="icon"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-              <polyline points="7 10 12 15 17 10" />
-              <line x1="12" y1="15" x2="12" y2="3" />
-            </svg>
-            <span class="label" data-i18n="linkCv">Last ned CV</span>
-            <span class="soon" data-i18n="projectSoon">Kommer snart</span>
-            <span class="ext" aria-hidden="true">…</span>
-          </button>
-        </div>
-      </section>
-
-      <section class="verse" aria-label="Quran 26:62">
-        <p class="verse-ar" lang="ar" dir="rtl">
-          قَالَ كَلَّا ۖ إِنَّ مَعِيَ رَبِّي سَيَهْدِينِ
-        </p>
-        <p class="verse-en" data-i18n="verseEn">
-          Han sa: «Nei, sannelig min Herre er med meg — Han skal veilede meg.»
-        </p>
-        <p class="verse-ref" data-i18n="verseRef">Surah Ash-Shu'arā · 26:62</p>
-      </section>
-
-      <section id="projects" class="section">
-        <div class="section-head">
-          <span class="section-num">01</span>
-          <h2 data-i18n="sectionProjects">Prosjekter</h2>
-          <a
-            class="section-link"
-            href="https://www.linkedin.com/in/saleem-toure-issifou/details/projects/"
-            target="_blank"
-            rel="noopener"
-          >
-            <span data-i18n="projectsSeeAll">Se prosjekter på LinkedIn</span>
-            <span class="arrow" aria-hidden="true">↗</span>
-          </a>
-        </div>
-        <p class="section-body" data-i18n="sectionProjectsLede">
-          Et utvalg av ting jeg har bygd, eller jobber med akkurat nå.
-        </p>
-        <div class="projects-wrap" id="projectsWrap">
-          <div class="projects-grid" id="projectsGrid">
-            <div class="project-card starred">
-              <div class="project-meta">
-                <span class="tag" data-i18n="projSweetsTag">Nettbutikk</span>
-                <span class="project-flags">
+    <main class="track" id="track">
+      <div class="viewport">
+        <div class="rail" id="rail">
+          <!-- 01 — Hero -->
+          <section class="panel panel-hero" id="panel-hero">
+            <div class="panel-inner hero-inner">
+              <div class="hero-text">
+                <p class="kicker" data-i18n="nowBroadcasting">Sender nå</p>
+                <h1 class="kinetic" data-i18n-html="h1">
+                  Hei, jeg er <em>Saleem</em>.
+                </h1>
+                <p class="lede" data-i18n-html="lede">
                   <span
-                    class="project-star"
-                    role="img"
-                    data-i18n-aria="projStarred"
-                    >★</span
+                    class="kw"
+                    tabindex="0"
+                    data-tip="Jeg elsker å løse problemer"
+                    >"Solver"</span
                   >
-                </span>
-              </div>
-              <h3>StoureSweets Webshop</h3>
-              <p data-i18n="projSweetsBody">
-                En komplett ende-til-ende nettbutikk i React, med betaling og
-                frakt via Vipps, Posten og Mollie APIer. Ikke-tekniske brukere
-                styrer hele driften fra et fullverdig admin-dashbord, med
-                automatisk lagersporing og et innebygd bookingsystem.
-              </p>
-              <a
-                class="project-link"
-                href="https://stouresweets.no/"
-                target="_blank"
-                rel="noopener"
-              >
-                <span data-i18n="projectView">Se det live her</span>
-                <span class="arrow" aria-hidden="true">↗</span>
-              </a>
-              <a
-                class="project-link"
-                href="https://www.linkedin.com/posts/saleem-toure-issifou_%F0%9D%97%A3%F0%9D%97%BF%F0%9D%97%BC%F0%9D%97%BC%F0%9D%97%B3-%F0%9D%97%94%F0%9D%97%9C-%F0%9D%97%B6%F0%9D%98%80-%F0%9D%97%B4%F0%9D%97%BC%F0%9D%97%B6%F0%9D%97%BB%F0%9D%97%B4-%F0%9D%98%81%F0%9D%97%BC-%F0%9D%98%81%F0%9D%97%AE-ugcPost-7475278525210746880-qC8x/"
-                target="_blank"
-                rel="noopener"
-              >
-                <span data-i18n="projSweetsPost">LinkedIn-innlegg</span>
-                <span class="arrow" aria-hidden="true">↗</span>
-              </a>
-            </div>
-
-            <div class="project-card starred">
-              <div class="project-meta">
-                <span class="tag" data-i18n="projMajmioTag">Plattform</span>
-                <span class="project-flags">
+                  og
                   <span
-                    class="project-star"
-                    role="img"
-                    data-i18n-aria="projStarred"
-                    >★</span
+                    class="kw"
+                    tabindex="0"
+                    data-tip="Jeg elsker å bygge mennesker, relasjoner og prosjekter"
+                    >bygger</span
                   >
-                </span>
-              </div>
-              <h3>Majmio</h3>
-              <p data-i18n="projMajmioBody">
-                Majmio samler medlemshåndtering og styrevalg for organisasjon på
-                ett sted — til lav pris, uten å plage deg med funksjoner du ikke
-                trenger.
-              </p>
-              <a
-                class="project-link"
-                href="https://majmio.no/"
-                target="_blank"
-                rel="noopener"
-              >
-                <span data-i18n="projectView">Se det live her</span>
-                <span class="arrow" aria-hidden="true">↗</span>
-              </a>
-              <a
-                class="project-link"
-                href="https://www.linkedin.com/company/majmio"
-                target="_blank"
-                rel="noopener"
-              >
-                <span data-i18n="projMajmioLinkedin">LinkedIn</span>
-                <span class="arrow" aria-hidden="true">↗</span>
-              </a>
-            </div>
-
-            <div class="project-card starred">
-              <div class="project-meta">
-                <span class="tag" data-i18n="projHicssTag">Forskning</span>
-                <span class="project-flags">
-                  <span
-                    class="project-star"
-                    role="img"
-                    data-i18n-aria="projStarred"
-                    >★</span
+                  — utvikler, bistandsarbeider, prosjektleder, digital
+                  innholdsskaper, og alt midt imellom.
+                </p>
+                <div class="chip-row">
+                  <a
+                    class="chip"
+                    href="https://www.linkedin.com/in/saleem-toure-issifou"
+                    target="_blank"
+                    rel="noopener"
+                    >LinkedIn <span aria-hidden="true">↗</span></a
                   >
-                </span>
-              </div>
-              <h3 data-i18n="projHicssTitle">HICSS — Forskningsartikkel</h3>
-              <p data-i18n="projHicssBody">
-                Førsteforfatter på en artikkel sammen med to professorer og en
-                masterstudent om spillbasert læring i høyere utdanning. Fun
-                fact: Jeg er verifisert på ResearchGate.
-              </p>
-              <a
-                class="project-link"
-                href="https://www.researchgate.net/publication/403827842_Game-Based_Learning_An_Experiential_Card_Game_in_Higher_Education"
-                target="_blank"
-                rel="noopener"
-              >
-                <span data-i18n="projectRead">Les artikkelen</span>
-                <span class="arrow" aria-hidden="true">↗</span>
-              </a>
-            </div>
-
-            <div class="project-card">
-              <div class="project-meta">
-                <span class="tag" data-i18n="projTaarufTag">Plattform</span>
-                <span class="project-wip" data-i18n="projWip"
-                  >Under arbeid</span
-                >
-              </div>
-              <h3>Taaruf</h3>
-              <p id="taarufBody" data-clamp data-i18n="projTaarufBody">
-                Taaruf er en plattform laget for å hjelpe muslimer å ha mer
-                meningsfulle og strukturerte samtaler før ekteskapet. I stedet
-                for å lene seg på spredte råd på nettet, guider Taaruf to
-                personer gjennom kuraterte spørsmål om tro, familie, økonomi,
-                kommunikasjon, livsstil og mål. Begge svarer hver for seg, med
-                en betrodd tredjeperson (mahram) inkludert — slik at de forstår
-                hverandre bedre og finner de viktige temaene de bør snakke om
-                før ekteskapet.
-              </p>
-              <button
-                type="button"
-                class="read-more"
-                aria-expanded="false"
-                aria-controls="taarufBody"
-                hidden
-              >
-                <span data-i18n="readMore">Les mer</span>
-                <span class="rm-arrow" aria-hidden="true">↓</span>
-              </button>
-              <a
-                class="project-link"
-                href="https://taaruf.dev/"
-                target="_blank"
-                rel="noopener"
-              >
-                <span data-i18n="projTaarufSite">Landingsside</span>
-                <span class="arrow" aria-hidden="true">↗</span>
-              </a>
-              <a
-                class="project-link"
-                href="https://app.taaruf.dev/"
-                target="_blank"
-                rel="noopener"
-              >
-                <span data-i18n="projTaarufApp">Se det live her</span>
-                <span class="arrow" aria-hidden="true">↗</span>
-              </a>
-            </div>
-
-            <div class="project-card starred">
-              <div class="project-meta">
-                <span class="tag" data-i18n="projSecretTag">Hemmelig</span>
-                <span class="project-flags">
-                  <span class="project-wip" data-i18n="projWip"
-                    >Under arbeid</span
+                  <a
+                    class="chip"
+                    href="https://github.com/saleemtoure"
+                    target="_blank"
+                    rel="noopener"
+                    >GitHub <span aria-hidden="true">↗</span></a
                   >
-                  <span
-                    class="project-star"
-                    role="img"
-                    data-i18n-aria="projStarred"
-                    >★</span
-                  >
-                </span>
-              </div>
-              <h3 data-i18n="projSecretTitle">Hemmelig prosjekt</h3>
-              <p data-i18n="projSecretBody">
-                Kan ikke dele så mye om denne ennå — noe jeg og teamet gleder
-                oss veldig til å vise verden.
-              </p>
-              <a
-                class="project-link link-disabled"
-                href="#"
-                aria-disabled="true"
-              >
-                <span data-i18n="projectSoon">Kommer snart</span>
-                <span class="arrow" aria-hidden="true">…</span>
-              </a>
-            </div>
-
-            <div class="project-card">
-              <div class="project-meta">
-                <span class="tag" data-i18n="projTalabTag">Plattform</span>
-                <span class="project-wip" data-i18n="projWip"
-                  >Under arbeid</span
-                >
-              </div>
-              <h3>Talab</h3>
-              <p data-i18n="projTalabBody">
-                En enkel oversikt over imamer, khatiber, lærere og
-                foredragsholdere som din moské, organisasjon eller event kan
-                nytte seg av.
-              </p>
-              <a
-                class="project-link link-disabled"
-                href="#"
-                aria-disabled="true"
-              >
-                <span data-i18n="projectSoon">Kommer snart</span>
-                <span class="arrow" aria-hidden="true">…</span>
-              </a>
-            </div>
-          </div>
-          <div class="projects-more">
-            <button
-              type="button"
-              id="projectsMoreBtn"
-              aria-expanded="false"
-              aria-controls="projectsGrid"
-            >
-              <span data-i18n="projectsMore">Klikk for å se flere</span>
-              <span class="pm-arrow" aria-hidden="true">↓</span>
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <section id="founder" class="section">
-        <div class="section-head">
-          <span class="section-num">02</span>
-          <h2 data-i18n="sectionFounder">Gründer</h2>
-        </div>
-        <p class="section-body" data-i18n="sectionFounderLede">
-          Ting jeg har vært med på å starte opp fra bunnen.
-        </p>
-        <div class="projects-grid founder-grid">
-          <div class="project-card founder-card">
-            <button
-              type="button"
-              class="founder-card-head"
-              aria-expanded="false"
-            >
-              <h3 data-i18n="founderMajmioTitle">Majmio</h3>
-              <span class="founder-card-chevron" aria-hidden="true">↓</span>
-            </button>
-            <div class="founder-card-panel">
-              <div class="founder-card-inner">
-                <div class="project-meta">
-                  <span class="tag" data-i18n="founderMajmioTag"
-                    >Medgründer</span
-                  >
+                  <!-- CV is parked until the PDFs exist; see the CV panel. -->
+                  <span class="chip is-disabled" aria-disabled="true">
+                    <span data-i18n="linkCv">Last ned CV</span>
+                    <span class="soon" data-i18n="projectSoon"
+                      >Kommer snart</span
+                    >
+                  </span>
                 </div>
-                <p data-i18n="founderMajmioBody">
+              </div>
+              <figure class="hero-figure">
+                <img
+                  src="assets/images/saleem.jpg"
+                  alt="Portrett av Saleem Toure Issifou"
+                  data-i18n-alt="portraitAlt"
+                  width="600"
+                  height="600"
+                  decoding="async"
+                  fetchpriority="high"
+                />
+                <span class="duotone" aria-hidden="true"></span>
+              </figure>
+            </div>
+          </section>
+
+          <!-- 02 — Ayah -->
+          <section
+            class="panel panel-accent panel-ayah"
+            aria-label="Quran 26:62"
+          >
+            <div class="panel-inner">
+              <p class="ayah-ar" lang="ar" dir="rtl">
+                قَالَ كَلَّا ۖ إِنَّ مَعِيَ رَبِّي سَيَهْدِينِ
+              </p>
+              <p class="ayah-en" data-i18n="verseEn">
+                Han sa: «Nei, sannelig min Herre er med meg — Han skal veilede
+                meg.»
+              </p>
+              <p class="ayah-ref" data-i18n="verseRef">
+                Surah Ash-Shu'arā · 26:62
+              </p>
+            </div>
+          </section>
+
+          <!-- 03 — StoureSweets -->
+          <section class="panel panel-project" id="panel-projects">
+            <span class="ghost-num" aria-hidden="true">01</span>
+            <div class="panel-inner project-inner">
+              <div class="project-text">
+                <p class="kicker">
+                  <span class="star" aria-hidden="true">★</span>
+                  <span class="sr-only" data-i18n="projStarred"
+                    >Utvalgt prosjekt</span
+                  >
+                  <span data-i18n="projSweetsKicker">Nettbutikk — live</span>
+                </p>
+                <h2>StoureSweets</h2>
+                <p class="project-body" data-clamp data-i18n="projSweetsBody">
+                  En komplett ende-til-ende nettbutikk i React, med betaling og
+                  frakt via Vipps, Posten og Mollie APIer. Ikke-tekniske brukere
+                  styrer hele driften fra et fullverdig admin-dashbord, med
+                  automatisk lagersporing og et innebygd bookingsystem.
+                </p>
+                <button
+                  type="button"
+                  class="read-more"
+                  aria-expanded="false"
+                  hidden
+                >
+                  <span data-i18n="readMore">Les mer</span>
+                  <span class="rm-arrow" aria-hidden="true">↓</span>
+                </button>
+              </div>
+              <div class="project-rail">
+                <a
+                  class="rail-link"
+                  href="https://stouresweets.no/"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <span data-i18n="projectView">Se det live her</span>
+                  <span class="arrow" aria-hidden="true">↗</span>
+                </a>
+                <a
+                  class="rail-link"
+                  href="https://www.linkedin.com/posts/saleem-toure-issifou_%F0%9D%97%A3%F0%9D%97%BF%F0%9D%97%BC%F0%9D%97%BC%F0%9D%97%B3-%F0%9D%97%94%F0%9D%97%9C-%F0%9D%97%B6%F0%9D%98%80-%F0%9D%97%B4%F0%9D%97%BC%F0%9D%97%B6%F0%9D%97%BB%F0%9D%97%B4-%F0%9D%98%81%F0%9D%97%BC-%F0%9D%98%81%F0%9D%97%AE-ugcPost-7475278525210746880-qC8x/"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <span data-i18n="projSweetsPost">LinkedIn-innlegg</span>
+                  <span class="arrow" aria-hidden="true">↗</span>
+                </a>
+                <p class="rail-status" data-i18n="projSweetsStatus">
+                  Levert · i drift
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- 04 — Majmio -->
+          <section class="panel panel-project">
+            <span class="ghost-num" aria-hidden="true">02</span>
+            <div class="panel-inner project-inner">
+              <div class="project-text">
+                <p class="kicker">
+                  <span class="star" aria-hidden="true">★</span>
+                  <span class="sr-only" data-i18n="projStarred"
+                    >Utvalgt prosjekt</span
+                  >
+                  <span data-i18n="projMajmioKicker">Plattform — live</span>
+                </p>
+                <h2>Majmio</h2>
+                <p class="project-body" data-clamp data-i18n="projMajmioBody">
                   Majmio samler medlemshåndtering og styrevalg for organisasjon
                   på ett sted — til lav pris, uten å plage deg med funksjoner du
                   ikke trenger.
                 </p>
-                <div class="founder-card-links">
-                  <a
-                    class="project-link"
-                    href="https://majmio.no/"
-                    target="_blank"
-                    rel="noopener"
-                  >
-                    <span data-i18n="founderMajmioWeb">Nettside</span>
-                    <span class="arrow" aria-hidden="true">↗</span>
-                  </a>
-                  <a
-                    class="project-link"
-                    href="https://www.linkedin.com/company/majmio"
-                    target="_blank"
-                    rel="noopener"
-                  >
-                    <span data-i18n="founderMajmioLinkedin">LinkedIn</span>
-                    <span class="arrow" aria-hidden="true">↗</span>
-                  </a>
-                </div>
+                <button
+                  type="button"
+                  class="read-more"
+                  aria-expanded="false"
+                  hidden
+                >
+                  <span data-i18n="readMore">Les mer</span>
+                  <span class="rm-arrow" aria-hidden="true">↓</span>
+                </button>
               </div>
-            </div>
-          </div>
-
-          <div class="project-card founder-card">
-            <button
-              type="button"
-              class="founder-card-head"
-              aria-expanded="false"
-            >
-              <h3 data-i18n="founderSecretTitle">Hemmelig</h3>
-              <span class="project-wip" data-i18n="projWip">Under arbeid</span>
-              <span class="founder-card-chevron" aria-hidden="true">↓</span>
-            </button>
-            <div class="founder-card-panel">
-              <div class="founder-card-inner">
-                <div class="project-meta">
-                  <span class="tag" data-i18n="founderSecretTag">Hemmelig</span>
-                </div>
-                <p data-i18n="founderSecretBody">
-                  Denne er fortsatt hemmelig — knyttet til det hemmelige
-                  prosjektet 😉
+              <div class="project-rail">
+                <a
+                  class="rail-link"
+                  href="https://majmio.no/"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <span data-i18n="projectView">Se det live her</span>
+                  <span class="arrow" aria-hidden="true">↗</span>
+                </a>
+                <a
+                  class="rail-link"
+                  href="https://www.linkedin.com/company/majmio"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <span data-i18n="projMajmioLinkedin">LinkedIn</span>
+                  <span class="arrow" aria-hidden="true">↗</span>
+                </a>
+                <p class="rail-status" data-i18n="projMajmioStatus">
+                  Medgründer · levert
                 </p>
-                <div class="founder-card-links">
-                  <a
-                    class="project-link link-disabled"
-                    href="#"
-                    aria-disabled="true"
-                  >
-                    <span data-i18n="projectSoon">Kommer snart</span>
-                    <span class="arrow" aria-hidden="true">…</span>
-                  </a>
-                </div>
               </div>
             </div>
-          </div>
+          </section>
 
-          <div class="project-card founder-card">
-            <button
-              type="button"
-              class="founder-card-head"
-              aria-expanded="false"
-            >
-              <h3 data-i18n="founderMitekTitle">MiTek — Muslimer i Tek</h3>
-              <span class="project-wip" data-i18n="projWip">Under arbeid</span>
-              <span class="founder-card-chevron" aria-hidden="true">↓</span>
-            </button>
-            <div class="founder-card-panel">
-              <div class="founder-card-inner">
-                <div class="project-meta">
-                  <span class="tag" data-i18n="founderMitekTag"
-                    >Medgründer</span
+          <!-- 05 — HICSS -->
+          <section class="panel panel-project">
+            <span class="ghost-num" aria-hidden="true">03</span>
+            <div class="panel-inner project-inner">
+              <div class="project-text">
+                <p class="kicker">
+                  <span class="star" aria-hidden="true">★</span>
+                  <span class="sr-only" data-i18n="projStarred"
+                    >Utvalgt prosjekt</span
                   >
-                </div>
-                <p data-i18n="founderMitekBody">
-                  MiTek samler norske muslimer innen teknologi for
-                  nettverksbygging, faglig utvikling, mentorordninger og
-                  samarbeid på tvers av erfaring og bakgrunn.
+                  <span data-i18n="projHicssKicker">Forskning — publisert</span>
                 </p>
-                <div class="founder-card-links">
-                  <a
-                    class="project-link"
-                    href="https://www.linkedin.com/company/muslimeritek"
-                    target="_blank"
-                    rel="noopener"
+                <h2 data-i18n="projHicssTitle">HICSS — Forskningsartikkel</h2>
+                <p class="project-body" data-clamp data-i18n="projHicssBody">
+                  Førsteforfatter på en artikkel sammen med to professorer og en
+                  masterstudent om spillbasert læring i høyere utdanning. Fun
+                  fact: Jeg er verifisert på ResearchGate.
+                </p>
+                <button
+                  type="button"
+                  class="read-more"
+                  aria-expanded="false"
+                  hidden
+                >
+                  <span data-i18n="readMore">Les mer</span>
+                  <span class="rm-arrow" aria-hidden="true">↓</span>
+                </button>
+              </div>
+              <div class="project-rail">
+                <a
+                  class="rail-link"
+                  href="https://www.researchgate.net/publication/403827842_Game-Based_Learning_An_Experiential_Card_Game_in_Higher_Education"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <span data-i18n="projectRead">Les artikkelen</span>
+                  <span class="arrow" aria-hidden="true">↗</span>
+                </a>
+                <p class="rail-status" data-i18n="projHicssStatus">
+                  Førsteforfatter
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- 06 — Taaruf -->
+          <section class="panel panel-project">
+            <span class="ghost-num" aria-hidden="true">04</span>
+            <div class="panel-inner project-inner">
+              <div class="project-text">
+                <p class="kicker" data-i18n="projTaarufKicker">
+                  Plattform — under arbeid
+                </p>
+                <h2>Taaruf</h2>
+                <p class="project-body" data-clamp data-i18n="projTaarufBody">
+                  Taaruf er en plattform laget for å hjelpe muslimer å ha mer
+                  meningsfulle og strukturerte samtaler før ekteskapet. I stedet
+                  for å lene seg på spredte råd på nettet, guider Taaruf to
+                  personer gjennom kuraterte spørsmål om tro, familie, økonomi,
+                  kommunikasjon, livsstil og mål. Begge svarer hver for seg, med
+                  en betrodd tredjeperson (mahram) inkludert — slik at de
+                  forstår hverandre bedre og finner de viktige temaene de bør
+                  snakke om før ekteskapet.
+                </p>
+                <button
+                  type="button"
+                  class="read-more"
+                  aria-expanded="false"
+                  hidden
+                >
+                  <span data-i18n="readMore">Les mer</span>
+                  <span class="rm-arrow" aria-hidden="true">↓</span>
+                </button>
+              </div>
+              <div class="project-rail">
+                <a
+                  class="rail-link"
+                  href="https://taaruf.dev/"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <span data-i18n="projTaarufSite">Landingsside</span>
+                  <span class="arrow" aria-hidden="true">↗</span>
+                </a>
+                <a
+                  class="rail-link"
+                  href="https://app.taaruf.dev/"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <span data-i18n="projTaarufApp">Se det live her</span>
+                  <span class="arrow" aria-hidden="true">↗</span>
+                </a>
+                <p class="rail-status" data-i18n="projTaarufStatus">
+                  Under arbeid
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- 07 — Secret -->
+          <section class="panel panel-project">
+            <span class="ghost-num" aria-hidden="true">05</span>
+            <div class="panel-inner project-inner">
+              <div class="project-text">
+                <p class="kicker">
+                  <span class="star" aria-hidden="true">★</span>
+                  <span class="sr-only" data-i18n="projStarred"
+                    >Utvalgt prosjekt</span
                   >
-                    <span data-i18n="founderMitekLinkedin">LinkedIn</span>
-                    <span class="arrow" aria-hidden="true">↗</span>
-                  </a>
-                  <a
-                    class="project-link"
-                    href="https://www.instagram.com/muslimeritek"
-                    target="_blank"
-                    rel="noopener"
+                  <span data-i18n="projSecretKicker"
+                    >Hemmelig — under arbeid</span
                   >
-                    <span data-i18n="founderMitekLink">Instagram</span>
-                    <span class="arrow" aria-hidden="true">↗</span>
-                  </a>
-                  <a
-                    class="project-link link-disabled"
-                    href="#"
-                    aria-disabled="true"
-                  >
-                    <span data-i18n="founderMitekWeb">Nettside</span>
-                    <span class="arrow" aria-hidden="true">…</span>
-                  </a>
+                </p>
+                <h2 data-i18n="projSecretTitle">Hemmelig prosjekt</h2>
+                <p class="project-body" data-clamp data-i18n="projSecretBody">
+                  Kan ikke dele så mye om denne ennå — noe jeg og teamet gleder
+                  oss veldig til å vise verden.
+                </p>
+                <button
+                  type="button"
+                  class="read-more"
+                  aria-expanded="false"
+                  hidden
+                >
+                  <span data-i18n="readMore">Les mer</span>
+                  <span class="rm-arrow" aria-hidden="true">↓</span>
+                </button>
+              </div>
+              <div class="project-rail">
+                <span class="rail-link is-disabled" aria-disabled="true">
+                  <span data-i18n="projectSoon">Kommer snart</span>
+                  <span class="arrow" aria-hidden="true">…</span>
+                </span>
+                <p class="rail-status" data-i18n="projSecretStatus">
+                  Kommer snart
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!--
+            Talab is parked for now. The projTalab* strings are still in the
+            i18n dictionary, so restoring it is just a matter of uncommenting
+            this block and bumping the data-nav indices on the nav links below.
+
+          <section class="panel panel-project">
+            <span class="ghost-num" aria-hidden="true">06</span>
+            <div class="panel-inner project-inner">
+              <div class="project-text">
+                <p class="kicker" data-i18n="projTalabKicker">
+                  Plattform under arbeid
+                </p>
+                <h2>Talab</h2>
+                <p class="project-body" data-clamp data-i18n="projTalabBody">
+                  En enkel oversikt over imamer, khatiber, lærere og
+                  foredragsholdere som din moské, organisasjon eller event kan
+                  nytte seg av.
+                </p>
+                <button
+                  type="button"
+                  class="read-more"
+                  aria-expanded="false"
+                  hidden
+                >
+                  <span data-i18n="readMore">Les mer</span>
+                  <span class="rm-arrow" aria-hidden="true">↓</span>
+                </button>
+              </div>
+              <div class="project-rail">
+                <span class="rail-link is-disabled" aria-disabled="true">
+                  <span data-i18n="projectSoon">Kommer snart</span>
+                  <span class="arrow" aria-hidden="true">…</span>
+                </span>
+                <p class="rail-status" data-i18n="projTalabStatus">
+                  Under arbeid
+                </p>
+              </div>
+            </div>
+          </section>
+          -->
+
+          <!-- 08 — Founder -->
+          <section class="panel panel-founder" id="panel-founder">
+            <span class="ghost-num ghost-right" aria-hidden="true">02</span>
+            <div class="panel-inner">
+              <div class="section-head">
+                <div>
+                  <p class="kicker">
+                    <span aria-hidden="true">02 — </span
+                    ><span data-i18n="sectionFounder">Gründer</span>
+                  </p>
+                  <h2 data-i18n="sectionFounderLede">
+                    Ting jeg har vært med på å starte opp fra bunnen.
+                  </h2>
                 </div>
               </div>
+              <div class="cell-grid">
+                <article class="cell">
+                  <p class="cell-role" data-i18n="founderMajmioTag">Gründer</p>
+                  <h3 data-i18n="founderMajmioTitle">Majmio</h3>
+                  <p class="cell-body" data-i18n="founderMajmioBody">
+                    Majmio samler medlemshåndtering og styrevalg for
+                    organisasjon på ett sted — til lav pris, uten å plage deg
+                    med funksjoner du ikke trenger.
+                  </p>
+                  <p class="cell-links">
+                    <a
+                      href="https://majmio.no/"
+                      target="_blank"
+                      rel="noopener"
+                      data-i18n="founderMajmioWeb"
+                      >Nettside</a
+                    >
+                    <a
+                      href="https://www.linkedin.com/company/majmio"
+                      target="_blank"
+                      rel="noopener"
+                      data-i18n="founderMajmioLinkedin"
+                      >LinkedIn</a
+                    >
+                  </p>
+                </article>
+                <article class="cell">
+                  <p class="cell-role">
+                    <span data-i18n="founderSecretTag">Medgründer</span>
+                    <span class="tag tag-wip" data-i18n="projWip"
+                      >Under arbeid</span
+                    >
+                  </p>
+                  <h3 data-i18n="founderSecretTitle">Hemmelig</h3>
+                  <p class="cell-body" data-i18n="founderSecretBody">
+                    Denne er fortsatt hemmelig — knyttet til det hemmelige
+                    prosjektet 😉
+                  </p>
+                  <p class="cell-links">
+                    <span class="is-disabled" aria-disabled="true"
+                      ><span data-i18n="projectSoon">Kommer snart</span></span
+                    >
+                  </p>
+                </article>
+                <article class="cell">
+                  <p class="cell-role">
+                    <span data-i18n="founderMitekTag">Medgründer</span>
+                    <span class="tag tag-wip" data-i18n="projWip"
+                      >Under arbeid</span
+                    >
+                  </p>
+                  <h3 data-i18n="founderMitekTitle">MiTek — Muslimer i Tek</h3>
+                  <p class="cell-body" data-i18n="founderMitekBody">
+                    MiTek samler norske muslimer innen teknologi for
+                    nettverksbygging, faglig utvikling, mentorordninger og
+                    samarbeid på tvers av erfaring og bakgrunn.
+                  </p>
+                  <p class="cell-links">
+                    <a
+                      href="https://www.linkedin.com/company/muslimeritek"
+                      target="_blank"
+                      rel="noopener"
+                      data-i18n="founderMitekLinkedin"
+                      >LinkedIn</a
+                    >
+                    <a
+                      href="https://www.instagram.com/muslimeritek"
+                      target="_blank"
+                      rel="noopener"
+                      data-i18n="founderMitekLink"
+                      >Instagram</a
+                    >
+                    <span class="is-disabled" aria-disabled="true"
+                      ><span data-i18n="founderMitekWeb">Nettside</span></span
+                    >
+                  </p>
+                </article>
+              </div>
             </div>
-          </div>
-        </div>
-      </section>
+          </section>
 
-      <section id="education" class="section">
-        <div class="section-head">
-          <span class="section-num">03</span>
-          <h2 data-i18n="sectionEducation">Utdanning</h2>
-        </div>
-        <div class="timeline">
-          <div class="timeline-item edu-upcoming">
-            <div class="timeline-when">
-              2028 — 2032<span class="edu-insha">(in shaa Allah)</span>
-            </div>
-            <div class="timeline-what">
-              <h3 data-i18n="eduIslamTitle">BSc Islam: TBA</h3>
-              <div class="where" data-i18n="eduArabicWhere">
-                Islamic University of Madinah
+          <!-- 09 — Chapters -->
+          <section class="panel panel-chapters" id="panel-chapters">
+            <div class="panel-inner">
+              <div class="section-head">
+                <div>
+                  <p class="kicker">
+                    <span aria-hidden="true">03 — </span
+                    ><span data-i18n="chaptersLabel">Kapitler</span>
+                  </p>
+                  <h2 data-i18n="chaptersTitle">Sidene bak personen.</h2>
+                </div>
+              </div>
+              <div class="cell-grid chapter-grid">
+                <a class="chapter chapter--showtime" href="showtime.html">
+                  <span class="chapter-media">
+                    <img
+                      src="assets/images/showtime.jpg"
+                      alt="ShowTime Norge"
+                      data-i18n-alt="showtimeImgAlt"
+                      width="600"
+                      height="600"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <span class="duotone" aria-hidden="true"></span>
+                  </span>
+                  <span class="chapter-body">
+                    <span class="chapter-years" data-i18n="chShowtimeYears"
+                      >2021 — 2025</span
+                    >
+                    <span class="chapter-name" data-i18n="navShowtime"
+                      >ShowTime</span
+                    >
+                    <span class="chapter-blurb" data-i18n="chShowtimeBlurb">
+                      Som 17-åring startet jeg ShowTimeNorge — Skandinavias
+                      første basketball-mediehus i sitt slag, og det største på
+                      sin tid.
+                    </span>
+                    <span class="chapter-cta"
+                      ><span data-i18n="chShowtimeCta">Les historien</span>
+                      <span aria-hidden="true">↗</span></span
+                    >
+                  </span>
+                </a>
+                <a class="chapter chapter--mss" href="mss.html">
+                  <span class="chapter-media">
+                    <img
+                      src="assets/images/mss.jpeg"
+                      alt="MSS — Muslimsk Studentsamfunn"
+                      data-i18n-alt="mssImgAlt"
+                      width="600"
+                      height="600"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <span class="duotone" aria-hidden="true"></span>
+                  </span>
+                  <span class="chapter-body">
+                    <span class="chapter-years" data-i18n="chMssYears"
+                      >2023 — 2026</span
+                    >
+                    <span class="chapter-name" data-i18n="navMss">MSS</span>
+                    <span class="chapter-blurb" data-i18n="chMssBlurb">
+                      Alhamdulillah for Muslimsk Studentsamfunn gjennom
+                      studietiden min. Frivillig, så styremedlem, så leder i den
+                      største og eldste studentforeningen for norske muslimer.
+                    </span>
+                    <span class="chapter-cta"
+                      ><span data-i18n="chMssCta">Se tidslinjen</span>
+                      <span aria-hidden="true">↗</span></span
+                    >
+                  </span>
+                </a>
+                <a class="chapter chapter--medina" href="medina.html">
+                  <span class="chapter-media">
+                    <img
+                      src="assets/images/madinah.jpg"
+                      alt="Medina"
+                      data-i18n-alt="medinaImgAlt"
+                      width="600"
+                      height="600"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <span class="duotone" aria-hidden="true"></span>
+                  </span>
+                  <span class="chapter-body">
+                    <span class="chapter-years" data-i18n="chMedinaYears"
+                      >2026 — ?</span
+                    >
+                    <span class="chapter-name" data-i18n="navMedina"
+                      >Medina</span
+                    >
+                    <span class="chapter-blurb" data-i18n="chMedinaBlurb">
+                      En ny og annerledes vei. Å forlate tryggheten i søte Norge
+                      for å jage noe dypere og utvikle meg mer — in shaa Allah.
+                    </span>
+                    <span class="chapter-cta"
+                      ><span data-i18n="chMedinaCta">Se siden</span>
+                      <span aria-hidden="true">↗</span></span
+                    >
+                  </span>
+                </a>
               </div>
             </div>
-          </div>
-          <div class="timeline-item edu-upcoming">
-            <div class="timeline-when">
-              2026 — 2027<span class="edu-insha">(in shaa Allah)</span>
-            </div>
-            <div class="timeline-what">
-              <h3 data-i18n="eduArabic24Title">Arabisk — nivå 2–4 (fysisk)</h3>
-              <div class="where" data-i18n="eduArabicWhere">
-                Islamic University of Madinah
-              </div>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-when">2023 — 2026</div>
-            <div class="timeline-what">
-              <h3 data-i18n="eduBscTitle">BSc Informatikk</h3>
-              <div class="where" data-i18n="eduBscWhere">
-                Universitetet i Oslo · Informatikk: Digital økonomi og ledelse
-              </div>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-when">2025 — 2026</div>
-            <div class="timeline-what">
-              <h3 data-i18n="eduDialogTitle">Årsstudium «DialogPilot»</h3>
-              <div class="where" data-i18n="eduDialogWhere">
-                Universitetet i Oslo
-              </div>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-when">2025</div>
-            <div class="timeline-what">
-              <h3 data-i18n="eduArabicTitle">Arabisk — nivå 1 (nettbasert)</h3>
-              <div class="where" data-i18n="eduArabicWhere">
-                Islamic University of Madinah
-              </div>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-when">2025</div>
-            <div class="timeline-what">
-              <h3 data-i18n="eduSecurityTitle">Vekterkurs</h3>
-              <div class="where" data-i18n="eduSecurityWhere">Vectrocon</div>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-when">2020 — 2023</div>
-            <div class="timeline-what">
-              <h3 data-i18n="eduVglTitle">Valle Hovin VGS</h3>
-              <div class="where" data-i18n="eduVglWhere">
-                Studiespesialisering realfag · Toppidrett basketball
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+          </section>
 
-      <footer>
-        <p class="footer-note" data-i18n="footerNote">
-          Temaene på siden er dedikert til ulike viktige kapitler i livet mitt.
-          IR-temaet er en hilsen til tiden min som frivillig og ansatt hos
-          Islamic Relief ❤
-        </p>
-        <div class="domain">saleemtoure.com</div>
-      </footer>
-    </div>
+          <!-- 10 — Education -->
+          <section class="panel panel-education" id="panel-education">
+            <span class="ghost-num ghost-right" aria-hidden="true">04</span>
+            <div class="panel-inner">
+              <p class="kicker">
+                <span aria-hidden="true">04 — </span
+                ><span data-i18n="sectionEducation">Utdanning</span>
+              </p>
+              <h2 data-i18n="eduTitle">Der jeg har studert.</h2>
+              <ul class="edu-list">
+                <!--
+                  The two upcoming Madinah entries are parked on the home page.
+                  They still appear on medina.html, and the eduIslamTitle /
+                  eduArabic24Title strings remain in the i18n dictionary, so
+                  uncommenting this block is all that is needed to bring them
+                  back here.
 
-    <div
-      class="modal"
-      id="cvModal"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="cvModalTitle"
-    >
-      <div class="modal-card">
-        <button
-          type="button"
-          class="modal-close"
-          id="cvModalClose"
-          aria-label="Lukk"
-          data-i18n-aria="closeControls"
-        >
-          ×
-        </button>
-        <h3 id="cvModalTitle" data-i18n="cvModalTitle">
-          Hvilken CV vil du ha?
-        </h3>
-        <p data-i18n="cvModalBody">
-          Velg versjonen som passer best for det du leter etter.
-        </p>
-        <div class="modal-options">
-          <a href="saleem-toure-cv-developer.pdf" download>
-            <span class="opt-label">
-              <span class="opt-title" data-i18n="cvDevTitle">Utvikler-CV</span>
-              <span class="opt-sub" data-i18n="cvDevSub"
-                >Kode, prosjekter, tech-stack</span
-              >
-            </span>
-            <span aria-hidden="true">↓</span>
-          </a>
-          <a href="saleem-toure-cv-general.pdf" download>
-            <span class="opt-label">
-              <span class="opt-title" data-i18n="cvGenTitle">Generell CV</span>
-              <span class="opt-sub" data-i18n="cvGenSub"
-                >Erfaring, utdanning, alt sammen</span
-              >
-            </span>
-            <span aria-hidden="true">↓</span>
-          </a>
+                <li class="edu-row edu-upcoming">
+                  <span class="edu-when"
+                    >2028 2032
+                    <em class="edu-insha">(in shaa Allah)</em>
+                  </span>
+                  <span class="edu-what" data-i18n="eduIslamTitle"
+                    >BSc Islam: TBA</span
+                  >
+                  <span class="edu-where">Islamic University of Madinah</span>
+                </li>
+                <li class="edu-row edu-upcoming">
+                  <span class="edu-when"
+                    >2026 2027
+                    <em class="edu-insha">(in shaa Allah)</em>
+                  </span>
+                  <span class="edu-what" data-i18n="eduArabic24Title"
+                    >Arabisk nivå 2 4 (fysisk)</span
+                  >
+                  <span class="edu-where">Islamic University of Madinah</span>
+                </li>
+                -->
+                <li class="edu-row">
+                  <span class="edu-when">2023 — 2026</span>
+                  <span class="edu-what" data-i18n="eduBscTitle"
+                    >BSc Informatikk</span
+                  >
+                  <span class="edu-where" data-i18n="eduBscWhere"
+                    >Universitetet i Oslo · Digital økonomi og ledelse</span
+                  >
+                </li>
+                <li class="edu-row">
+                  <span class="edu-when">2025 — 2026</span>
+                  <span class="edu-what" data-i18n="eduDialogTitle"
+                    >Årsstudium «DialogPilot»</span
+                  >
+                  <span class="edu-where" data-i18n="eduDialogWhere"
+                    >Universitetet i Oslo</span
+                  >
+                </li>
+                <li class="edu-row">
+                  <span class="edu-when">2025</span>
+                  <span class="edu-what" data-i18n="eduArabicTitle"
+                    >Arabisk — nivå 1 (nettbasert)</span
+                  >
+                  <span class="edu-where" data-i18n="eduArabicWhere"
+                    >Islamic University of Madinah</span
+                  >
+                </li>
+                <li class="edu-row">
+                  <span class="edu-when">2025</span>
+                  <span class="edu-what" data-i18n="eduSecurityTitle"
+                    >Vekterkurs</span
+                  >
+                  <span class="edu-where" data-i18n="eduSecurityWhere"
+                    >Vectrocon</span
+                  >
+                </li>
+                <li class="edu-row">
+                  <span class="edu-when">2020 — 2023</span>
+                  <span class="edu-what" data-i18n="eduVglTitle"
+                    >Valle Hovin VGS</span
+                  >
+                  <span class="edu-where" data-i18n="eduVglWhere"
+                    >Studiespesialisering realfag · Toppidrett basketball</span
+                  >
+                </li>
+              </ul>
+            </div>
+          </section>
+
+          <!-- 11 — CV / end of transmission -->
+          <section class="panel panel-accent panel-cv" id="panel-cv">
+            <div class="panel-inner">
+              <p class="kicker" data-i18n="endTransmission">Slutt på sending</p>
+              <h2 data-i18n="cvModalTitle">Hvilken CV vil du ha?</h2>
+              <!-- Both CVs stay disabled until the PDFs exist. -->
+              <div class="cv-grid">
+                <span class="cv-tile is-disabled" aria-disabled="true">
+                  <span class="cv-title" data-i18n="cvDevTitle"
+                    >Utvikler-CV</span
+                  >
+                  <span class="cv-sub" data-i18n="cvDevSub"
+                    >Kode, prosjekter, tech-stack</span
+                  >
+                  <span class="cv-soon" data-i18n="projectSoon"
+                    >Kommer snart</span
+                  >
+                </span>
+                <span class="cv-tile is-disabled" aria-disabled="true">
+                  <span class="cv-title" data-i18n="cvGenTitle"
+                    >Generell CV</span
+                  >
+                  <span class="cv-sub" data-i18n="cvGenSub"
+                    >Erfaring, utdanning, alt sammen</span
+                  >
+                  <span class="cv-soon" data-i18n="projectSoon"
+                    >Kommer snart</span
+                  >
+                </span>
+              </div>
+              <p class="cv-links">
+                <a
+                  href="https://www.linkedin.com/in/saleem-toure-issifou"
+                  target="_blank"
+                  rel="noopener"
+                  >LinkedIn <span aria-hidden="true">↗</span></a
+                >
+                <a
+                  href="https://github.com/saleemtoure"
+                  target="_blank"
+                  rel="noopener"
+                  >GitHub <span aria-hidden="true">↗</span></a
+                >
+                <a
+                  href="https://www.linkedin.com/in/saleem-toure-issifou/details/projects/"
+                  target="_blank"
+                  rel="noopener"
+                  ><span data-i18n="projectsSeeAll"
+                    >Se prosjekter på LinkedIn</span
+                  >
+                  <span aria-hidden="true">↗</span></a
+                >
+              </p>
+              <p class="dedication" data-i18n="footerNote">
+                Temaene på siden er dedikert til ulike viktige kapitler i livet
+                mitt. IR-temaet er en hilsen til tiden min som frivillig og
+                ansatt hos Islamic Relief ❤
+              </p>
+            </div>
+          </section>
         </div>
       </div>
+    </main>
+
+    <div class="statusbar" aria-hidden="true">
+      <span id="statusPanel">Panel 01</span>
+      <span class="statusbar-track"><span id="statusBar"></span></span>
+      <span id="statusTheme"></span>
     </div>
 
     <button
@@ -698,7 +836,7 @@
       aria-label="Til toppen"
       data-i18n-aria="backToTop"
     >
-      ↑
+      <span aria-hidden="true">↑</span>
     </button>
 
     <button
@@ -706,24 +844,22 @@
       class="controls-toggle"
       id="controlsToggle"
       aria-label="Åpne tema-panel"
+      aria-expanded="true"
+      aria-controls="controls"
       data-i18n-aria="openControls"
     >
-      ⚙
+      <span aria-hidden="true">⚙</span>
     </button>
 
-    <div
+    <aside
       class="controls"
       id="controls"
-      role="toolbar"
       aria-label="Tema og modus"
       data-i18n-aria="controlsAria"
     >
       <div class="controls-header" id="controlsHeader">
-        <span class="drag-dots" aria-hidden="true"
-          ><span></span><span></span><span></span><span></span><span></span
-          ><span></span
-        ></span>
-        <div class="controls-title" data-i18n="themeTitle">Velg tema</div>
+        <span class="controls-grip" aria-hidden="true">⠿</span>
+        <span class="controls-title" data-i18n="themeTitle">Velg tema</span>
         <button
           type="button"
           class="controls-close"
@@ -731,7 +867,7 @@
           aria-label="Lukk panel"
           data-i18n-aria="closeControls"
         >
-          ×
+          <span aria-hidden="true">×</span>
         </button>
       </div>
       <div
@@ -765,7 +901,7 @@
           <button type="button" data-lang="en">EN</button>
         </div>
       </div>
-    </div>
+    </aside>
 
     <script src="assets/script.js" defer></script>
   </body>

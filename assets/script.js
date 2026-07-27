@@ -178,6 +178,7 @@ const i18n = {
     navEducation: "Utdanning",
     navShowtime: "ShowTime",
     navToggle: "Meny",
+    navAria: "Hovedmeny",
     linkLinkedin: "LinkedIn",
     linkGithub: "GitHub",
     linkCv: "Last ned CV",
@@ -335,10 +336,6 @@ const i18n = {
     projTalabKicker: "Plattform — under arbeid",
     projTalabStatus: "Under arbeid",
 
-    // ── Founder ──
-    founderIntro:
-      "Selskaper og fellesskap jeg har vært med å starte — og de som fortsatt er hemmelige.",
-
     // ── Chapters ──
     chaptersLabel: "Kapitler",
     chaptersTitle: "Sidene bak personen.",
@@ -350,7 +347,7 @@ const i18n = {
     chShowtimeCta: "Les historien",
     chMssYears: "2023 — 2026",
     chMssBlurb:
-      "Frivillig, så styremedlem, så leder i den største og eldste studentforeningen for norske muslimer.",
+      "Alhamdulillah for Muslimsk Studentsamfunn gjennom studietiden min. Frivillig, så styremedlem, så leder i den største og eldste studentforeningen for norske muslimer.",
     chMssCta: "Se tidslinjen",
     chMedinaYears: "2026 — ?",
     chMedinaBlurb:
@@ -397,6 +394,7 @@ const i18n = {
     navEducation: "Education",
     navShowtime: "ShowTime",
     navToggle: "Menu",
+    navAria: "Main menu",
     linkLinkedin: "LinkedIn",
     linkGithub: "GitHub",
     linkCv: "Download CV",
@@ -548,7 +546,7 @@ const i18n = {
     projMajmioKicker: "Platform — live",
     projMajmioStatus: "Co-founder · shipped",
     projHicssKicker: "Research — published",
-    projHicssStatus: "First author · verified on ResearchGate",
+    projHicssStatus: "First authorder",
     projTaarufKicker: "Platform — in progress",
     projTaarufStatus: "Work in progress",
     projSecretKicker: "Secret — in progress",
@@ -571,7 +569,7 @@ const i18n = {
     chShowtimeCta: "Read the story",
     chMssYears: "2023 — 2026",
     chMssBlurb:
-      "Volunteer, then board member, then president of the largest and oldest student society for Norwegian Muslims.",
+      "Alhamdulillah for Muslimsk Studentsamfunn throughout my years as a student. Volunteer, then board member, then president of the largest and oldest student society for Norwegian Muslims.",
     chMssCta: "Read the timeline",
     chMedinaYears: "2026 — ?",
     chMedinaBlurb:
@@ -654,6 +652,7 @@ function applyTheme() {
   });
   if (!lockedTheme) persist("portfolio-theme", state.theme);
   persist("portfolio-mode", state.mode);
+  updateStatusTheme();
 }
 
 // The Medina theme is "Medina" in Norwegian and "Madinah" in English, so the
@@ -734,6 +733,8 @@ function applyLang() {
     b.setAttribute("aria-pressed", on ? "true" : "false");
   });
   updateSwatchLabels();
+  updateStatusTheme();
+  refreshRail();
   persist("portfolio-lang", state.lang);
   // Translated copy has a different length, so re-check what needs clamping.
   updateClamps();
@@ -908,12 +909,218 @@ if (backToTop) {
 const navToggle = document.getElementById("navToggle");
 const nav = document.getElementById("nav");
 if (navToggle && nav) {
-  navToggle.addEventListener("click", () => nav.classList.toggle("open"));
-  nav
-    .querySelectorAll("a")
-    .forEach((a) =>
-      a.addEventListener("click", () => nav.classList.remove("open")),
-    );
+  navToggle.addEventListener("click", () => {
+    const open = nav.classList.toggle("open");
+    navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+  nav.querySelectorAll("a").forEach((a) =>
+    a.addEventListener("click", () => {
+      nav.classList.remove("open");
+      navToggle.setAttribute("aria-expanded", "false");
+    }),
+  );
+}
+
+// ── Broadcast rail ────────────────────────────────────────────────────────
+//
+// Above 1024px the panels sit side by side inside a sticky viewport and
+// vertical scroll is mapped onto a horizontal translate. Below that the same
+// markup is a plain vertical stack — no transform is ever applied, so touch
+// scrolling stays native and the in-page anchors work on their own.
+const rail = document.getElementById("rail");
+const track = document.getElementById("track");
+
+// Assigned by the rail block below; called after a language switch so the
+// "Panel 03 / 12" readout picks up the new wording.
+let refreshRail = () => {};
+
+function updateStatusTheme() {
+  const el = document.getElementById("statusTheme");
+  if (!el) return;
+  const dict = i18n[state.lang];
+  el.textContent =
+    themeLabel(state.theme, state.lang) +
+    " · " +
+    (state.mode === "light" ? dict.light : dict.dark);
+}
+
+if (rail && track) {
+  const panels = Array.from(rail.querySelectorAll(".panel"));
+  const navLinks = Array.from(document.querySelectorAll(".nav a[data-nav]"));
+  const statusPanel = document.getElementById("statusPanel");
+  const statusBar = document.getElementById("statusBar");
+  const railMode = window.matchMedia("(min-width: 1024px)");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const pad = (n) => String(n).padStart(2, "0");
+
+  let target = 0;
+  let current = 0;
+  let index = -1;
+  let raf = null;
+  // Cached in layout(). Reading it inside measure() would force a synchronous
+  // reflow on every scroll event, while the rAF loop is writing transforms.
+  let step = 0;
+
+  const isRail = () => railMode.matches;
+
+  function setNavActive(i) {
+    // A nav entry stays active across the whole run of panels it introduces —
+    // "Prosjekter" covers panels 2 through 7, not just panel 2.
+    let best = null;
+    navLinks.forEach((a) => {
+      const n = Number(a.dataset.nav);
+      if (n <= i && (best === null || n > Number(best.dataset.nav))) best = a;
+    });
+    navLinks.forEach((a) => {
+      const on = a === best;
+      a.classList.toggle("active", on);
+      if (on) a.setAttribute("aria-current", "true");
+      else a.removeAttribute("aria-current");
+    });
+  }
+
+  function measure() {
+    let progress = 0;
+    let idx = 0;
+
+    if (isRail()) {
+      const max = track.offsetHeight - window.innerHeight;
+      progress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+      target = progress * (panels.length - 1) * step;
+      idx = Math.round(progress * (panels.length - 1));
+    } else {
+      const max =
+        document.documentElement.scrollHeight - window.innerHeight || 1;
+      progress = Math.min(1, Math.max(0, window.scrollY / max));
+      let bestDist = Infinity;
+      panels.forEach((p, i) => {
+        const d = Math.abs(p.getBoundingClientRect().top - 80);
+        if (d < bestDist) {
+          bestDist = d;
+          idx = i;
+        }
+      });
+    }
+
+    if (statusBar) statusBar.style.right = (1 - progress) * 100 + "%";
+    if (idx !== index) {
+      index = idx;
+      if (statusPanel)
+        statusPanel.textContent =
+          i18n[state.lang].panelWord +
+          " " +
+          pad(index + 1) +
+          " / " +
+          pad(panels.length);
+      setNavActive(index);
+    }
+  }
+
+  function frame() {
+    const delta = target - current;
+    current += delta * 0.09;
+    if (Math.abs(delta) < 0.4) current = target;
+    rail.style.transform = "translateX(" + -current + "px)";
+    // The ghost numerals and the hero wordmark lag the rail slightly, which is
+    // what gives the panel change its sense of weight.
+    const lag = target - current;
+    rail.querySelectorAll(".ghost-num").forEach((g) => {
+      g.style.transform = "translateX(" + lag * 0.22 + "px)";
+    });
+    const kinetic = rail.querySelector(".kinetic");
+    if (kinetic)
+      kinetic.style.transform =
+        "skewX(" + Math.max(-6, Math.min(6, lag * -0.02)) + "deg)";
+    raf = current === target ? null : requestAnimationFrame(frame);
+  }
+
+  function render() {
+    if (!isRail()) return;
+    if (reduceMotion.matches) {
+      current = target;
+      rail.style.transform = "translateX(" + -current + "px)";
+      return;
+    }
+    if (raf === null) raf = requestAnimationFrame(frame);
+  }
+
+  function layout() {
+    if (isRail()) {
+      track.style.height = panels.length * 100 + "vh";
+      rail.style.setProperty("--panel-count", panels.length);
+      step = panels[0].getBoundingClientRect().width;
+    } else {
+      // Hand every inline style back so the column layout is pure CSS.
+      track.style.height = "";
+      rail.style.transform = "";
+      current = 0;
+      target = 0;
+      rail.querySelectorAll(".ghost-num").forEach((g) => {
+        g.style.transform = "";
+      });
+      const kinetic = rail.querySelector(".kinetic");
+      if (kinetic) kinetic.style.transform = "";
+    }
+    index = -1;
+    measure();
+    render();
+  }
+
+  function scrollToPanel(i) {
+    if (isRail()) {
+      const max = track.offsetHeight - window.innerHeight;
+      window.scrollTo({
+        top: (i / (panels.length - 1)) * max,
+        behavior: reduceMotion.matches ? "auto" : "smooth",
+      });
+    } else {
+      panels[i].scrollIntoView({
+        behavior: reduceMotion.matches ? "auto" : "smooth",
+        block: "start",
+      });
+    }
+  }
+
+  // On the rail, a panel's document position is meaningless (they all sit in
+  // one sticky viewport), so anchor jumps have to be translated into a scroll
+  // offset. Below 1024px the native anchor is correct and is left alone.
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest && e.target.closest(".nav a[data-nav]");
+    if (!a || !isRail()) return;
+    e.preventDefault();
+    scrollToPanel(Number(a.dataset.nav));
+  });
+
+  // Tabbing into a link on an off-screen panel must bring that panel in,
+  // otherwise focus lands somewhere the user cannot see.
+  document.addEventListener("focusin", (e) => {
+    if (!isRail()) return;
+    const panel = e.target.closest && e.target.closest(".panel");
+    if (!panel) return;
+    const i = panels.indexOf(panel);
+    if (i < 0 || i === index) return;
+    scrollToPanel(i);
+  });
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      measure();
+      render();
+    },
+    { passive: true },
+  );
+  window.addEventListener("resize", layout);
+  railMode.addEventListener("change", layout);
+  if (document.fonts && document.fonts.ready)
+    document.fonts.ready.then(measure);
+
+  refreshRail = () => {
+    index = -1;
+    measure();
+  };
+
+  layout();
 }
 
 // Highlight active nav item on scroll
@@ -980,7 +1187,9 @@ if (projectsWrap && projectsGrid && projectsMoreBtn) {
 // "Read more" for long project descriptions. A paragraph marked [data-clamp]
 // is only clamped when its text really is longer than CLAMP_LINES lines, so a
 // short translation keeps the plain, toggle-free card.
-const CLAMP_LINES = 4;
+// Matches -webkit-line-clamp on .project-body. Six lines is what a project
+// panel can show without the content outgrowing 100vh on the rail.
+const CLAMP_LINES = 6;
 function updateClamps() {
   document.querySelectorAll("[data-clamp]").forEach((p) => {
     const btn = p.parentElement.querySelector(".read-more");
