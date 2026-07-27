@@ -1600,19 +1600,13 @@ footer {
 .broadcast .panel-nav-btn.next:active:not(:disabled) {
   transform: translateY(1px);
 }
+/* On the rail the sections travel sideways, so the press does too. There is no
+   sub-1024px counterpart to this: the pager is hidden entirely down there. */
 .broadcast.is-rail .panel-nav-btn.prev:active:not(:disabled) {
   transform: translateX(-1px);
 }
 .broadcast.is-rail .panel-nav-btn.next:active:not(:disabled) {
   transform: translateX(1px);
-}
-@media (max-width: 1023px) {
-  .broadcast.is-rail .panel-nav-btn.prev:active:not(:disabled) {
-    transform: translateY(-1px);
-  }
-  .broadcast.is-rail .panel-nav-btn.next:active:not(:disabled) {
-    transform: translateY(1px);
-  }
 }
 /* Everything else just travels. The .cv-tile entry matches nothing today — both
    tiles are disabled spans — and is here so a tile behaves like every other
@@ -2278,24 +2272,28 @@ footer {
     overflow-wrap: break-word;
     hyphens: none;
   }
-  /* Touch devices have no arrow keys; the buttons stay, the tip goes. */
-  .panel-nav-hint {
+  /* The pager is a desktop-only affordance. Below this breakpoint the rail is
+     already a plain vertical column, so the arrows drive nothing that a native
+     scroll does not do better — and as fixed chrome on a narrow screen they sat
+     directly on top of the body copy. Removed rather than hidden-while-scrolling
+     (which is all the old rule did) because there is nothing left for them to
+     do here. This also retires .panel-nav-hint, which only ever existed to say
+     "the arrow keys do this too" on devices that have arrow keys. */
+  .panel-nav {
     display: none;
   }
-  /* Fixed controls sit on top of the content on a small screen, so they get
-     out of the way while you are actually scrolling and come back when you
-     stop. Desktop keeps them permanently visible. */
-  /* Asymmetric on purpose. Coming back is the arrival and gets the full
-     duration; getting out of the way is a dismissal, so it accelerates away in
-     roughly half the time. Waiting 250ms for chrome to clear the content you
+  /* The theme button is still needed, so it keeps the get-out-of-the-way
+     behaviour on its own.
+
+     Asymmetric on purpose: coming back is the arrival and gets the full
+     duration, while getting out of the way is a dismissal and accelerates away
+     in roughly half the time. Waiting 250ms for chrome to clear the content you
      are trying to read is the one direction that must not dawdle. */
-  .panel-nav,
   .broadcast .controls-toggle {
     transition:
       opacity var(--dur-base) var(--ease),
       transform var(--dur-base) var(--ease);
   }
-  .broadcast.is-scrolling .panel-nav,
   .broadcast.is-scrolling .controls-toggle {
     opacity: 0;
     transform: translateY(12px);
@@ -2307,7 +2305,6 @@ footer {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .panel-nav,
   .broadcast .controls-toggle {
     transition: none;
   }
