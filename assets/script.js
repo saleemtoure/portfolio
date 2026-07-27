@@ -1006,7 +1006,8 @@ if (rail && track) {
       });
     }
 
-    if (statusBar) statusBar.style.right = (1 - progress) * 100 + "%";
+    // scaleX, not `right`: see .statusbar-track > span in styles.css.
+    if (statusBar) statusBar.style.transform = "scaleX(" + progress + ")";
     if (idx === pending) pending = null;
     if (idx !== index) {
       index = idx;

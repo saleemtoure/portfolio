@@ -15,6 +15,25 @@
   --stripe: rgba(45, 87, 69, 0.06);
 }
 
+/* Motion tokens. Separate from the palette above because applyTheme() rewrites
+   every colour token on documentElement and owns none of these.
+
+   The design language — Archivo Black, square corners, monospace, CRT wash — is
+   mechanical rather than soft, so the motion is too: short, decisive, no
+   overshoot anywhere. One curve carries the whole site.
+
+   --ease is a pure decelerate: the move commits immediately and settles. It is
+   the right curve for hovers, presses and entrances alike here, which is why
+   there is only one. --ease-exit accelerates away, for the few things that
+   leave rather than arrive. */
+:root {
+  --dur-quick: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 340ms;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --ease-exit: cubic-bezier(0.3, 0, 1, 1);
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -36,8 +55,8 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   transition:
-    background-color 0.4s ease,
-    color 0.4s ease;
+    background-color var(--dur-slow) var(--ease),
+    color var(--dur-slow) var(--ease);
 }
 
 /* ── Topbar ─────────────────────────────────────── */
@@ -55,7 +74,7 @@ body {
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--muted);
-  transition: background-color 0.4s ease;
+  transition: background-color var(--dur-slow) var(--ease);
 }
 
 .brand {
@@ -82,8 +101,8 @@ body {
   padding: 4px 0;
   border-bottom: 1px solid transparent;
   transition:
-    color 0.2s ease,
-    border-color 0.2s ease;
+    color var(--dur-base) var(--ease),
+    border-color var(--dur-base) var(--ease);
 }
 .nav a:hover,
 .nav a.active {
@@ -112,13 +131,19 @@ body {
 }
 
 /* ── Hero ───────────────────────────────────────── */
+/* The "work in progress" dot. Opacity alone at a 0.65 swing read as a blink —
+   an on/off signal, which is the wrong message for something ongoing. Pairing a
+   shallower fade with a small contraction makes it a heartbeat instead: the dot
+   stays legible the whole cycle and still clearly has a pulse. */
 @keyframes pulse {
   0%,
   100% {
     opacity: 1;
+    transform: scale(1);
   }
   50% {
-    opacity: 0.35;
+    opacity: 0.45;
+    transform: scale(0.8);
   }
 }
 
@@ -186,8 +211,8 @@ h1 .h1-sub {
   opacity: 0;
   pointer-events: none;
   transition:
-    opacity 0.2s ease,
-    transform 0.2s ease;
+    opacity var(--dur-base) var(--ease),
+    transform var(--dur-base) var(--ease);
   z-index: 6;
 }
 .kw::before {
@@ -201,8 +226,8 @@ h1 .h1-sub {
   opacity: 0;
   pointer-events: none;
   transition:
-    opacity 0.2s ease,
-    transform 0.2s ease;
+    opacity var(--dur-base) var(--ease),
+    transform var(--dur-base) var(--ease);
   z-index: 6;
 }
 .kw:hover::after,
@@ -274,7 +299,7 @@ h1 .h1-sub {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  transition: color 0.2s ease;
+  transition: color var(--dur-base) var(--ease);
 }
 .read-more[hidden] {
   display: none;
@@ -283,7 +308,7 @@ h1 .h1-sub {
   color: var(--accent-text);
 }
 .read-more .rm-arrow {
-  transition: transform 0.2s ease;
+  transition: transform var(--dur-base) var(--ease);
 }
 .read-more[aria-expanded="true"] .rm-arrow {
   transform: rotate(180deg);
@@ -401,8 +426,8 @@ footer {
   padding: 0;
   font-family: inherit;
   transition:
-    color 0.2s ease,
-    border-color 0.2s ease;
+    color var(--dur-base) var(--ease),
+    border-color var(--dur-base) var(--ease);
 }
 .controls-close:hover {
   color: var(--fg);
@@ -429,8 +454,8 @@ footer {
   justify-content: center;
   padding: 0;
   transition:
-    border-color 0.2s ease,
-    color 0.2s ease;
+    border-color var(--dur-base) var(--ease),
+    color var(--dur-base) var(--ease);
 }
 .controls-toggle.visible {
   display: inline-flex;
@@ -457,8 +482,8 @@ footer {
   color: var(--fg);
   cursor: pointer;
   transition:
-    border-color 0.2s ease,
-    background 0.2s ease;
+    border-color var(--dur-base) var(--ease),
+    background var(--dur-base) var(--ease);
   font-family: inherit;
 }
 .swatch:hover {
@@ -539,8 +564,8 @@ footer {
   border-radius: 999px;
   cursor: pointer;
   transition:
-    background 0.2s ease,
-    color 0.2s ease;
+    background var(--dur-base) var(--ease),
+    color var(--dur-base) var(--ease);
 }
 .mode-seg button.active {
   background: var(--fg);
@@ -972,9 +997,9 @@ footer {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   transition:
-    background 0.2s ease,
-    color 0.2s ease,
-    border-color 0.2s ease;
+    background var(--dur-base) var(--ease),
+    color var(--dur-base) var(--ease),
+    border-color var(--dur-base) var(--ease);
 }
 .broadcast a.chip:hover {
   background: var(--accent);
@@ -1081,7 +1106,9 @@ footer {
   height: 6px;
   border-radius: 50%;
   background: var(--accent);
-  animation: pulse 2.4s infinite;
+  /* A sine approximation rather than the default `ease`: an ambient loop has no
+     start or end, so the curve has to be symmetric or the seam is audible. */
+  animation: pulse 2.4s cubic-bezier(0.37, 0, 0.63, 1) infinite;
 }
 .broadcast .project-text h2 {
   font-size: clamp(34px, 8vh, 96px);
@@ -1108,7 +1135,7 @@ footer {
   color: var(--fg);
   text-decoration: none;
   font-size: clamp(13px, 1.7vh, 17px);
-  transition: color 0.2s ease;
+  transition: color var(--dur-base) var(--ease);
 }
 .broadcast a.rail-link:hover {
   color: var(--accent-text);
@@ -1117,7 +1144,7 @@ footer {
   transform: translate(2px, -2px);
 }
 .broadcast .rail-link .arrow {
-  transition: transform 0.2s ease;
+  transition: transform var(--dur-base) var(--ease);
 }
 .broadcast .rail-status {
   font-size: 10px;
@@ -1187,7 +1214,7 @@ footer {
   flex-direction: column;
   color: var(--fg);
   text-decoration: none;
-  transition: background 0.2s ease;
+  transition: background var(--dur-base) var(--ease);
 }
 .broadcast .chapter:hover {
   background: var(--stripe);
@@ -1477,9 +1504,9 @@ footer {
   line-height: 1;
   cursor: pointer;
   transition:
-    border-color 0.2s ease,
-    color 0.2s ease,
-    background 0.2s ease;
+    border-color var(--dur-base) var(--ease),
+    color var(--dur-base) var(--ease),
+    background var(--dur-base) var(--ease);
 }
 .panel-nav-btn:hover:not(:disabled) {
   border-color: var(--accent);
@@ -1521,6 +1548,79 @@ footer {
   }
 }
 
+/* ── Press feedback ─────────────────────────────────
+   Everything clickable had a :hover state and nothing else, which leaves touch
+   users with no confirmation at all — there is no hover on a phone, so the
+   section arrows in particular read as dead until the view starts moving.
+
+   The gesture is mechanical rather than springy, to match the type and the
+   square corners: the control travels 1px along the axis it belongs to, like a
+   key going down. No scale, no overshoot. Displacement carries the press on its
+   own for most controls, because they already commit their colour on hover and
+   doing it twice reads as two separate events; only the section arrows, which
+   are the primary affordance, also fill.
+
+   Press is faster than release (--dur-quick down, --dur-base back) so the
+   control answers the finger immediately and settles at leisure. The longhand
+   below deliberately follows the shorthands set earlier in the file: it adds
+   `transform` to elements whose transition lists never had it, and supplies one
+   to .cv-tile and .nav-toggle, which had none. */
+.broadcast .panel-nav-btn,
+.broadcast a.chip,
+.broadcast .cv-tile,
+.broadcast .swatch,
+.broadcast .mode-seg button,
+.broadcast .nav-toggle,
+.broadcast .controls-close,
+.broadcast .read-more {
+  transition-property: color, background, border-color, transform;
+  transition-duration: var(--dur-base);
+  transition-timing-function: var(--ease);
+}
+.broadcast .panel-nav-btn:active:not(:disabled),
+.broadcast a.chip:active,
+.broadcast .cv-tile:not(.is-disabled):active,
+.broadcast .swatch:active:not(:disabled),
+.broadcast .mode-seg button:active,
+.broadcast .nav-toggle:active,
+.broadcast .controls-close:active,
+.broadcast .read-more:active {
+  transition-duration: var(--dur-quick);
+}
+/* The arrows travel the way the sections do, so the press agrees with the move
+   it triggers: sideways on the rail, downward everywhere else. */
+.broadcast .panel-nav-btn:active:not(:disabled) {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+.broadcast .panel-nav-btn.prev:active:not(:disabled) {
+  transform: translateY(-1px);
+}
+.broadcast .panel-nav-btn.next:active:not(:disabled) {
+  transform: translateY(1px);
+}
+/* On the rail the sections travel sideways, so the press does too. There is no
+   sub-1024px counterpart to this: the pager is hidden entirely down there. */
+.broadcast.is-rail .panel-nav-btn.prev:active:not(:disabled) {
+  transform: translateX(-1px);
+}
+.broadcast.is-rail .panel-nav-btn.next:active:not(:disabled) {
+  transform: translateX(1px);
+}
+/* Everything else just travels. The .cv-tile entry matches nothing today — both
+   tiles are disabled spans — and is here so a tile behaves like every other
+   control the day one becomes a real link. */
+.broadcast a.chip:active,
+.broadcast .swatch:active:not(:disabled),
+.broadcast .mode-seg button:active,
+.broadcast .nav-toggle:active,
+.broadcast .controls-close:active,
+.broadcast .read-more:active,
+.broadcast .cv-tile:not(.is-disabled):active {
+  transform: translateY(1px);
+}
+
 /* ── Status bar ─────────────────────────────────── */
 .statusbar {
   position: fixed;
@@ -1547,10 +1647,17 @@ footer {
   height: 2px;
   background: var(--line);
 }
+/* Driven by measure() on every scroll event. Scaled rather than inset: `right`
+   is a layout property, so the old version forced a reflow per frame while the
+   rail's rAF loop was writing transforms on the same frame. scaleX stays on the
+   compositor. No transition — it tracks scroll position, so it is already as
+   smooth as the scroll itself and any easing would only add lag. */
 .statusbar-track > span {
   position: absolute;
-  inset: 0 100% 0 0;
+  inset: 0;
   background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
 }
 
 /* ── Responsive: below 1024px the rail becomes a column ── */
@@ -1680,6 +1787,11 @@ footer {
   .broadcast .tag-wip::before {
     animation: none;
   }
+  /* `.broadcast` itself, not only its descendants: the class sits on <body>, so
+     a `.broadcast *` selector never matched the element carrying the 340ms
+     theme cross-fade — the biggest single piece of motion on the page ran at
+     full length for the users who had asked for none. */
+  .broadcast,
   .broadcast *,
   .broadcast *::before,
   .broadcast *::after {
@@ -1959,7 +2071,7 @@ footer {
   color: var(--fg);
   text-decoration: none;
   padding: clamp(22px, 4vh, 44px) var(--gutter);
-  transition: background 0.2s ease;
+  transition: background var(--dur-base) var(--ease);
 }
 .broadcast .ch-pager a:hover {
   background: var(--stripe);
@@ -2160,29 +2272,39 @@ footer {
     overflow-wrap: break-word;
     hyphens: none;
   }
-  /* Touch devices have no arrow keys; the buttons stay, the tip goes. */
-  .panel-nav-hint {
+  /* The pager is a desktop-only affordance. Below this breakpoint the rail is
+     already a plain vertical column, so the arrows drive nothing that a native
+     scroll does not do better — and as fixed chrome on a narrow screen they sat
+     directly on top of the body copy. Removed rather than hidden-while-scrolling
+     (which is all the old rule did) because there is nothing left for them to
+     do here. This also retires .panel-nav-hint, which only ever existed to say
+     "the arrow keys do this too" on devices that have arrow keys. */
+  .panel-nav {
     display: none;
   }
-  /* Fixed controls sit on top of the content on a small screen, so they get
-     out of the way while you are actually scrolling and come back when you
-     stop. Desktop keeps them permanently visible. */
-  .panel-nav,
+  /* The theme button is still needed, so it keeps the get-out-of-the-way
+     behaviour on its own.
+
+     Asymmetric on purpose: coming back is the arrival and gets the full
+     duration, while getting out of the way is a dismissal and accelerates away
+     in roughly half the time. Waiting 250ms for chrome to clear the content you
+     are trying to read is the one direction that must not dawdle. */
   .broadcast .controls-toggle {
     transition:
-      opacity 0.25s ease,
-      transform 0.25s ease;
+      opacity var(--dur-base) var(--ease),
+      transform var(--dur-base) var(--ease);
   }
-  .broadcast.is-scrolling .panel-nav,
   .broadcast.is-scrolling .controls-toggle {
     opacity: 0;
     transform: translateY(12px);
     pointer-events: none;
+    transition:
+      opacity var(--dur-quick) var(--ease-exit),
+      transform var(--dur-quick) var(--ease-exit);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .panel-nav,
   .broadcast .controls-toggle {
     transition: none;
   }
