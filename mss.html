@@ -273,10 +273,10 @@
 
     <button
       type="button"
-      class="controls-toggle"
+      class="controls-toggle visible"
       id="controlsToggle"
       aria-label="Åpne tema-panel"
-      aria-expanded="true"
+      aria-expanded="false"
       aria-controls="controls"
       data-i18n-aria="openControls"
     >
@@ -284,7 +284,8 @@
     </button>
 
     <aside
-      class="controls"
+      class="controls hidden"
+      aria-hidden="true"
       id="controls"
       aria-label="Tema og modus"
       data-i18n-aria="controlsAria"
