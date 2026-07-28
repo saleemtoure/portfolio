@@ -961,12 +961,19 @@ footer {
 /* ── Hero ───────────────────────────────────────── */
 .broadcast .hero-inner {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-  gap: clamp(28px, 5vw, 64px);
-  align-items: center;
+  grid-template-columns: minmax(0, 1fr);
+}
+/* The cutout owns the right of the panel, so the copy is no longer held to a
+   grid column: the h1 is given the full width and set large enough to run on
+   one line, straight across him. The lede keeps its own 46ch measure and never
+   reaches him. */
+.broadcast .hero-text {
+  max-width: 100%;
 }
 .broadcast .hero-text h1 {
-  font-size: clamp(44px, 11vh, 118px);
+  /* Capped at 112 rather than by eye: above that "Hei, jeg er Saleem." wraps on
+     a 1920 panel and the headline stops crossing him, which is the whole idea. */
+  font-size: clamp(44px, 11vh, 112px);
   margin: 0 0 clamp(16px, 3vh, 30px);
 }
 .broadcast .hero-text h1 em {
@@ -1028,21 +1035,53 @@ footer {
   color: var(--muted);
 }
 
+/* The cutout is keyed into the panel the way a presenter is keyed behind the
+   on-air title: he stands on the floor of the frame and the headline runs
+   across him. He sits under .panel-inner (z-index 1) so the type is never the
+   thing that has to fight for contrast. The 56vw term is what keeps him off
+   the lede on a narrow desktop — height alone would let him grow into it. */
 .broadcast .hero-figure {
-  position: relative;
+  position: absolute;
+  /* .panel-inner is capped at 1440 and centred, but the figure is positioned
+     against the full-width panel. Without the first term he drifts off toward
+     the viewport edge on a wide monitor and stops belonging to the headline. */
+  right: calc(max(0px, (100vw - 1440px) / 2) + clamp(0px, 10vw, 170px));
+  bottom: 0;
+  z-index: 0;
   margin: 0;
-  height: min(58vh, 520px);
-  border-left: 1px solid var(--line);
-  overflow: hidden;
+  height: min(90vh, 840px, 56vw);
+  pointer-events: none;
 }
 .broadcast .hero-figure img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 34%;
-  filter: grayscale(1) contrast(1.15);
   display: block;
+  width: auto;
+  height: 100%;
+  /* Mostly desaturated so he sits inside the palette, but not to zero: the
+     kente stole is the only photographic colour on the page and it is already
+     the site's green and ochre. */
+  filter: grayscale(0.62) contrast(1.06);
+  /* His back foot runs off the bottom of the frame. Dissolving the last fifth
+     turns that crop into an arrival rather than a mistake. */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 68%,
+    rgba(0, 0, 0, 0.55) 86%,
+    transparent 99%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 68%,
+    rgba(0, 0, 0, 0.55) 86%,
+    transparent 99%
+  );
 }
+/* On the dark themes a black suit on a near-black panel is a hole in the page,
+   so he is lifted into a mid-grey instead of being left as a silhouette. */
+:root[data-mode="dark"] .broadcast .hero-figure img {
+  filter: grayscale(0.62) contrast(0.96) brightness(1.75);
+}
+/* Still the treatment for every boxed image on the site — the project cells and
+   the sub-page headers. The hero is the one place that no longer uses it. */
 .broadcast .duotone {
   position: absolute;
   inset: 0;
@@ -1676,6 +1715,21 @@ footer {
     height: 100vh;
     will-change: transform;
   }
+  /* The parallax layers are promoted only while the rail is actually moving.
+     `is-gliding` is added by render() just before the first frame and dropped
+     the moment the lerp settles.
+
+     This matters most for the hero cutout: it is a large image carrying both a
+     filter and a mask-image, so without its own compositor layer every frame of
+     parallax re-rasterises a filtered, masked bitmap. Promoting it removes that
+     from the frame budget; scoping the promotion to the gliding state means the
+     layer memory is handed back at rest instead of being held for the life of
+     the page. */
+  .broadcast.is-rail .rail.is-gliding .ghost-num,
+  .broadcast.is-rail .rail.is-gliding .hero-figure,
+  .broadcast.is-rail .rail.is-gliding .kinetic {
+    will-change: transform;
+  }
   /* 100% of the viewport element, not 100vw: vw includes the vertical
      scrollbar, so a vw-sized panel is ~15px wider than the visible area and
      the rail drifts a little further out of register on every panel. */
@@ -1729,10 +1783,30 @@ footer {
   .broadcast .project-inner {
     grid-template-columns: minmax(0, 1fr);
   }
+  /* There is no room to stand behind the type on a phone, so he steps out from
+     under it and walks in below the copy instead. .panel is a flex row, so the
+     figure only clears .panel-inner once the row is allowed to wrap. */
+  .broadcast .panel-hero {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+  .broadcast .panel-hero .panel-inner {
+    width: 100%;
+    padding-bottom: clamp(12px, 2vh, 20px);
+  }
   .broadcast .hero-figure {
-    height: min(42vh, 340px);
-    border-left: 0;
-    border-top: 1px solid var(--line);
+    position: static;
+    z-index: auto;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    height: min(46vh, 380px);
+    padding: 0 0 calc(var(--status-h) + 8px) var(--gutter);
+  }
+  /* He runs a little past the gutter on the right — the frame cropping him is
+     what stops the stacked layout reading as a second photo box. */
+  .broadcast .hero-figure img {
+    margin-right: -5vw;
   }
   .broadcast .cell-grid {
     grid-template-columns: minmax(0, 1fr);
@@ -1763,6 +1837,15 @@ footer {
   }
   .broadcast .panel:not(:first-child) .panel-inner {
     padding-top: 40px;
+  }
+}
+
+/* Tablet: stacking him strictly under the copy opens a dead band across the
+   panel, so he is pulled up to walk past the chip row instead. The 700px floor
+   is where his leading edge stops clearing those chips. */
+@media (min-width: 700px) and (max-width: 1023px) {
+  .broadcast .hero-figure {
+    margin-top: clamp(-120px, -10vh, -60px);
   }
 }
 

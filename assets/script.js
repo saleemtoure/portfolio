@@ -160,7 +160,7 @@ const i18n = {
     navMss: "MSS",
     medinaLocked: "Tema låst til Medina",
     mssLocked: "Tema låst til MSS",
-    portraitAlt: "Portrett av Saleem Toure Issifou",
+    portraitAlt: "Saleem Toure Issifou i dress og kentesjal, midt i et skritt",
     controlsAria: "Tema og modus",
     themeTitle: "Velg tema",
     modeLabel: "Modus",
@@ -380,7 +380,7 @@ const i18n = {
     navMss: "MSS",
     medinaLocked: "Theme locked to Madinah",
     mssLocked: "Theme locked to MSS",
-    portraitAlt: "Portrait of Saleem Toure Issifou",
+    portraitAlt: "Saleem Toure Issifou mid-stride in a suit and kente stole",
     controlsAria: "Theme and mode",
     themeTitle: "Choose theme",
     modeLabel: "Mode",
@@ -967,6 +967,31 @@ if (rail && track) {
 
   const isRail = () => railMode.matches;
 
+  // The parallax layers, resolved once instead of on every frame. frame() used
+  // to run three DOM queries per tick — one of them a querySelectorAll, so a
+  // fresh NodeList allocated ~60 times a second — interleaved with the transform
+  // writes it was making on the same elements.
+  let ghosts = [];
+  let cutout = null;
+  let kinetic = null;
+  function cacheLayers() {
+    ghosts = Array.from(rail.querySelectorAll(".ghost-num"));
+    cutout = rail.querySelector(".hero-figure");
+    kinetic = rail.querySelector(".kinetic");
+  }
+  cacheLayers();
+
+  const clampLag = (v, max) => Math.max(-max, Math.min(max, v));
+
+  // Hands every parallax layer back to the stylesheet. Used by both the snap
+  // path and the drop to the column layout.
+  function clearLayers() {
+    for (let i = 0; i < ghosts.length; i++) ghosts[i].style.transform = "";
+    if (cutout) cutout.style.transform = "";
+    if (kinetic) kinetic.style.transform = "";
+    rail.classList.remove("is-gliding");
+  }
+
   function setNavActive(i) {
     // A nav entry stays active across the whole run of panels it introduces —
     // "Prosjekter" covers panels 2 through 7, not just panel 2.
@@ -1030,14 +1055,31 @@ if (rail && track) {
     // The ghost numerals and the hero wordmark lag the rail slightly, which is
     // what gives the panel change its sense of weight.
     const lag = target - current;
-    rail.querySelectorAll(".ghost-num").forEach((g) => {
-      g.style.transform = "translateX(" + lag * 0.22 + "px)";
-    });
-    const kinetic = rail.querySelector(".kinetic");
+    // Capped as a fraction of the panel width rather than left open, but the
+    // caps are deliberately set above what a single-panel move produces. The
+    // lerp keeps ~0.91 of delta as lag on the first frame, so one panel peaks at
+    // about 0.20 * step for a numeral and 0.13 * step for the cutout; clamping
+    // below that pinned them flat at the cap for several frames and then let
+    // them decay, and the plateau read as a stick rather than as parallax.
+    // These values leave an ordinary move untouched and only catch a fling,
+    // where accumulated scroll events move target several panels ahead of
+    // current and would otherwise throw a layer clear across the panel.
+    for (let i = 0; i < ghosts.length; i++) {
+      ghosts[i].style.transform =
+        "translateX(" + clampLag(lag * 0.22, step * 0.26) + "px)";
+    }
+    // The hero cutout sits behind the headline, so it lags less than the type
+    // it stands behind — enough separation to read as depth, not as drift.
+    if (cutout)
+      cutout.style.transform =
+        "translateX(" + clampLag(lag * 0.14, step * 0.16) + "px)";
     if (kinetic)
-      kinetic.style.transform =
-        "skewX(" + Math.max(-6, Math.min(6, lag * -0.02)) + "deg)";
+      kinetic.style.transform = "skewX(" + clampLag(lag * -0.02, 6) + "deg)";
     raf = current === target ? null : requestAnimationFrame(frame);
+    // Released the moment the rail settles, so the promoted layers — the cutout
+    // especially, being a large image carrying both a filter and a mask — do not
+    // hold compositor memory while nothing is moving.
+    if (raf === null) rail.classList.remove("is-gliding");
   }
 
   function render() {
@@ -1054,17 +1096,22 @@ if (rail && track) {
       }
       current = target;
       rail.style.transform = "translateX(" + -current + "px)";
-      rail.querySelectorAll(".ghost-num").forEach((g) => {
-        g.style.transform = "";
-      });
-      const kinetic = rail.querySelector(".kinetic");
-      if (kinetic) kinetic.style.transform = "";
+      clearLayers();
       return;
     }
-    if (raf === null) raf = requestAnimationFrame(frame);
+    if (raf === null) {
+      // Set before the first frame, not inside it: will-change has to be in
+      // place slightly ahead of the transform to buy the layer promotion it
+      // exists for.
+      rail.classList.add("is-gliding");
+      raf = requestAnimationFrame(frame);
+    }
   }
 
   function layout() {
+    // Cheap, and it keeps the cached layers correct if the markup ever changes
+    // under us — frame() must never hold a reference to a detached node.
+    cacheLayers();
     if (isRail()) {
       track.style.height = panels.length * 100 + "vh";
       rail.style.setProperty("--panel-count", panels.length);
@@ -1075,11 +1122,7 @@ if (rail && track) {
       rail.style.transform = "";
       current = 0;
       target = 0;
-      rail.querySelectorAll(".ghost-num").forEach((g) => {
-        g.style.transform = "";
-      });
-      const kinetic = rail.querySelector(".kinetic");
-      if (kinetic) kinetic.style.transform = "";
+      clearLayers();
     }
     index = -1;
     measure();
