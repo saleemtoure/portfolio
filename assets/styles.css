@@ -1715,6 +1715,21 @@ footer {
     height: 100vh;
     will-change: transform;
   }
+  /* The parallax layers are promoted only while the rail is actually moving.
+     `is-gliding` is added by render() just before the first frame and dropped
+     the moment the lerp settles.
+
+     This matters most for the hero cutout: it is a large image carrying both a
+     filter and a mask-image, so without its own compositor layer every frame of
+     parallax re-rasterises a filtered, masked bitmap. Promoting it removes that
+     from the frame budget; scoping the promotion to the gliding state means the
+     layer memory is handed back at rest instead of being held for the life of
+     the page. */
+  .broadcast.is-rail .rail.is-gliding .ghost-num,
+  .broadcast.is-rail .rail.is-gliding .hero-figure,
+  .broadcast.is-rail .rail.is-gliding .kinetic {
+    will-change: transform;
+  }
   /* 100% of the viewport element, not 100vw: vw includes the vertical
      scrollbar, so a vw-sized panel is ~15px wider than the visible area and
      the rail drifts a little further out of register on every panel. */
