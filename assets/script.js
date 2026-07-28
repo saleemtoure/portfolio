@@ -1466,6 +1466,93 @@ document.querySelectorAll(".founder-card-head").forEach((head) => {
   });
 });
 
+// ── Panel entrance choreography ───────────────────────────────────────────
+//
+// Gives each panel a downbeat: its content cascades in the first time the panel
+// becomes visible. The stagger index lands on the elements as `--beat` and the
+// motion itself is entirely in CSS (see "Panel entrance" in styles.css).
+//
+// Progressive enhancement in both directions. The `reveal-on` class is only
+// added at the very end of this block, so if any of it throws — or JS never
+// runs at all — nothing is ever hidden and the page renders as it always did.
+(() => {
+  const SCOPES = ".panel, .ch-hero, .ch-section";
+  const scopes = Array.from(document.querySelectorAll(SCOPES));
+  if (!scopes.length) return;
+
+  // The only structural knowledge this needs: which children of a content root
+  // are pure layout wrappers holding the text column. Their children are the
+  // real beats; anything else at that level counts as one beat itself. Deriving
+  // it this way means new panel shapes are picked up without a list to maintain.
+  const COLUMNS = ".hero-text, .project-text, .ch-hero-text";
+  // Decorative absolutes that happen to sit at the same level as real content.
+  // On a .panel the watermark is a sibling of .panel-inner and falls outside the
+  // walk anyway, but .ch-hero has no inner wrapper, so there it is a direct
+  // child of the root and has to be named.
+  const EXCLUDE = ".ghost-num";
+  // The cascade stops deepening past this; later elements share the last delay
+  // rather than pushing the tail of a long panel past the rail's own timing.
+  const MAX_BEAT = 5;
+
+  scopes.forEach((scope) => {
+    // .ch-hero carries its content directly, with no inner wrapper of its own.
+    const root = scope.querySelector(".panel-inner, .ch-inner") || scope;
+    const beats = [];
+    for (const child of root.children) {
+      if (child.matches(EXCLUDE)) continue;
+      if (child.matches(COLUMNS)) beats.push(...child.children);
+      else beats.push(child);
+    }
+    beats.forEach((el, i) => {
+      el.dataset.beat = "";
+      el.style.setProperty("--beat", String(Math.min(i, MAX_BEAT)));
+    });
+  });
+
+  const reveal = (scope) => scope.classList.add("is-live");
+
+  if (!("IntersectionObserver" in window)) {
+    scopes.forEach(reveal);
+    document.documentElement.classList.add("reveal-on");
+    return;
+  }
+
+  // On the rail the panels sit in a row inside a clipping viewport, so the ones
+  // still off to the side report no intersection and reveal as they arrive. If a
+  // browser ever disagreed and reported them all at once, the failure mode is
+  // simply that everything is already visible.
+  // threshold 0 with a shortened root, rather than a ratio. A ratio is a
+  // fraction of the *section's own* area, so any section taller than about 6.7
+  // viewports can never reach 0.15 and would stay hidden forever — which is
+  // exactly what the tall stacked panels do on a phone. Trimming 15% off the
+  // bottom of the root instead means "has entered far enough to count", and
+  // holds regardless of how tall the section is.
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        reveal(e.target);
+        io.unobserve(e.target);
+      });
+    },
+    { threshold: 0, rootMargin: "0px 0px -15% 0px" },
+  );
+  scopes.forEach((s) => io.observe(s));
+
+  // Focus can outrun the observer: tabbing jumps the rail instantly, and a
+  // keyboard user must never be sent to a panel whose content is still at
+  // opacity 0 waiting to be reported as intersecting.
+  document.addEventListener("focusin", (e) => {
+    const scope = e.target.closest && e.target.closest(SCOPES);
+    if (scope && !scope.classList.contains("is-live")) {
+      reveal(scope);
+      io.unobserve(scope);
+    }
+  });
+
+  document.documentElement.classList.add("reveal-on");
+})();
+
 buildSwatches();
 applyTheme();
 applyLang();
