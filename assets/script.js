@@ -215,7 +215,7 @@ const i18n = {
     readMore: "Les mer",
     readLess: "Les mindre",
     projHicssTag: "Forskning",
-    projHicssTitle: "HICSS — Forskningsartikkel",
+    projHicssTitle: "HICSS — Forsknings­artikkel",
     projHicssBody:
       "Førsteforfatter på en artikkel sammen med to professorer og en masterstudent om spillbasert læring i høyere utdanning. Fun fact: Jeg er verifisert på ResearchGate.",
     projSecretTag: "Hemmelig",

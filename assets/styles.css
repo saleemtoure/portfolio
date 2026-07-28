@@ -2314,10 +2314,25 @@ footer {
     overflow-wrap: break-word;
     hyphens: none;
   }
+  /* Norwegian builds long compounds, and "Forskningsartikkel" is about 100.4% of
+     the available width at every phone size — the heading is sized in vw, so the
+     word scales with its container and is always marginally too wide, by 1px at
+     430 and 9px at 320. `hyphens: none` meant break-word split it at whatever
+     letter landed on the edge, with nothing to show it had happened, because the
+     word is the whole line.
+
+     `manual` rather than `auto`. Two reasons: `auto` set globally also
+     hyphenated the MSS hero, which already fitted, taking it from five lines to
+     six; and on this word Chrome's Norwegian dictionary chose FORSKNINGSAR-
+     TIKKEL, a legal break but not the compound seam, which hides the word.
+     `manual` honours the soft hyphen placed at the real seam in the string
+     instead, so the break is FORSKNINGS- / ARTIKKEL and is not at the mercy of a
+     dictionary. break-word stays as the last resort for anything with no soft
+     hyphen that still cannot fit. */
   .broadcast .project-text h2 {
     font-size: clamp(28px, 9.5vw, 56px);
     overflow-wrap: break-word;
-    hyphens: none;
+    hyphens: manual;
   }
   .broadcast .hero-text .lede {
     font-size: 15px;
