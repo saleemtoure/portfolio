@@ -152,7 +152,7 @@ const i18n = {
     status: "Under utvikling...",
     greeting: "Hei — jeg er Saleem",
     h1: "Hei, jeg er <em>Saleem</em>.",
-    lede: '<span class="kw" tabindex="0" data-tip="Jeg elsker å løse problemer">Solver</span> og <span class="kw" tabindex="0" data-tip="Jeg elsker å bygge mennesker, relasjoner og prosjekter">bygger</span> — utvikler, bistandsarbeider, prosjektleder, digital innholdsskaper, og alt midt imellom.',
+    lede: '<span class="kw" tabindex="0" data-tip="Jeg elsker å løse problemer">«solver»</span> og <span class="kw" tabindex="0" data-tip="Jeg elsker å bygge mennesker, relasjoner og prosjekter">bygger</span> — utvikler, bistandsarbeider, prosjektleder, digital innholdsskaper, og alt midt imellom.',
     verseEn:
       "Han sa: «Nei, sannelig min Herre er med meg — Han skal veilede meg.»",
     verseRef: "Surah Ash-Shu'arā · 26:62",
@@ -160,7 +160,7 @@ const i18n = {
     navMss: "MSS",
     medinaLocked: "Tema låst til Medina",
     mssLocked: "Tema låst til MSS",
-    portraitAlt: "Portrett av Saleem Toure Issifou",
+    portraitAlt: "Saleem Toure Issifou i dress og kentesjal, midt i et skritt",
     controlsAria: "Tema og modus",
     themeTitle: "Velg tema",
     modeLabel: "Modus",
@@ -215,7 +215,7 @@ const i18n = {
     readMore: "Les mer",
     readLess: "Les mindre",
     projHicssTag: "Forskning",
-    projHicssTitle: "HICSS — Forskningsartikkel",
+    projHicssTitle: "HICSS — Forsknings­artikkel",
     projHicssBody:
       "Førsteforfatter på en artikkel sammen med to professorer og en masterstudent om spillbasert læring i høyere utdanning. Fun fact: Jeg er verifisert på ResearchGate.",
     projSecretTag: "Hemmelig",
@@ -321,8 +321,6 @@ const i18n = {
     endTransmission: "Slutt på sending",
     heroPlace: "Oslo · Nr. 01",
     panelWord: "Panel",
-    marquee:
-      "Saleem Toure Issifou ✦ utvikler · bistandsarbeider · prosjektleder ✦ solver og bygger ✦ Oslo ✦",
     navChapters: "Kapitler",
     navCv: "CV",
 
@@ -373,14 +371,14 @@ const i18n = {
     status: "Work in progress...",
     greeting: "Hi — I'm Saleem",
     h1: "Hi, I'm <em>Saleem</em>.",
-    lede: '<span class="kw" tabindex="0" data-tip="I love solving problems">"Solver"</span> and <span class="kw" tabindex="0" data-tip="I love building people, relationships and projects">builder</span> — developer, humanitarian, project leader, digital content creator, and everything in between.',
+    lede: '<span class="kw" tabindex="0" data-tip="I love solving problems">“solver”</span> and <span class="kw" tabindex="0" data-tip="I love building people, relationships and projects">builder</span> — developer, humanitarian, project leader, digital content creator, and everything in between.',
     verseEn: "He said, “Nay! Indeed, with me is my Lord; He will guide me.”",
     verseRef: "Surah Ash-Shu'arā · 26:62",
     navMedina: "Madinah",
     navMss: "MSS",
     medinaLocked: "Theme locked to Madinah",
     mssLocked: "Theme locked to MSS",
-    portraitAlt: "Portrait of Saleem Toure Issifou",
+    portraitAlt: "Saleem Toure Issifou mid-stride in a suit and kente stole",
     controlsAria: "Theme and mode",
     themeTitle: "Choose theme",
     modeLabel: "Mode",
@@ -559,10 +557,6 @@ const i18n = {
     projSecretStatus: "Coming soon",
     projTalabKicker: "Platform — in progress",
     projTalabStatus: "Work in progress",
-
-    // ── Founder ──
-    founderIntro:
-      "Companies and communities I helped start — and the ones still under wraps.",
 
     // ── Chapters ──
     chaptersLabel: "Chapters",
@@ -967,6 +961,31 @@ if (rail && track) {
 
   const isRail = () => railMode.matches;
 
+  // The parallax layers, resolved once instead of on every frame. frame() used
+  // to run three DOM queries per tick — one of them a querySelectorAll, so a
+  // fresh NodeList allocated ~60 times a second — interleaved with the transform
+  // writes it was making on the same elements.
+  let ghosts = [];
+  let cutout = null;
+  let kinetic = null;
+  function cacheLayers() {
+    ghosts = Array.from(rail.querySelectorAll(".ghost-num"));
+    cutout = rail.querySelector(".hero-figure");
+    kinetic = rail.querySelector(".kinetic");
+  }
+  cacheLayers();
+
+  const clampLag = (v, max) => Math.max(-max, Math.min(max, v));
+
+  // Hands every parallax layer back to the stylesheet. Used by both the snap
+  // path and the drop to the column layout.
+  function clearLayers() {
+    for (let i = 0; i < ghosts.length; i++) ghosts[i].style.transform = "";
+    if (cutout) cutout.style.transform = "";
+    if (kinetic) kinetic.style.transform = "";
+    rail.classList.remove("is-gliding");
+  }
+
   function setNavActive(i) {
     // A nav entry stays active across the whole run of panels it introduces —
     // "Prosjekter" covers panels 2 through 7, not just panel 2.
@@ -1006,7 +1025,8 @@ if (rail && track) {
       });
     }
 
-    if (statusBar) statusBar.style.right = (1 - progress) * 100 + "%";
+    // scaleX, not `right`: see .statusbar-track > span in styles.css.
+    if (statusBar) statusBar.style.transform = "scaleX(" + progress + ")";
     if (idx === pending) pending = null;
     if (idx !== index) {
       index = idx;
@@ -1029,14 +1049,31 @@ if (rail && track) {
     // The ghost numerals and the hero wordmark lag the rail slightly, which is
     // what gives the panel change its sense of weight.
     const lag = target - current;
-    rail.querySelectorAll(".ghost-num").forEach((g) => {
-      g.style.transform = "translateX(" + lag * 0.22 + "px)";
-    });
-    const kinetic = rail.querySelector(".kinetic");
+    // Capped as a fraction of the panel width rather than left open, but the
+    // caps are deliberately set above what a single-panel move produces. The
+    // lerp keeps ~0.91 of delta as lag on the first frame, so one panel peaks at
+    // about 0.20 * step for a numeral and 0.13 * step for the cutout; clamping
+    // below that pinned them flat at the cap for several frames and then let
+    // them decay, and the plateau read as a stick rather than as parallax.
+    // These values leave an ordinary move untouched and only catch a fling,
+    // where accumulated scroll events move target several panels ahead of
+    // current and would otherwise throw a layer clear across the panel.
+    for (let i = 0; i < ghosts.length; i++) {
+      ghosts[i].style.transform =
+        "translateX(" + clampLag(lag * 0.22, step * 0.26) + "px)";
+    }
+    // The hero cutout sits behind the headline, so it lags less than the type
+    // it stands behind — enough separation to read as depth, not as drift.
+    if (cutout)
+      cutout.style.transform =
+        "translateX(" + clampLag(lag * 0.14, step * 0.16) + "px)";
     if (kinetic)
-      kinetic.style.transform =
-        "skewX(" + Math.max(-6, Math.min(6, lag * -0.02)) + "deg)";
+      kinetic.style.transform = "skewX(" + clampLag(lag * -0.02, 6) + "deg)";
     raf = current === target ? null : requestAnimationFrame(frame);
+    // Released the moment the rail settles, so the promoted layers — the cutout
+    // especially, being a large image carrying both a filter and a mask — do not
+    // hold compositor memory while nothing is moving.
+    if (raf === null) rail.classList.remove("is-gliding");
   }
 
   function render() {
@@ -1053,17 +1090,22 @@ if (rail && track) {
       }
       current = target;
       rail.style.transform = "translateX(" + -current + "px)";
-      rail.querySelectorAll(".ghost-num").forEach((g) => {
-        g.style.transform = "";
-      });
-      const kinetic = rail.querySelector(".kinetic");
-      if (kinetic) kinetic.style.transform = "";
+      clearLayers();
       return;
     }
-    if (raf === null) raf = requestAnimationFrame(frame);
+    if (raf === null) {
+      // Set before the first frame, not inside it: will-change has to be in
+      // place slightly ahead of the transform to buy the layer promotion it
+      // exists for.
+      rail.classList.add("is-gliding");
+      raf = requestAnimationFrame(frame);
+    }
   }
 
   function layout() {
+    // Cheap, and it keeps the cached layers correct if the markup ever changes
+    // under us — frame() must never hold a reference to a detached node.
+    cacheLayers();
     if (isRail()) {
       track.style.height = panels.length * 100 + "vh";
       rail.style.setProperty("--panel-count", panels.length);
@@ -1074,11 +1116,7 @@ if (rail && track) {
       rail.style.transform = "";
       current = 0;
       target = 0;
-      rail.querySelectorAll(".ghost-num").forEach((g) => {
-        g.style.transform = "";
-      });
-      const kinetic = rail.querySelector(".kinetic");
-      if (kinetic) kinetic.style.transform = "";
+      clearLayers();
     }
     index = -1;
     measure();
@@ -1427,6 +1465,93 @@ document.querySelectorAll(".founder-card-head").forEach((head) => {
     head.setAttribute("aria-expanded", open ? "true" : "false");
   });
 });
+
+// ── Panel entrance choreography ───────────────────────────────────────────
+//
+// Gives each panel a downbeat: its content cascades in the first time the panel
+// becomes visible. The stagger index lands on the elements as `--beat` and the
+// motion itself is entirely in CSS (see "Panel entrance" in styles.css).
+//
+// Progressive enhancement in both directions. The `reveal-on` class is only
+// added at the very end of this block, so if any of it throws — or JS never
+// runs at all — nothing is ever hidden and the page renders as it always did.
+(() => {
+  const SCOPES = ".panel, .ch-hero, .ch-section";
+  const scopes = Array.from(document.querySelectorAll(SCOPES));
+  if (!scopes.length) return;
+
+  // The only structural knowledge this needs: which children of a content root
+  // are pure layout wrappers holding the text column. Their children are the
+  // real beats; anything else at that level counts as one beat itself. Deriving
+  // it this way means new panel shapes are picked up without a list to maintain.
+  const COLUMNS = ".hero-text, .project-text, .ch-hero-text";
+  // Decorative absolutes that happen to sit at the same level as real content.
+  // On a .panel the watermark is a sibling of .panel-inner and falls outside the
+  // walk anyway, but .ch-hero has no inner wrapper, so there it is a direct
+  // child of the root and has to be named.
+  const EXCLUDE = ".ghost-num";
+  // The cascade stops deepening past this; later elements share the last delay
+  // rather than pushing the tail of a long panel past the rail's own timing.
+  const MAX_BEAT = 5;
+
+  scopes.forEach((scope) => {
+    // .ch-hero carries its content directly, with no inner wrapper of its own.
+    const root = scope.querySelector(".panel-inner, .ch-inner") || scope;
+    const beats = [];
+    for (const child of root.children) {
+      if (child.matches(EXCLUDE)) continue;
+      if (child.matches(COLUMNS)) beats.push(...child.children);
+      else beats.push(child);
+    }
+    beats.forEach((el, i) => {
+      el.dataset.beat = "";
+      el.style.setProperty("--beat", String(Math.min(i, MAX_BEAT)));
+    });
+  });
+
+  const reveal = (scope) => scope.classList.add("is-live");
+
+  if (!("IntersectionObserver" in window)) {
+    scopes.forEach(reveal);
+    document.documentElement.classList.add("reveal-on");
+    return;
+  }
+
+  // On the rail the panels sit in a row inside a clipping viewport, so the ones
+  // still off to the side report no intersection and reveal as they arrive. If a
+  // browser ever disagreed and reported them all at once, the failure mode is
+  // simply that everything is already visible.
+  // threshold 0 with a shortened root, rather than a ratio. A ratio is a
+  // fraction of the *section's own* area, so any section taller than about 6.7
+  // viewports can never reach 0.15 and would stay hidden forever — which is
+  // exactly what the tall stacked panels do on a phone. Trimming 15% off the
+  // bottom of the root instead means "has entered far enough to count", and
+  // holds regardless of how tall the section is.
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        reveal(e.target);
+        io.unobserve(e.target);
+      });
+    },
+    { threshold: 0, rootMargin: "0px 0px -15% 0px" },
+  );
+  scopes.forEach((s) => io.observe(s));
+
+  // Focus can outrun the observer: tabbing jumps the rail instantly, and a
+  // keyboard user must never be sent to a panel whose content is still at
+  // opacity 0 waiting to be reported as intersecting.
+  document.addEventListener("focusin", (e) => {
+    const scope = e.target.closest && e.target.closest(SCOPES);
+    if (scope && !scope.classList.contains("is-live")) {
+      reveal(scope);
+      io.unobserve(scope);
+    }
+  });
+
+  document.documentElement.classList.add("reveal-on");
+})();
 
 buildSwatches();
 applyTheme();
