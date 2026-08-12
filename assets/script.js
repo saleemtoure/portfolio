@@ -1153,11 +1153,38 @@ if (rail && track) {
   // On the rail, a panel's document position is meaningless (they all sit in
   // one sticky viewport), so anchor jumps have to be translated into a scroll
   // offset. Below 1024px the native anchor is correct and is left alone.
+  //
+  // Every in-page anchor goes through this one listener. There used to be two —
+  // one for `.nav a[data-nav]` and one for `a[href^="#"]` — but a nav link
+  // matches both, and preventDefault does not stop propagation, so both ran and
+  // the instant one always landed last: clicking a nav entry teleported instead
+  // of sliding, and the smooth branch was dead code for it.
   document.addEventListener("click", (e) => {
-    const a = e.target.closest && e.target.closest(".nav a[data-nav]");
+    const a = e.target.closest && e.target.closest('a[href^="#"]');
     if (!a || !isRail()) return;
+    const id = a.getAttribute("href").slice(1);
+    if (!id) return;
+    const el = document.getElementById(id);
+    const panel = el && el.closest(".panel");
+    const i = panel ? panels.indexOf(panel) : -1;
+    if (i < 0) return;
     e.preventDefault();
-    scrollToPanel(Number(a.dataset.nav));
+    // The skip link is the one anchor that still jumps: it exists to put a
+    // keyboard user on the content immediately, and a glide would land the view
+    // long after the focus. Everything else eases, so arriving from the nav
+    // looks the same as scrolling there.
+    const instant = a.classList.contains("skip-link");
+    // Claim the destination up front — the arrow keys step from it rather than
+    // from the panel we have not finished leaving, and focusin reads it to tell
+    // our own glide apart from a tab landing somewhere new. Only when we are
+    // actually going somewhere: measure() clears `pending` by watching for the
+    // panel index to reach it, so claiming the panel we are already on leaves it
+    // set for good, and focusin would then stop following focus back here.
+    if (i !== index) pending = i;
+    scrollToPanel(i, instant);
+    // Keep the keyboard contract of a skip link: move focus, not just the view.
+    el.setAttribute("tabindex", "-1");
+    el.focus({ preventScroll: true });
   });
 
   // Keyboard traversal.
@@ -1184,29 +1211,16 @@ if (rail && track) {
     if (!panel) return;
     const i = panels.indexOf(panel);
     if (i < 0) return;
+    // Focus the anchor handler just moved itself, with a glide already in
+    // flight to this very panel. Jumping now would cancel the slide the click
+    // was asking for. Focus arriving anywhere else is still followed instantly.
+    if (i === pending) return;
     // setTimeout rather than requestAnimationFrame: rAF is paused in a
     // backgrounded tab, and this must still run when focus is restored.
     setTimeout(() => {
       resetViewport();
       scrollToPanel(i, true);
     }, 0);
-  });
-
-  // Same problem via in-page anchors: on the rail a fragment jump scrolls to a
-  // document offset that means nothing, so route them through scrollToPanel.
-  document.addEventListener("click", (e) => {
-    const a = e.target.closest && e.target.closest('a[href^="#"]');
-    if (!a || !isRail()) return;
-    const id = a.getAttribute("href").slice(1);
-    if (!id) return;
-    const panel = document.getElementById(id);
-    const i = panel ? panels.indexOf(panel.closest(".panel")) : -1;
-    if (i < 0) return;
-    e.preventDefault();
-    scrollToPanel(i, true);
-    // Keep the keyboard contract of a skip link: move focus, not just the view.
-    panel.setAttribute("tabindex", "-1");
-    panel.focus({ preventScroll: true });
   });
 
   // Explicit keyboard paging. Vertical scroll keys already work because the
