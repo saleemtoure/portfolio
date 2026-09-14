@@ -302,6 +302,8 @@ const i18n = {
     linkMenuPost: "Instagram-innlegg",
     linkMenuVideo: "Video",
     linkMenuWebsite: "Nettside",
+    linkMenuRecap: "Oppsummeringsvideo",
+    linkMenuHighlights: "Instagram-høydepunkter",
     mssCtaTimeline: "Tidslinje",
     mssJourneyTitle: "Min MSS-reise",
     mss2023Title: "Frivillig",
@@ -525,6 +527,8 @@ const i18n = {
     linkMenuPost: "Instagram post",
     linkMenuVideo: "Video",
     linkMenuWebsite: "Website",
+    linkMenuRecap: "Video recap",
+    linkMenuHighlights: "Instagram highlights",
     mssCtaTimeline: "Timeline",
     mssJourneyTitle: "My MSS journey",
     mss2023Title: "Volunteer",
@@ -1597,6 +1601,16 @@ const linkMenus = {
   waqf: [
     { key: "linkMenuPost", href: "https://www.instagram.com/p/DdEiO-nCGNo/" },
     { key: "linkMenuWebsite" },
+  ],
+  allahsays: [
+    {
+      key: "linkMenuRecap",
+      href: "https://www.instagram.com/muslimskstudent/reel/DW3rUe-jakc/",
+    },
+    {
+      key: "linkMenuHighlights",
+      href: "https://www.instagram.com/stories/highlights/17862864693557301/",
+    },
   ],
 };
 
