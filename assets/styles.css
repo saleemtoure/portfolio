@@ -839,6 +839,20 @@ footer {
   color: var(--dim);
   white-space: nowrap;
 }
+/* With the Professional link the nav no longer fits beside the brand and the
+   domain on narrow desktops. The domain is decoration (aria-hidden), so it
+   goes first, and the gaps tighten. */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .broadcast .topbar-domain {
+    display: none;
+  }
+  .broadcast .topbar {
+    gap: 18px;
+  }
+  .broadcast .nav {
+    gap: 14px;
+  }
+}
 .broadcast .nav-toggle {
   display: none;
   margin-left: auto;
@@ -1375,6 +1389,72 @@ footer {
   opacity: 1;
   border-left: 2px solid var(--accent);
   padding-left: 14px;
+}
+
+/* ── Professional ───────────────────────────────── */
+/* The same rows as Education, but fifteen of them. One column of full-size
+   rows would run far past a 100vh panel, so each row stacks role over
+   organisation beside the years, and on the rail the list splits into two
+   columns that fill top to bottom — reading order stays first column, then
+   second. The rows are shared across both columns so their rules line up.
+   repeat(8, auto) holds sixteen entries; with column flow a seventeenth would
+   open a third column, so raise the count if the list grows. */
+.broadcast .panel-work h2 {
+  font-size: clamp(30px, 6vh, 68px);
+  margin: 0 0 clamp(14px, 2.6vh, 30px);
+}
+.broadcast .job-list .edu-row {
+  grid-template-columns: minmax(92px, 120px) minmax(0, 1fr);
+  /* A row stretches to its twin in the other column; keep the organisation
+     tucked under the role instead of spread down the extra height. */
+  align-content: start;
+  column-gap: clamp(12px, 1.6vw, 24px);
+  row-gap: 2px;
+  padding: clamp(5px, 1vh, 12px) 0;
+}
+.broadcast .job-list .edu-what {
+  font-size: clamp(13px, 1.8vh, 18px);
+  line-height: 1.35;
+}
+.broadcast .job-list .edu-where {
+  grid-column: 2;
+  line-height: 1.45;
+}
+@media (min-width: 1024px) {
+  .broadcast .job-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(8, auto);
+    grid-auto-flow: column;
+    column-gap: clamp(24px, 4vw, 64px);
+  }
+}
+/* Eight rows per column still ran under the fixed pager on 768–800px tall
+   screens (and 37px at 1280×720). The content is centred in the panel, so it
+   has to lose about twice the overlap: the rows and the heading tighten. */
+@media (min-width: 1024px) and (max-height: 820px) {
+  .broadcast .panel-work h2 {
+    font-size: clamp(26px, 5vh, 60px);
+    margin-bottom: clamp(10px, 1.6vh, 20px);
+  }
+  .broadcast .job-list .edu-row {
+    row-gap: 0;
+    padding: 3px 0;
+  }
+}
+@media (max-width: 1023px) {
+  .broadcast .job-list .edu-row {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 4px;
+  }
+  .broadcast .job-list .edu-where {
+    grid-column: auto;
+  }
+  .broadcast .panel-work h2 {
+    font-size: clamp(24px, 7.5vw, 44px);
+    overflow-wrap: break-word;
+    hyphens: none;
+  }
 }
 
 /* ── CV panel ───────────────────────────────────── */
