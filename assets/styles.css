@@ -2549,10 +2549,16 @@ footer {
 .broadcast .link-menu a:active {
   transition-duration: var(--dur-quick);
 }
-/* The open link stays visibly "held" while its menu is up. */
+/* The open link stays visibly "held" while its menu is up: an inline link
+   takes its hover colour, a chip takes its hover fill. */
 .broadcast .ch-body a[aria-expanded="true"] {
   color: var(--accent-text);
   text-decoration-color: currentColor;
+}
+.broadcast a.chip[aria-expanded="true"] {
+  background: var(--accent);
+  color: var(--on-accent);
+  border-color: var(--accent);
 }
 
 @media (prefers-reduced-motion: reduce) {

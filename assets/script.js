@@ -1662,7 +1662,10 @@ function armLinkMenus() {
         return link;
       }),
     );
-    menu.setAttribute("aria-label", a.textContent.trim());
+    // Name the menu after the link, minus decorative glyphs like a chip's ↗.
+    const name = a.cloneNode(true);
+    name.querySelectorAll('[aria-hidden="true"]').forEach((n) => n.remove());
+    menu.setAttribute("aria-label", name.textContent.trim());
     if (trigger) trigger.setAttribute("aria-expanded", "false");
     trigger = a;
     a.setAttribute("aria-expanded", "true");
