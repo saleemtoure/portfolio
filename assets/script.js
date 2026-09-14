@@ -299,6 +299,9 @@ const i18n = {
     mssLede:
       "Min tid i den største og eldste studentforeningen for norske muslimer.",
     mssLinkTeam: "Mitt team ❤",
+    linkMenuPost: "Instagram-innlegg",
+    linkMenuVideo: "Video",
+    linkMenuWebsite: "Nettside",
     mssCtaTimeline: "Tidslinje",
     mssJourneyTitle: "Min MSS-reise",
     mss2023Title: "Frivillig",
@@ -312,7 +315,7 @@ const i18n = {
     mss2025Title: "Leder",
     mss2025Where: "MSS — Styreåret 2025–2026",
     mss2025Body:
-      'Alhamdulillah, fellesskapet ga meg tilliten til å lede denne familien videre, og Allah velsignet meg med et fantastisk team. Et år fylt med rekord mange arrangementer, engasjement og deltakelse på konferanser og i panelsamtaler. Vi arrangerte <a href="https://www.instagram.com/p/DW3rUe-jakc/?hl=nb" target="_blank" rel="noopener">Allah Says 2026</a> — nå også med en kvinnekonkurranse — lanserte «<a href="https://muslimskstudent.no/maktabah/" target="_blank" rel="noopener">al-Maktabah</a>», det første islamske biblioteket for studenter, av studenter, og <a href="https://muslimskstudent.no/mss-waqf" target="_blank" rel="noopener">MSS Waqf</a> for varig påvirkning. Alt mulig — med Allahs hjelp. Skulle gjerne fortsatt, men trer av etter ett år på grunn av studier i utlandet.',
+      'Alhamdulillah, fellesskapet ga meg tilliten til å lede denne familien videre, og Allah velsignet meg med et fantastisk team. Et år fylt med rekord mange arrangementer, engasjement og deltakelse på konferanser og i panelsamtaler. Vi arrangerte <a href="https://www.instagram.com/p/DW3rUe-jakc/?hl=nb" target="_blank" rel="noopener">Allah Says 2026</a> og den skandinaviske koran-konkurransen, som nå også har en egen kvinnekonkurranse. Vi lanserte <a href="https://muslimskstudent.no/mss-waqf" target="_blank" rel="noopener" data-link-menu="waqf">MSS Waqf</a>, en pågående studentdrevet veldedighet med fokus på å skape varig påvirkning, og <a href="https://muslimskstudent.no/maktabah/" target="_blank" rel="noopener" data-link-menu="maktabah">al-Maktabah</a>, det første islamske biblioteket i sitt slag for studenter, av studenter. Alt dette ble mulig med Allahs hjelp.<br /><br />Jeg skulle gjerne fortsatt, men etter ett år trer jeg av for å studere i utlandet.',
 
     // ── Broadcast chrome ──
     skipLink: "Hopp til innhold",
@@ -519,6 +522,9 @@ const i18n = {
     mssLede:
       "My time in Norway's largest and oldest student society for Muslims.",
     mssLinkTeam: "My team ❤",
+    linkMenuPost: "Instagram post",
+    linkMenuVideo: "Video",
+    linkMenuWebsite: "Website",
     mssCtaTimeline: "Timeline",
     mssJourneyTitle: "My MSS journey",
     mss2023Title: "Volunteer",
@@ -532,7 +538,7 @@ const i18n = {
     mss2025Title: "President",
     mss2025Where: "MSS — Board year 2025–2026",
     mss2025Body:
-      'Alhamdulillah, the community trusted me to lead this family forward and Allah blessed me with an amazing team. A year filled with a record number of events, engagement, and participation at conferences and in panel discussions. We staged <a href="https://www.instagram.com/p/DW3rUe-jakc/?hl=nb" target="_blank" rel="noopener">Allah Says 2026</a> — now with a women\'s competition too — launched “<a href="https://muslimskstudent.no/maktabah/" target="_blank" rel="noopener">al-Maktabah</a>,” the first ever Islamic library for students by students, and <a href="https://muslimskstudent.no/mss-waqf" target="_blank" rel="noopener">MSS Waqf</a> for lasting impact. All of it possible — with Allah\'s help. Would have loved to continue, but stepping down after a year due to studies abroad.',
+      'Alhamdulillah, the community trusted me to lead this family forward and Allah blessed me with an amazing team. A year filled with a record number of events, engagement, and participation at conferences and in panel discussions. We organized <a href="https://www.instagram.com/p/DW3rUe-jakc/?hl=nb" target="_blank" rel="noopener">Allah Says 2026</a> and the Scandinavian Qur’an Competition, which now also includes a women’s competition. We launched <a href="https://muslimskstudent.no/mss-waqf" target="_blank" rel="noopener" data-link-menu="waqf">MSS Waqf</a>, an ongoing student-led charity focused on creating lasting impact, and <a href="https://muslimskstudent.no/maktabah/" target="_blank" rel="noopener" data-link-menu="maktabah">al-Maktabah</a>, the first Islamic library of its kind for students, by students. All of this was made possible by the help of Allah.<br /><br />I would have loved to continue, but after a year, I’m stepping down to pursue my studies abroad.',
 
     // ── Broadcast chrome ──
     skipLink: "Skip to content",
@@ -719,6 +725,8 @@ function applyLang() {
     const key = el.dataset.i18nHtml;
     if (dict[key] != null) el.innerHTML = dict[key];
   });
+  // innerHTML just replaced any link-menu anchors, so re-arm the fresh ones.
+  armLinkMenus();
   document.querySelectorAll("[data-i18n-alt]").forEach((el) => {
     const key = el.dataset.i18nAlt;
     if (dict[key] != null) el.setAttribute("alt", dict[key]);
@@ -1565,6 +1573,168 @@ document.querySelectorAll(".founder-card-head").forEach((head) => {
   });
 
   document.documentElement.classList.add("reveal-on");
+})();
+
+// ── Link menus ─────────────────────────────────────
+// Some inline links lead to more than one place: an Instagram post, a video,
+// the website. The anchor keeps the website as its real href, so without JS
+// (or with a modified click) it still goes somewhere useful; a plain click
+// opens a small menu of destinations instead. Items without an href fall back
+// to the anchor's own. Listeners are delegated from document because
+// applyLang rewrites the prose, and with it these anchors, via innerHTML.
+const linkMenus = {
+  maktabah: [
+    {
+      key: "linkMenuPost",
+      href: "https://www.instagram.com/muslimskstudent/p/DXWnlCKlOk4/",
+    },
+    {
+      key: "linkMenuVideo",
+      href: "https://www.instagram.com/muslimskstudent/reel/DXWlM5kgTxy/",
+    },
+    { key: "linkMenuWebsite" },
+  ],
+  waqf: [
+    { key: "linkMenuPost", href: "https://www.instagram.com/p/DdEiO-nCGNo/" },
+    { key: "linkMenuWebsite" },
+  ],
+};
+
+// A disclosure, not an ARIA menu: the popup is a plain group of links, so no
+// aria-haspopup (which would promise menu-role keyboard semantics).
+function armLinkMenus() {
+  document.querySelectorAll("a[data-link-menu]").forEach((a) => {
+    a.setAttribute("aria-expanded", "false");
+    a.setAttribute("aria-controls", "linkMenu");
+  });
+}
+
+(() => {
+  if (!document.querySelector("a[data-link-menu]")) return;
+
+  // One shared menu at the end of <body>, positioned against the viewport, so
+  // no clipping or transformed ancestor in the prose can trap it.
+  const menu = document.createElement("div");
+  menu.className = "link-menu";
+  menu.id = "linkMenu";
+  menu.setAttribute("role", "group");
+  document.body.appendChild(menu);
+  let trigger = null;
+
+  function place() {
+    if (!trigger) return;
+    // An inline link can wrap, so hang the menu off the line the link ends on
+    // (or, when flipped above, the line it starts on).
+    const rects = trigger.getClientRects();
+    if (!rects.length) return;
+    const first = rects[0];
+    const last = rects[rects.length - 1];
+    const edge = 16;
+    const gap = 6;
+    const vw = document.documentElement.clientWidth;
+    const vh = window.innerHeight;
+    const w = menu.offsetWidth;
+    const h = menu.offsetHeight;
+    let top = last.bottom + gap;
+    let left = last.left;
+    if (top + h > vh - edge && first.top - gap - h >= edge) {
+      top = first.top - gap - h;
+      left = first.left;
+    }
+    left = Math.max(edge, Math.min(left, vw - w - edge));
+    menu.style.left = `${left}px`;
+    menu.style.top = `${top}px`;
+  }
+
+  function open(a, focusFirst) {
+    const dict = i18n[state.lang];
+    menu.replaceChildren(
+      ...linkMenus[a.dataset.linkMenu].map((item) => {
+        const link = document.createElement("a");
+        link.href = item.href || a.href;
+        link.target = "_blank";
+        link.rel = "noopener";
+        link.textContent = dict[item.key];
+        const arrow = document.createElement("span");
+        arrow.setAttribute("aria-hidden", "true");
+        arrow.textContent = "↗";
+        link.append(arrow);
+        return link;
+      }),
+    );
+    menu.setAttribute("aria-label", a.textContent.trim());
+    if (trigger) trigger.setAttribute("aria-expanded", "false");
+    trigger = a;
+    a.setAttribute("aria-expanded", "true");
+    place();
+    menu.classList.add("is-open");
+    if (focusFirst) menu.querySelector("a").focus();
+  }
+
+  function close(returnFocus) {
+    if (!trigger) return;
+    const t = trigger;
+    trigger = null;
+    menu.classList.remove("is-open");
+    t.setAttribute("aria-expanded", "false");
+    if (returnFocus && t.isConnected) t.focus();
+  }
+
+  document.addEventListener("click", (e) => {
+    const target = e.target instanceof Element ? e.target : null;
+    const a = target && target.closest("a[data-link-menu]");
+    if (a && linkMenus[a.dataset.linkMenu]) {
+      // Cmd/Ctrl/Shift-click keeps its usual meaning: open the website.
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      if (trigger === a) close(false);
+      // detail is 0 for a keyboard-activated click, so focus follows the menu.
+      else open(a, e.detail === 0);
+      return;
+    }
+    // Close on any click outside, and after choosing an item.
+    if (trigger && (!menu.contains(target) || target.closest("a")))
+      close(false);
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (!trigger) return;
+    if (e.key === "Escape") {
+      close(menu.contains(document.activeElement));
+      return;
+    }
+    if (!menu.contains(document.activeElement)) return;
+    const links = [...menu.querySelectorAll("a")];
+    const i = links.indexOf(document.activeElement);
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault();
+      const step = e.key === "ArrowDown" ? 1 : -1;
+      links[(i + step + links.length) % links.length].focus();
+    } else if (e.key === "Tab") {
+      const leaving = e.shiftKey ? i === 0 : i === links.length - 1;
+      if (!leaving) {
+        e.preventDefault();
+        links[i + (e.shiftKey ? -1 : 1)].focus();
+        return;
+      }
+      // Hand focus back to the link and let the Tab carry on from there, so
+      // the menu sits in the tab order right where the link is.
+      const t = trigger;
+      close(false);
+      t.focus();
+      if (e.shiftKey) e.preventDefault();
+    }
+  });
+
+  // Focus landing anywhere else (a click elsewhere, a screen reader jump)
+  // dismisses the menu.
+  document.addEventListener("focusin", (e) => {
+    if (trigger && !menu.contains(e.target) && e.target !== trigger)
+      close(false);
+  });
+
+  window.addEventListener("scroll", place, { passive: true, capture: true });
+  window.addEventListener("resize", place);
 })();
 
 buildSwatches();
