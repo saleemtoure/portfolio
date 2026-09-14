@@ -360,6 +360,11 @@ const i18n = {
     chMedinaBlurb:
       "En ny og annerledes vei. Å forlate tryggheten i søte Norge for å jage noe dypere og utvikle meg mer — in shaa Allah.",
     chMedinaCta: "Se siden",
+    chIrYears: "—",
+    chIrName: "Islamic Relief",
+    chIrBlurb: "Denne siden er under arbeid.",
+    chIrCta: "Kommer snart",
+    irImgAlt: "Saleem i Islamic Relief Norge-jakke",
 
     // ── Education / contact ──
     eduTitle: "Der jeg har studert.",
@@ -585,6 +590,11 @@ const i18n = {
     chMedinaBlurb:
       "A new and different path. Leaving the safety of sweet Norway to chase something deeper and grow further — in shaa Allah.",
     chMedinaCta: "Read the page",
+    chIrYears: "—",
+    chIrName: "Islamic Relief",
+    chIrBlurb: "This page is still being written.",
+    chIrCta: "Coming soon",
+    irImgAlt: "Saleem in an Islamic Relief Norge jacket",
 
     // ── Education / contact ──
     eduTitle: "Where I've been studying.",

@@ -1729,6 +1729,58 @@ footer {
   transform: translateX(4px);
 }
 
+/* ── Coming-soon chapter ────────────────────────────
+   A chapter whose page isn't written yet. It isn't a link, so none of the
+   hover depth above applies: no background swap, no sliding CTA, and a muted
+   CTA so it doesn't read as clickable. The photo stays grayscale too. */
+.broadcast .chapter.is-soon:hover {
+  background: var(--bg);
+}
+.broadcast .chapter.is-soon:hover .chapter-cta {
+  transform: none;
+}
+.broadcast .chapter.is-soon:hover .chapter-media img {
+  filter: grayscale(1) contrast(1.1);
+  transform: none;
+}
+.broadcast .chapter.is-soon .chapter-cta {
+  color: var(--muted);
+}
+/* Head down to the "Islamic Relief Norge" print on the jacket. */
+.broadcast .chapter--ir .chapter-media img {
+  object-position: center 12%;
+}
+
+/* Four chapters on one row on the rail. The panel is a fixed 100vh with
+   overflow hidden, so a fourth card wrapping to a second row would be clipped.
+   Below 1024px .cell-grid already stacks to one column. */
+@media (min-width: 1024px) {
+  .broadcast .chapter-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+/* Narrower columns mean longer blurbs, so on short screens (1024×768,
+   1280×720) the grid grew down under the fixed pager. A shorter photo strip
+   gives that height back. */
+@media (min-width: 1024px) and (max-height: 820px) {
+  .broadcast .chapter-grid .chapter-media {
+    height: clamp(80px, 14vh, 190px);
+  }
+  /* The English MSS blurb is the tallest card and still grazed the pager at
+     1024×768, so the card body gives up a little padding too. */
+  .broadcast .chapter-grid .chapter-body {
+    padding-top: clamp(12px, 1.8vh, 26px);
+    padding-bottom: clamp(12px, 2vh, 30px);
+  }
+  .broadcast .chapter-grid .chapter-blurb {
+    margin-bottom: 8px;
+  }
+  /* The strip is too shallow to fit head and jacket print; keep the print. */
+  .broadcast .chapter--ir .chapter-media img {
+    object-position: center 22%;
+  }
+}
+
 /* ── Status bar ─────────────────────────────────── */
 .statusbar {
   position: fixed;
