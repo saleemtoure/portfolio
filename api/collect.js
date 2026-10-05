@@ -32,8 +32,12 @@ async function todaysSalt(sql) {
     union all
     select salt from salts where day = ${day}
     limit 1`;
+  // If another instance inserted today's salt at the same moment, this
+  // statement's snapshot can miss it; read it again once it has committed.
+  const salt =
+    rows[0]?.salt ?? (await sql`select salt from salts where day = ${day}`)[0].salt;
   await sql`delete from salts where day < ${day}`;
-  saltCache = { day, salt: rows[0].salt };
+  saltCache = { day, salt };
   return saltCache.salt;
 }
 

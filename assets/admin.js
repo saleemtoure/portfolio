@@ -119,7 +119,7 @@ const T = {
     pageNames: { "/": "Forside", "/mss": "MSS", "/medina": "Medina", "/showtime": "ShowTime" },
     sectionNames: {
       "panel-hero": "Intro",
-      "quran-26-62": "Ayah",
+      "quran-2662": "Ayah",
       "panel-projects": "StoureSweets",
       majmio: "Majmio",
       projHicssTitle: "HICSS",
@@ -271,7 +271,7 @@ const T = {
     pageNames: { "/": "Home", "/mss": "MSS", "/medina": "Madinah", "/showtime": "ShowTime" },
     sectionNames: {
       "panel-hero": "Intro",
-      "quran-26-62": "Ayah",
+      "quran-2662": "Ayah",
       "panel-projects": "StoureSweets",
       majmio: "Majmio",
       projHicssTitle: "HICSS",
