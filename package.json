@@ -1,0 +1,12 @@
+{
+  "name": "saleemtoure-portfolio",
+  "private": true,
+  "type": "module",
+  "description": "Static portfolio site plus the serverless functions behind /admin analytics.",
+  "scripts": {
+    "migrate": "node scripts/migrate.mjs"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.2.0"
+  }
+}

@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="no">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="referrer" content="no-referrer" />
+    <title>Admin — saleemtoure.com</title>
+    <link
+      rel="preload"
+      href="assets/fonts/instrument-serif.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="assets/fonts/jetbrains-mono.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="assets/admin.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header>
+        <a class="name" href="index.html">Saleem <em>Toure</em> Issifou</a>
+        <div class="hdr-r">
+          <span class="live" id="live" hidden></span>
+          <div class="themes" id="themes" role="group"></div>
+          <div class="seg" id="mode" role="group">
+            <button type="button" data-mode="light" data-t="light"></button>
+            <button type="button" data-mode="dark" data-t="dark"></button>
+          </div>
+          <div class="seg" id="lang" role="group">
+            <button type="button" data-lang="no">NO</button>
+            <button type="button" data-lang="en">EN</button>
+          </div>
+          <button type="button" class="linkish" id="logout" hidden data-t="logout"></button>
+        </div>
+      </header>
+
+      <!-- Login -->
+      <section class="login" id="login" hidden>
+        <div class="eyebrow" data-t="eyebrow"></div>
+        <h1 data-t-html="loginTitle"></h1>
+        <!-- method/action make this a real login form to password managers;
+             admin.js submits it with fetch. The hidden username gives the
+             saved password something to be filed under. -->
+        <form id="loginForm" class="login-form" method="post" action="/api/login">
+          <input
+            type="text"
+            name="username"
+            autocomplete="username"
+            value="admin"
+            class="sr-only"
+            tabindex="-1"
+            aria-hidden="true"
+            readonly
+          />
+          <label class="lbl" for="pw" data-t="password"></label>
+          <input id="pw" name="password" type="password" autocomplete="current-password" required />
+          <label class="optout remember">
+            <input type="checkbox" id="remember" checked />
+            <span data-t="remember"></span>
+          </label>
+          <button type="submit" class="btn" data-t="signIn"></button>
+          <p class="err" id="loginErr" role="alert"></p>
+        </form>
+      </section>
+
+      <!-- Dashboard -->
+      <div id="dash" class="dash" hidden>
+        <div class="titlebar">
+          <div>
+            <div class="eyebrow" data-t="eyebrow"></div>
+            <h1 data-t-html="title"></h1>
+          </div>
+          <div class="seg" id="range" role="group">
+            <button type="button" data-r="week" data-t="rWeek"></button>
+            <button type="button" data-r="7" data-t="r7"></button>
+            <button type="button" data-r="30" data-t="r30"></button>
+            <button type="button" data-r="90" data-t="r90"></button>
+          </div>
+        </div>
+
+        <p class="empty" id="empty" hidden data-t="empty"></p>
+
+        <section><div class="kpis" id="kpis"></div></section>
+        <section><div class="kpis kpis-sm" id="kpis2"></div></section>
+
+        <section class="grid2">
+          <div>
+            <div class="section-h">
+              <h2 data-t="traffic"></h2>
+              <div class="legend">
+                <span><i></i><span data-t="visits"></span></span>
+                <span><i class="d"></i><span data-t="prevPeriod"></span></span>
+              </div>
+            </div>
+            <div class="chart" id="chart"><div class="tip" id="tip"></div></div>
+          </div>
+          <div class="stack">
+            <div>
+              <div class="section-h">
+                <h2 data-t="sources"></h2>
+                <span class="meta" data-t="shareOfVisits"></span>
+              </div>
+              <div class="rows" id="sources"></div>
+            </div>
+            <div>
+              <div class="section-h"><h2 data-t="devices"></h2></div>
+              <div class="split" id="devices"></div>
+              <div class="split-lg" id="devlg"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="grid2">
+          <div>
+            <div class="section-h">
+              <h2 data-t="topPages"></h2>
+              <span class="meta" data-t="pageviews"></span>
+            </div>
+            <div class="tbl">
+              <table>
+                <thead>
+                  <tr>
+                    <th data-t="page"></th>
+                    <th class="n" data-t="views"></th>
+                    <th class="n" data-t="avgTime"></th>
+                    <th class="n" data-t="scroll"></th>
+                  </tr>
+                </thead>
+                <tbody id="pages"></tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <div class="section-h">
+              <h2 data-t="countries"></h2>
+              <span class="meta" data-t="uniqueVisitors"></span>
+            </div>
+            <div class="rows" id="countries"></div>
+            <p class="foot" id="cities"></p>
+          </div>
+        </section>
+
+        <section>
+          <div class="section-h">
+            <h2 data-t-html="timeTitle"></h2>
+            <div class="seg" id="secPage" role="group"></div>
+          </div>
+          <p class="note" data-t="timeNote"></p>
+          <div class="rows rows-wide" id="sections"></div>
+        </section>
+
+        <section class="grid2">
+          <div>
+            <div class="section-h">
+              <h2 data-t="clicks"></h2>
+              <span class="meta" id="clickMeta"></span>
+            </div>
+            <div class="tbl">
+              <table>
+                <thead>
+                  <tr>
+                    <th data-t="target"></th>
+                    <th class="n" data-t="clicksCol"></th>
+                  </tr>
+                </thead>
+                <tbody id="clickList"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="stack">
+            <div>
+              <div class="section-h">
+                <h2 data-t="journeys"></h2>
+                <span class="meta" data-t="visits"></span>
+              </div>
+              <div class="rows" id="journeys"></div>
+            </div>
+            <div>
+              <div class="section-h">
+                <h2 data-t="campaigns"></h2>
+                <span class="meta">UTM</span>
+              </div>
+              <div class="rows" id="utm"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="grid2">
+          <div>
+            <div class="section-h">
+              <h2 data-t="when"></h2>
+              <span class="meta" data-t="whenMeta"></span>
+            </div>
+            <div class="heat" id="heat"><div class="tip" id="heatTip"></div></div>
+          </div>
+          <div class="stack">
+            <div>
+              <div class="section-h"><h2 data-t="language"></h2></div>
+              <div class="split" id="langSplit"></div>
+              <div class="split-lg" id="langLg"></div>
+            </div>
+            <div>
+              <div class="section-h"><h2 data-t="themesH"></h2></div>
+              <div class="rows" id="themeRows"></div>
+              <div class="split split-mt" id="modeSplit"></div>
+              <div class="split-lg" id="modeLg"></div>
+            </div>
+            <div class="grid-mini">
+              <div>
+                <div class="lbl" data-t="browsers"></div>
+                <div class="mini" id="browsers"></div>
+              </div>
+              <div>
+                <div class="lbl" data-t="systems"></div>
+                <div class="mini" id="systems"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div class="titlebar titlebar-flat">
+            <div>
+              <div class="eyebrow" data-t="healthEyebrow"></div>
+              <h1 class="h1-sm" data-t-html="healthTitle"></h1>
+            </div>
+            <span class="lbl" data-t="healthSource"></span>
+          </div>
+        </section>
+
+        <section class="grid2">
+          <div>
+            <div class="section-h">
+              <h2 data-t="checklist"></h2>
+              <span class="meta" id="checkmeta"></span>
+            </div>
+            <div class="checks" id="checks"></div>
+          </div>
+          <div class="stack">
+            <div class="panel">
+              <div class="lbl" data-t="pageHealth"></div>
+              <div class="score">
+                <span class="val" id="score">—</span><span class="delta">/ 100</span>
+              </div>
+              <div class="vitals" id="vitals"></div>
+              <p class="foot" data-t="vitalsNote"></p>
+            </div>
+            <div>
+              <div class="section-h"><h2 data-t="serpTitle"></h2></div>
+              <div class="serp" id="serp"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <footer>
+        <span id="updated"></span>
+        <label class="optout" id="optoutWrap">
+          <input type="checkbox" id="optout" />
+          <span data-t="optout"></span>
+        </label>
+        <a href="index.html" data-t="back"></a>
+      </footer>
+    </div>
+
+    <script src="assets/themes.js" defer></script>
+    <script src="assets/admin.js" defer></script>
+  </body>
+</html>
