@@ -45,9 +45,26 @@
       <section class="login" id="login" hidden>
         <div class="eyebrow" data-t="eyebrow"></div>
         <h1 data-t-html="loginTitle"></h1>
-        <form id="loginForm" class="login-form">
+        <!-- method/action make this a real login form to password managers;
+             admin.js submits it with fetch. The hidden username gives the
+             saved password something to be filed under. -->
+        <form id="loginForm" class="login-form" method="post" action="/api/login">
+          <input
+            type="text"
+            name="username"
+            autocomplete="username"
+            value="admin"
+            class="sr-only"
+            tabindex="-1"
+            aria-hidden="true"
+            readonly
+          />
           <label class="lbl" for="pw" data-t="password"></label>
           <input id="pw" name="password" type="password" autocomplete="current-password" required />
+          <label class="optout remember">
+            <input type="checkbox" id="remember" checked />
+            <span data-t="remember"></span>
+          </label>
           <button type="submit" class="btn" data-t="signIn"></button>
           <p class="err" id="loginErr" role="alert"></p>
         </form>

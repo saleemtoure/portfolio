@@ -21,8 +21,10 @@ export default async function handler(req, res) {
 
   // Vercel parses JSON lazily and throws on a malformed body.
   let password;
+  let remember;
   try {
     password = req.body && req.body.password;
+    remember = req.body && req.body.remember === true;
   } catch {
     return res.status(400).end();
   }
@@ -32,6 +34,6 @@ export default async function handler(req, res) {
     return res.status(401).json({ error: "wrong" });
   }
   await sql`delete from login_attempts where who = ${who}`;
-  issueCookie(res);
+  issueCookie(res, remember);
   res.status(204).end();
 }

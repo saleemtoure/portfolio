@@ -4,7 +4,9 @@ import crypto from "node:crypto";
 // scoped to /api. The cookie holds only an expiry and its HMAC, so there is no
 // session table to keep, and rotating ADMIN_SECRET logs every browser out.
 const COOKIE = "sto_admin";
-const TTL = 7 * 24 * 3600;
+// "Keep me signed in" lasts half a year; otherwise a week.
+const TTL_SHORT = 7 * 24 * 3600;
+const TTL_LONG = 180 * 24 * 3600;
 
 function secret() {
   const s = process.env.ADMIN_SECRET;
@@ -30,11 +32,12 @@ export function passwordOk(given) {
   return safeEqual(h(given), h(want));
 }
 
-export function issueCookie(res) {
-  const exp = Math.floor(Date.now() / 1000) + TTL;
+export function issueCookie(res, remember = false) {
+  const ttl = remember ? TTL_LONG : TTL_SHORT;
+  const exp = Math.floor(Date.now() / 1000) + ttl;
   res.setHeader(
     "Set-Cookie",
-    `${COOKIE}=${exp}.${hmac("admin:" + exp)}; Path=/api; HttpOnly; Secure; SameSite=Strict; Max-Age=${TTL}`,
+    `${COOKIE}=${exp}.${hmac("admin:" + exp)}; Path=/api; HttpOnly; Secure; SameSite=Strict; Max-Age=${ttl}`,
   );
 }
 

@@ -701,6 +701,19 @@ td .sub {
   cursor: pointer;
   align-self: flex-start;
 }
+/* Present for password managers, invisible to everyone else. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.remember {
+  font-size: 12px;
+  color: var(--muted);
+}
 .err {
   color: var(--accent-text);
   font-size: 12px;

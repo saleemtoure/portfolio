@@ -13,6 +13,7 @@ const T = {
     loginTitle: "Logg <em>inn</em>.",
     password: "Passord",
     signIn: "Logg inn",
+    remember: "Hold meg innlogget",
     wrong: "Feil passord.",
     tooMany: "For mange forsøk. Prøv igjen om et kvarter.",
     failed: "Noe gikk galt. Prøv igjen.",
@@ -166,6 +167,7 @@ const T = {
     loginTitle: "Sign <em>in</em>.",
     password: "Password",
     signIn: "Sign in",
+    remember: "Keep me signed in",
     wrong: "Wrong password.",
     tooMany: "Too many attempts. Try again in 15 minutes.",
     failed: "Something went wrong. Try again.",
@@ -474,9 +476,18 @@ $("loginForm").addEventListener("submit", async (e) => {
     const r = await fetch("/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ password: $("pw").value }),
+      body: JSON.stringify({ password: $("pw").value, remember: $("remember").checked }),
     });
     if (r.status === 204) {
+      // Ask the browser to save the password. Chromium supports this
+      // directly; Safari and Firefox offer to save on their own when the
+      // login form disappears after a successful submit.
+      try {
+        if (window.PasswordCredential && navigator.credentials)
+          await navigator.credentials.store(new PasswordCredential($("loginForm")));
+      } catch {
+        /* the browser declined — nothing to do */
+      }
       $("pw").value = "";
       load();
       return;
