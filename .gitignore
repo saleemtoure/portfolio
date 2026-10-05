@@ -32,3 +32,5 @@ npm-debug.log*
 
 # Personal documents that shouldn't be committed
 saleem-toure-cv*.pdf
+.vercel
+.env*
